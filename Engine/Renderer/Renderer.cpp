@@ -97,29 +97,19 @@ void Nahoo::C_RENDERER::Draw()
 	for (S_RENDERCOMMAND& command : m_renderQueue)
 	{
 
-		if (command.m_text == nullptr)
-		{
-			continue;
-		}
-
-		const int length = static_cast<int>(strlen(command.m_text));
-
-		if (length <= 0)
-		{
-			continue;
-		}
-
-		// Todo: 2차원 배열 render 시, X와 같이 바운더리 체크
-		if (command.m_position.m_y < 0 || command.m_position.m_y >= m_screenSize.m_y)
+		if ((command.m_sprite.size()) <= 0)
 		{
 			continue;
 		}
 
 		const int startX = command.m_position.m_x;
-		const int endX = command.m_position.m_x + length - 1;
+		const int endX = command.m_position.m_x + command.m_width - 1;
 
-		// Todo: 만약 게임 창이 왼쪽에 바로 붙어있지 않으면 바운더리 다시 clamp
-		if (startX > m_screenSize.m_x || endX < 0)
+		const int startY = command.m_position.m_y;
+		const int endY = command.m_position.m_y + command.m_height - 1;
+
+		// Todo: 만약 게임 창이 왼쪽에 바로 붙어있지 않으면 바운더리 다시 clamp --> 그냥 액터에서 UI 못들어가게움직임을 막을까?
+		if (startX > m_screenSize.m_x || endX < 0 || startY > m_screenSize.m_y || endY < 0)
 		{
 			continue;
 		}
@@ -127,25 +117,50 @@ void Nahoo::C_RENDERER::Draw()
 		const int visibleStartX = startX < 0 ? 0 : startX;
 		const int visibleEndX = endX > m_screenSize.m_x ? m_screenSize.m_x : endX;
 
+		const int visibleStartY = startY < 0 ? 0 : startY;
+		const int visibleEndY = endY > m_screenSize.m_y ? m_screenSize.m_y : endY;
+
 		// Todo: Y 높이 고려 추가 된 뒤, height만큼 또 for 루프
-		for (int x = visibleStartX; x <= visibleEndX; x++)
+		for (int y = visibleStartY; y <= visibleEndY; y++)
 		{
-			const int sourceIndex = x - startX;
-
-			// m_screenSize 는 frame의 width, command.--.m_y는 height
-			// Todo: 그러면 나중에 높이 있는 것 출력할 때도 height에 따라 m_y 증가
-			const int frameIndex = (command.m_position.m_y * m_screenSize.m_x) + x;
-
-			if (m_frame->m_sortingOrderArray[frameIndex] > command.m_sortingOrder)
+			for (int x = visibleStartX; x <= visibleEndX; x++)
 			{
-				continue;
+				const int sourceIndex = (y - startY) * command.m_width + (x - startX); // y * width + x
+				const int frameIndex = (command.m_position.m_y + y) * m_screenSize.m_x + x;
+
+				if (m_frame->m_sortingOrderArray[frameIndex] > command.m_sortingOrder)
+				{
+					continue;
+				}
+
+				m_frame->m_charInfoArray[frameIndex].Char.AsciiChar = command.m_sprite[sourceIndex];
+				m_frame->m_charInfoArray[frameIndex].Attributes = (WORD)command.m_color;
+				
+				m_frame->m_sortingOrderArray[frameIndex] = command.m_sortingOrder;
+
 			}
-
-			m_frame->m_charInfoArray[frameIndex].Char.AsciiChar = command.m_text[sourceIndex];
-			m_frame->m_charInfoArray[frameIndex].Attributes = (WORD)command.m_color;
-
-			m_frame->m_sortingOrderArray[frameIndex] = command.m_sortingOrder;
 		}
+		// Todo: 2차원 이미지 잘 나오면 지우기
+		//for (int x = visibleStartX; x <= visibleEndX; x++)
+		//{
+		//	const int sourceIndex = x - startX;
+		//	//(y-startY)* command.m_width + (x - startX) ==> y * width + x
+
+
+		//	// m_screenSize 는 frame의 width, command.--.m_y는 height
+		//	// Todo: 그러면 나중에 높이 있는 것 출력할 때도 height에 따라 m_y 증가
+		//	const int frameIndex = (command.m_position.m_y * m_screenSize.m_x) + x;
+
+		//	if (m_frame->m_sortingOrderArray[frameIndex] > command.m_sortingOrder)
+		//	{
+		//		continue;
+		//	}
+
+		//	m_frame->m_charInfoArray[frameIndex].Char.AsciiChar = command.m_text[sourceIndex];
+		//	m_frame->m_charInfoArray[frameIndex].Attributes = (WORD)command.m_color;
+
+		//	m_frame->m_sortingOrderArray[frameIndex] = command.m_sortingOrder;
+		//}
 	}
 	GetCurrentBuffer()->Draw(m_frame->m_charInfoArray);
 	Present();
@@ -154,10 +169,16 @@ void Nahoo::C_RENDERER::Draw()
 }
 
 // Todo: 2차원 배열 이미지 submit 할 때, height도 고려해야함
-void Nahoo::C_RENDERER::Submit(const char* text, const C_VECTOR2& position, E_COLOR color, int sortingOrder)
+void Nahoo::C_RENDERER::Submit
+(
+	std::vector<char> sprite, int width, int height, const C_VECTOR2& position, E_COLOR color, int sortingOrder
+)
 {
 	S_RENDERCOMMAND command{};
-	command.m_text = text;
+	command.m_sprite = sprite;
+	command.m_width = width;
+	command.m_height = height;
+
 	command.m_position = position;
 	command.m_color = color;
 	command.m_sortingOrder = sortingOrder;

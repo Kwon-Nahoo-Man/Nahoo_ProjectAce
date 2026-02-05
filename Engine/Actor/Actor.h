@@ -1,4 +1,5 @@
 #pragma once
+#include <vector>
 
 #include "Common/RTTI.h"
 #include "Math/Vector2.h"
@@ -14,7 +15,8 @@ namespace Nahoo
 
 	public:
 		C_ACTOR();
-		C_ACTOR(const char* image, C_VECTOR2 position, E_COLOR color);
+		// 2차원 이미지로 받기 위해 파라미터 수정 --> 필요없이 1차원 배열을 2차원 배열처럼 쓰자
+		C_ACTOR(const char* fileName, C_VECTOR2 position, E_COLOR color);
 		virtual ~C_ACTOR();
 
 	public:
@@ -32,16 +34,23 @@ namespace Nahoo
 		inline bool IsActive() const { return m_isActive && !m_destroyRequested; }
 		inline bool DestroyRequested() const { return m_destroyRequested; }
 		inline int GetSortingOrder() const { return m_sortingOrder; }
+		inline int GetActorWidth() const { return m_width; }
+		inline int GetActorHeight() const { return m_height; }
 
 
 	protected:
 		bool m_hasBegunPlay{ false };
 		bool m_isActive{ true };
 		bool m_destroyRequested{ false };
-		char* m_image = nullptr;
+		
+		char* m_fileName = nullptr;
+		
 		int m_sortingOrder{};
+		int m_width{};
+		int m_height{};
 
-	private:
+		std::vector<char> m_sprite{};
+
 		C_LEVEL* m_owner{};
 		C_VECTOR2 m_position = C_VECTOR2::Zero;
 		E_COLOR m_color = E_COLOR::White;
