@@ -115,18 +115,17 @@ void Nahoo::C_RENDERER::Draw()
 		}
 
 		const int visibleStartX = startX < 0 ? 0 : startX;
-		const int visibleEndX = endX > m_screenSize.m_x ? m_screenSize.m_x : endX;
+		const int visibleEndX = endX > m_screenSize.m_x ? m_screenSize.m_x - 1 : endX;
 
 		const int visibleStartY = startY < 0 ? 0 : startY;
-		const int visibleEndY = endY > m_screenSize.m_y ? m_screenSize.m_y : endY;
+		const int visibleEndY = endY > m_screenSize.m_y ? m_screenSize.m_y - 1 : endY;
 
-		// Todo: Y 높이 고려 추가 된 뒤, height만큼 또 for 루프
 		for (int y = visibleStartY; y <= visibleEndY; y++)
 		{
 			for (int x = visibleStartX; x <= visibleEndX; x++)
 			{
 				const int sourceIndex = (y - startY) * command.m_width + (x - startX); // y * width + x
-				const int frameIndex = (command.m_position.m_y + y) * m_screenSize.m_x + x;
+				const int frameIndex = y * m_screenSize.m_x + x;
 
 				if (m_frame->m_sortingOrderArray[frameIndex] > command.m_sortingOrder)
 				{
@@ -171,7 +170,7 @@ void Nahoo::C_RENDERER::Draw()
 // Todo: 2차원 배열 이미지 submit 할 때, height도 고려해야함
 void Nahoo::C_RENDERER::Submit
 (
-	std::vector<char> sprite, int width, int height, const C_VECTOR2& position, E_COLOR color, int sortingOrder
+	const std::vector<char>& sprite, int width, int height, const C_VECTOR2& position, E_COLOR color, int sortingOrder
 )
 {
 	S_RENDERCOMMAND command{};

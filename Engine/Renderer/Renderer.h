@@ -41,7 +41,7 @@ namespace Nahoo
 
 		void Draw();
 		void Submit(
-			std::vector<char> sprite, int width, int height,
+			const std::vector<char>& sprite, int width, int height,
 			const C_VECTOR2& position,
 			E_COLOR color = E_COLOR::White,
 			int sortingOrder = 1

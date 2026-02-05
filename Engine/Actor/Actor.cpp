@@ -1,5 +1,6 @@
 #include <Windows.h>
 #include <iostream>
+#include <cassert>
 
 #include "Actor.h"
 #include "Renderer/Renderer.h"
@@ -59,6 +60,7 @@ Nahoo::C_ACTOR::C_ACTOR(const char* fileName, C_VECTOR2 position, E_COLOR color)
 	delete[] data;
 	data = nullptr; // 필요없음
 
+	assert(m_sprite.size() == m_width * m_height);
 }
 
 Nahoo::C_ACTOR::~C_ACTOR()
