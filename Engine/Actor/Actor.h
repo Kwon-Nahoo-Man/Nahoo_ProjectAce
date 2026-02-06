@@ -24,6 +24,12 @@ namespace Nahoo
 		virtual void Tick(float deltaTime);
 		virtual void Draw();
 
+		void Destroy();
+		virtual void OnDestroy();
+		
+		// Check: 이건 destroy가 잘 되는지 확인하기 위한 것
+		void QuitGame();
+
 		void SetPosition(const C_VECTOR2& newPosition);
 		inline C_VECTOR2 GetPosition() const { return m_position; }
 

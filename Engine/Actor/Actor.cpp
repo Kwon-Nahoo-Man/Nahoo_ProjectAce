@@ -87,6 +87,23 @@ void Nahoo::C_ACTOR::Draw()
 	);
 }
 
+void Nahoo::C_ACTOR::Destroy()
+{
+	m_destroyRequested = false;
+
+	OnDestroy();
+}
+
+void Nahoo::C_ACTOR::OnDestroy()
+{
+
+}
+
+void Nahoo::C_ACTOR::QuitGame()
+{
+	
+}
+
 void Nahoo::C_ACTOR::SetPosition(const C_VECTOR2& newPosition)
 {
 

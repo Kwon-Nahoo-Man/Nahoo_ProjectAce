@@ -119,7 +119,9 @@
       <AdditionalDependencies>Engine.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy ..\Library\Engine\$(Platform)\$(Configuration)\Engine.dll $(OutDir) /e /y</Command>
+      <Command>xcopy ..\Library\Engine\$(Platform)\$(Configuration)\Engine.dll $(OutDir) /e /y
+xcopy ..\Assets\* $(OutDir)..\Assets\ /e /y
+xcopy ..\Config\* $(OutDir)..\Config\ /e /y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
