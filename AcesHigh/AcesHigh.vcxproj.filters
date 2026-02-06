@@ -24,12 +24,18 @@
     <ClCompile Include="Actor\TestActor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Actor\TestActor2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Level\TestLevel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Actor\TestActor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor\TestActor2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

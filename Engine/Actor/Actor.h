@@ -8,6 +8,7 @@
 namespace Nahoo
 {
 	class C_LEVEL;
+	class COMP_HITCOMPONENT;
 
 	class NAHOO_API C_ACTOR : public C_RTTI
 	{
@@ -16,13 +17,15 @@ namespace Nahoo
 	public:
 		C_ACTOR();
 		// 2차원 이미지로 받기 위해 파라미터 수정 --> 필요없이 1차원 배열을 2차원 배열처럼 쓰자
-		C_ACTOR(const char* fileName, C_VECTOR2 position, E_COLOR color);
+		C_ACTOR(const char* fileName, const  C_VECTOR2& position, E_COLOR color, bool setCollision);
 		virtual ~C_ACTOR();
 
 	public:
 		virtual void BeginPlay();
 		virtual void Tick(float deltaTime);
 		virtual void Draw();
+
+		virtual void OnHit(size_t otherActorType);
 
 		void Destroy();
 		virtual void OnDestroy();
@@ -35,6 +38,7 @@ namespace Nahoo
 
 		inline void SetOwner(C_LEVEL* level) { m_owner = level; }
 		inline C_LEVEL* GetOwner() { return m_owner; }
+		inline COMP_HITCOMPONENT* GetHitComponent() { return m_hitComponent; }
 
 		inline bool HasBegunPlay() const { return m_hasBegunPlay; }
 		inline bool IsActive() const { return m_isActive && !m_destroyRequested; }
@@ -48,6 +52,7 @@ namespace Nahoo
 		bool m_hasBegunPlay{ false };
 		bool m_isActive{ true };
 		bool m_destroyRequested{ false };
+		bool m_collision{ false };
 		
 		char* m_fileName = nullptr;
 		
@@ -60,7 +65,12 @@ namespace Nahoo
 		C_LEVEL* m_owner{};
 		C_VECTOR2 m_position = C_VECTOR2::Zero;
 		E_COLOR m_color = E_COLOR::White;
+		
+		COMP_HITCOMPONENT* m_hitComponent{};
 
+
+	private:
+		void MakeHitComponent();
 	};
 
 }

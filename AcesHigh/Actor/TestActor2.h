@@ -4,16 +4,17 @@
 
 using namespace Nahoo;
 
-class C_TESTACTOR : public C_ACTOR
+class C_TESTACTOR2 : public C_ACTOR
 {
-	RTTI_DECLARATIONS(C_TESTACTOR,C_ACTOR)
+	RTTI_DECLARATIONS(C_TESTACTOR2, C_ACTOR)
 
 public:
 
-	C_TESTACTOR(const char* fileName, C_VECTOR2& position);
+	C_TESTACTOR2(const char* fileName, C_VECTOR2& position);
 	virtual void Tick(float deltaTime) override;
-
 	virtual void OnHit(size_t otherActorType) override;
+
+private:
 
 };
 

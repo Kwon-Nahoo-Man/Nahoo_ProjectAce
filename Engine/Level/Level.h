@@ -8,6 +8,7 @@
 namespace Nahoo
 {
 	class C_ACTOR;
+	class COMP_HITCOMPONENT;
 	
 	class NAHOO_API C_LEVEL : public C_RTTI
 	{
@@ -33,6 +34,8 @@ namespace Nahoo
 	protected:
 		std::vector<C_ACTOR*> m_actors{};
 		std::vector<C_ACTOR*> m_addRequestedActors{};
+
+		std::vector<COMP_HITCOMPONENT*> m_actorHitComps{};
 
 	private:
 

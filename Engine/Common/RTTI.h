@@ -51,7 +51,7 @@ namespace Nahoo
 }
 
 #define RTTI_DECLARATIONS(Type, ParentType)												\
-friend class C_RTTI;																		\
+friend class C_RTTI;																	\
 protected:																				\
 	static const size_t TypeIdClass()													\
 	{																					\

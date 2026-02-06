@@ -144,11 +144,13 @@ xcopy ..\Config\* $(OutDir)..\Config\ /e /y</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Actor\TestActor.cpp" />
+    <ClCompile Include="Actor\TestActor2.cpp" />
     <ClCompile Include="Level\TestLevel.cpp" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actor\TestActor.h" />
+    <ClInclude Include="Actor\TestActor2.h" />
     <ClInclude Include="Level\TestLevel.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
