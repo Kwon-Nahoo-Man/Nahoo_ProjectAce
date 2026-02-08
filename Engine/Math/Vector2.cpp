@@ -18,6 +18,7 @@ Nahoo::C_VECTOR2::C_VECTOR2(int x, int y)
 
 }
 
+
 Nahoo::C_VECTOR2::~C_VECTOR2()
 {
 	if (string != nullptr)

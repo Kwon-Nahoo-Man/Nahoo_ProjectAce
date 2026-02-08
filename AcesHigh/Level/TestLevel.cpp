@@ -4,16 +4,13 @@
 
 C_TESTLEVEL::C_TESTLEVEL()
 {
-
+	Sleep(5000);
 	C_VECTOR2 position1{};
-	position1.m_x = 10;
-	position1.m_y = 5;
-	AddNewActor(new C_TESTACTOR("test.txt",position1));
 
-	position1.m_x = 30;
-	position1.m_y = 10;
+	position1.m_x = 0;
+	position1.m_y = 0;
 
-	AddNewActor(new C_TESTACTOR2("test.txt", position1));
+	AddNewActor(new C_TESTACTOR2("player_plane1.txt", position1));
 }
 
 C_TESTLEVEL::~C_TESTLEVEL()

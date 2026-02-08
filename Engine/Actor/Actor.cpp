@@ -26,10 +26,10 @@ Nahoo::C_ACTOR::C_ACTOR(const char* fileName, const C_VECTOR2& position, E_COLOR
 	if (!file)
 	{
 		// 표준 오류 콘솔 활용.
-		std::cerr << "Failed to open map file.\n";
+		std::cerr << "Failed to Actor asset file.\n";
 
 		// 디버그 모드에서 중단점으로 중단해주는 기능.
-		__debugbreak();
+		 __debugbreak();
 	}
 
 	fseek(file, 0, SEEK_END);
@@ -60,6 +60,8 @@ Nahoo::C_ACTOR::C_ACTOR(const char* fileName, const C_VECTOR2& position, E_COLOR
 	delete[] data;
 	data = nullptr; // 필요없음
 
+	// Check: Fucking
+	fclose(file);
 
 	// Actor 생성자가 끝나면, HitComponent는 생성됨.
 	if (m_collision == true)
@@ -88,7 +90,11 @@ void Nahoo::C_ACTOR::BeginPlay()
 void Nahoo::C_ACTOR::Tick(float deltaTime)
 {
 	// hit comp -> tick(deltaTime)
-	m_hitComponent->Tick(deltaTime);
+	if (m_hitComponent != nullptr)
+	{
+		m_hitComponent->Tick(deltaTime);
+	}
+	
 
 }
 
@@ -100,7 +106,7 @@ void Nahoo::C_ACTOR::Draw()
 	);
 }
 
-void Nahoo::C_ACTOR::OnHit(size_t otherActorType) 
+void Nahoo::C_ACTOR::OnHit(const C_ACTOR* otherActor)
 {
 	// 액터가 충돌판정 받았을 때 로직, otherActorType는 조건식으로 사용
 	// ex) Is(otherActorType) 
@@ -113,7 +119,12 @@ void Nahoo::C_ACTOR::OnHit(size_t otherActorType)
 void Nahoo::C_ACTOR::Destroy()
 {
 	m_destroyRequested = true;
-	m_hitComponent->Destroy();
+
+	if (m_hitComponent != nullptr)
+	{
+		m_hitComponent->Destroy();
+	}
+	
 
 	OnDestroy();
 }

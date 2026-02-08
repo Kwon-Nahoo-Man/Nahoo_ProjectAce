@@ -206,6 +206,7 @@ void Nahoo::C_ENGINE::ShutDown()
 	std::cout << "C_ENGINE::Run() Out\n";
 
 	UTIL::SetCursorAppear(true);
+
 }
 
 void Nahoo::C_ENGINE::QuitEngine()

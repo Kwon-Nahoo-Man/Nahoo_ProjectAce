@@ -17,8 +17,19 @@ void Nahoo::COMP_HITCOMPONENT::Tick(float deltaTime)
     m_actorPosition = m_owner->GetPosition();
 }
 
+void Nahoo::COMP_HITCOMPONENT::setCollition(bool onOffCollision)
+{
+    m_activateCollision = onOffCollision;
+}
+
 bool Nahoo::COMP_HITCOMPONENT::HasCollided(Nahoo::COMP_HITCOMPONENT& otherComp)
 {
+    // otherComp가 nullptr인 경우는 없음 --> 애초에 레벨에서 충돌 비교를 위해 컴포넌트를 비교할 때 HitComponent들만 비교하기 때문
+    if (m_activateCollision == false || otherComp.GetCurrentCollision() == false)
+    {
+        return false;
+    }
+
     int xMin = m_actorPosition.m_x;
     int xMax = m_actorPosition.m_x + m_actorMaxPosition.m_x - 1;
 
@@ -40,11 +51,10 @@ bool Nahoo::COMP_HITCOMPONENT::HasCollided(Nahoo::COMP_HITCOMPONENT& otherComp)
     }
 
 
-
     // 안되는 상황 다 제외했을 때
     // m_owner-> 충돌했을 때 행동 OnHit(othercomp.m_owner.isTypeof())
-    m_owner->OnHit(otherComp.GetOwner()->GetType());
-    otherComp.GetOwner()->OnHit(m_owner->GetType());
+    m_owner->OnHit(otherComp.GetOwner());
+    otherComp.GetOwner()->OnHit(m_owner);
 
     return true;
 }

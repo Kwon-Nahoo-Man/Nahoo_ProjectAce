@@ -12,9 +12,14 @@ public:
 
 	C_TESTACTOR2(const char* fileName, C_VECTOR2& position);
 	virtual void Tick(float deltaTime) override;
-	virtual void OnHit(size_t otherActorType) override;
+	virtual void OnHit(const C_ACTOR* otherActor) override;
+
+	void Fire();
 
 private:
-
+	int m_moveVerticalSpeed{};
+	int m_moveHorizontalSpeed{};
+	float m_xPosition{};
+	float m_yPosition{};
 };
 

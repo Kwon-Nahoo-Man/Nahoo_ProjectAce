@@ -21,11 +21,12 @@ namespace Nahoo
 		virtual ~C_ACTOR();
 
 	public:
+		// 생성자 이후에 초기화 하고싶은 내용 있으면 beginPlay에 넣기
 		virtual void BeginPlay();
 		virtual void Tick(float deltaTime);
 		virtual void Draw();
 
-		virtual void OnHit(size_t otherActorType);
+		virtual void OnHit(const C_ACTOR* otherActor);
 
 		void Destroy();
 		virtual void OnDestroy();

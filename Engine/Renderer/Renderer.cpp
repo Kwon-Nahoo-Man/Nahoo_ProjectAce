@@ -135,7 +135,15 @@ void Nahoo::C_RENDERER::Draw()
 				m_frame->m_charInfoArray[frameIndex].Char.AsciiChar = command.m_sprite[sourceIndex];
 				m_frame->m_charInfoArray[frameIndex].Attributes = (WORD)command.m_color;
 				
-				m_frame->m_sortingOrderArray[frameIndex] = command.m_sortingOrder;
+				if (command.m_sprite[sourceIndex] == ' ')
+				{
+					m_frame->m_sortingOrderArray[frameIndex] = -1;
+				}
+				else
+				{
+					m_frame->m_sortingOrderArray[frameIndex] = command.m_sortingOrder;
+				}
+				
 
 			}
 		}
