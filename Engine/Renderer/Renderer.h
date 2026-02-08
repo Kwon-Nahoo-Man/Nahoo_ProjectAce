@@ -3,7 +3,7 @@
 #include <vector>
 
 #include "Math/Vector2.h"
-#include "Math/Color.h"
+#include "Enumeration/Color.h"
 
 namespace Nahoo
 {

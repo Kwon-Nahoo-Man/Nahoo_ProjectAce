@@ -21,10 +21,13 @@
     <ClCompile Include="Level\TestLevel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Actor\TestActor.cpp">
+    <ClCompile Include="Actor\Object.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Actor\TestActor2.cpp">
+    <ClCompile Include="Actor\Plane.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Actor\PlaneAlly.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -32,10 +35,13 @@
     <ClInclude Include="Level\TestLevel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Actor\TestActor.h">
+    <ClInclude Include="Actor\Object.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Actor\TestActor2.h">
+    <ClInclude Include="Actor\Plane.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor\PlaneAlly.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

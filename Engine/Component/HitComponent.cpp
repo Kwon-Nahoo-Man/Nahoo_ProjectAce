@@ -17,7 +17,7 @@ void Nahoo::COMP_HITCOMPONENT::Tick(float deltaTime)
     m_actorPosition = m_owner->GetPosition();
 }
 
-void Nahoo::COMP_HITCOMPONENT::setCollition(bool onOffCollision)
+void Nahoo::COMP_HITCOMPONENT::SetCollition(bool onOffCollision)
 {
     m_activateCollision = onOffCollision;
 }
@@ -53,10 +53,21 @@ bool Nahoo::COMP_HITCOMPONENT::HasCollided(Nahoo::COMP_HITCOMPONENT& otherComp)
 
     // 안되는 상황 다 제외했을 때
     // m_owner-> 충돌했을 때 행동 OnHit(othercomp.m_owner.isTypeof())
+    // Check: 여기서 가끔 오류남
     m_owner->OnHit(otherComp.GetOwner());
     otherComp.GetOwner()->OnHit(m_owner);
 
     return true;
+}
+
+void Nahoo::COMP_HITCOMPONENT::SetCollitionType(E_COLLISIONTYPE collisionType)
+{
+    m_collisionType = m_collisionType | collisionType;
+}
+
+void Nahoo::COMP_HITCOMPONENT::DeleteCollitionType(E_COLLISIONTYPE collisionType)
+{
+    m_collisionType = m_collisionType & ~collisionType;
 }
 
 void Nahoo::COMP_HITCOMPONENT::Destroy()

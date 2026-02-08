@@ -11,8 +11,8 @@ Nahoo::C_ACTOR::C_ACTOR()
 
 }
 
-Nahoo::C_ACTOR::C_ACTOR(const char* fileName, const C_VECTOR2& position, E_COLOR color, bool collision)
-	: m_position(position.m_x, position.m_y), m_color(color), m_collision(collision)
+Nahoo::C_ACTOR::C_ACTOR(const char* fileName, const C_VECTOR2& position, bool collision)
+	: m_position(position.m_x, position.m_y), m_collision(collision)
 {
 	// 액터 생성자에서 width와 height 계산, 출력용 텍스트 1차원 배열(vector) 설정
 	// Todo: 현재는 vector가 char자료형이라 문자만 받는데 텍스트 하나 별로 색을 받기 위해선 CHAR_INFO 자료형 이어야함
@@ -73,18 +73,19 @@ Nahoo::C_ACTOR::C_ACTOR(const char* fileName, const C_VECTOR2& position, E_COLOR
 
 Nahoo::C_ACTOR::~C_ACTOR()
 {
-	if (m_hitComponent != nullptr)
-	{
-		delete m_hitComponent;
-		m_hitComponent = nullptr;
-	}
-
 	OnDestroy();
 }
 
 void Nahoo::C_ACTOR::BeginPlay()
 {
 	m_hasBegunPlay = true;
+	m_color = E_COLOR::White;
+
+	if (m_hitComponent != nullptr)
+	{
+		// set collision type
+		m_hitComponent->SetCollitionType(E_COLLISIONTYPE::None);
+	}
 }
 
 void Nahoo::C_ACTOR::Tick(float deltaTime)
@@ -112,7 +113,6 @@ void Nahoo::C_ACTOR::OnHit(const C_ACTOR* otherActor)
 	// ex) Is(otherActorType) 
 
 
-
 		
 }
 
@@ -131,12 +131,11 @@ void Nahoo::C_ACTOR::Destroy()
 
 void Nahoo::C_ACTOR::OnDestroy()
 {
-
-}
-
-void Nahoo::C_ACTOR::QuitGame()
-{
-	
+	if (m_hitComponent != nullptr)
+	{
+		delete m_hitComponent;
+		m_hitComponent = nullptr;
+	}
 }
 
 void Nahoo::C_ACTOR::SetPosition(const C_VECTOR2& newPosition)

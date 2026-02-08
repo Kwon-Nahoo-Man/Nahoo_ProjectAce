@@ -1,6 +1,7 @@
 #include "Level.h"
 #include "Actor/Actor.h"
 #include "Component/HitComponent.h"
+#include "Enumeration/CollisionType.h"
 
 Nahoo::C_LEVEL::C_LEVEL()
 {
@@ -46,8 +47,12 @@ void Nahoo::C_LEVEL::Tick(float deltaTime)
 	{
 		for (int j = i + 1; j < length; j++)
 		{
-			// 히트 판정
-			m_actorHitComps[i]->HasCollided(*(m_actorHitComps[j]));
+			if (m_actorHitComps[i]->GetCollitionType() != E_COLLISIONTYPE::None)
+			{
+				// 히트 판정
+				m_actorHitComps[i]->HasCollided(*(m_actorHitComps[j]));
+			}
+			
 		}
 	}
 }

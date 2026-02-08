@@ -3,6 +3,7 @@
 #include "Component.h"
 #include "Math/Vector2.h"
 #include "Actor/Actor.h"
+#include "Enumeration/CollisionType.h"
 
 namespace Nahoo
 {
@@ -18,8 +19,13 @@ namespace Nahoo
 		virtual void Destroy();
 		virtual void OnDestroy();
 		
-		void setCollition(bool onOffCollision);
+		void SetCollition(bool onOffCollision);
 		bool HasCollided(COMP_HITCOMPONENT& otherComp);
+
+		void SetCollitionType(E_COLLISIONTYPE collisionType);
+		void DeleteCollitionType(E_COLLISIONTYPE collisionType);
+		inline E_COLLISIONTYPE GetCollitionType() const { return m_collisionType; }
+
 		inline bool DestroyRequested() const { return m_destroyRequested; }
 		inline bool GetCurrentCollision() const { return m_activateCollision; }
 
@@ -27,6 +33,7 @@ namespace Nahoo
 	private:
 		bool m_activateCollision{ true };
 		bool m_destroyRequested{ false };
+		E_COLLISIONTYPE m_collisionType{ E_COLLISIONTYPE::None };
 
 		// 액터 기준 좌표
 		C_VECTOR2 m_actorPosition = C_VECTOR2::Zero;

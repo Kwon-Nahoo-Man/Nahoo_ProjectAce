@@ -143,14 +143,16 @@ xcopy ..\Config\* $(OutDir)..\Config\ /e /y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Actor\TestActor.cpp" />
-    <ClCompile Include="Actor\TestActor2.cpp" />
+    <ClCompile Include="Actor\Object.cpp" />
+    <ClCompile Include="Actor\Plane.cpp" />
+    <ClCompile Include="Actor\PlaneAlly.cpp" />
     <ClCompile Include="Level\TestLevel.cpp" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Actor\TestActor.h" />
-    <ClInclude Include="Actor\TestActor2.h" />
+    <ClInclude Include="Actor\Object.h" />
+    <ClInclude Include="Actor\Plane.h" />
+    <ClInclude Include="Actor\PlaneAlly.h" />
     <ClInclude Include="Level\TestLevel.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

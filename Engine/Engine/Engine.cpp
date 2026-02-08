@@ -20,6 +20,8 @@ Nahoo::C_ENGINE::C_ENGINE()
 	m_renderer = new C_RENDERER(C_VECTOR2(m_engineSetting.width, m_engineSetting.height));
 
 	UTIL::SetCursorAppear(false);
+
+	UTIL::SetRandomSeed();
 }
 
 Nahoo::C_ENGINE::~C_ENGINE()

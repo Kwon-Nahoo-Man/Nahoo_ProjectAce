@@ -3,7 +3,8 @@
 
 #include "Common/RTTI.h"
 #include "Math/Vector2.h"
-#include "Math/Color.h"
+#include "Enumeration/Color.h"
+#include "Enumeration/CollisionType.h"
 
 namespace Nahoo
 {
@@ -17,7 +18,7 @@ namespace Nahoo
 	public:
 		C_ACTOR();
 		// 2차원 이미지로 받기 위해 파라미터 수정 --> 필요없이 1차원 배열을 2차원 배열처럼 쓰자
-		C_ACTOR(const char* fileName, const  C_VECTOR2& position, E_COLOR color, bool setCollision);
+		C_ACTOR(const char* fileName, const  C_VECTOR2& position, bool collision);
 		virtual ~C_ACTOR();
 
 	public:
@@ -28,12 +29,9 @@ namespace Nahoo
 
 		virtual void OnHit(const C_ACTOR* otherActor);
 
-		void Destroy();
+		virtual void Destroy();
 		virtual void OnDestroy();
 		
-		// Check: 이건 destroy가 잘 되는지 확인하기 위한 것
-		void QuitGame();
-
 		void SetPosition(const C_VECTOR2& newPosition);
 		inline C_VECTOR2 GetPosition() const { return m_position; }
 
