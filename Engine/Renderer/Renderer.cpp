@@ -127,6 +127,11 @@ void Nahoo::C_RENDERER::Draw()
 				const int sourceIndex = (y - startY) * command.m_width + (x - startX); // y * width + x
 				const int frameIndex = y * m_screenSize.m_x + x;
 
+				if (command.m_sprite[sourceIndex] == ' ')
+				{
+					continue;
+				}
+
 				if (m_frame->m_sortingOrderArray[frameIndex] > command.m_sortingOrder)
 				{
 					continue;
@@ -134,40 +139,10 @@ void Nahoo::C_RENDERER::Draw()
 
 				m_frame->m_charInfoArray[frameIndex].Char.AsciiChar = command.m_sprite[sourceIndex];
 				m_frame->m_charInfoArray[frameIndex].Attributes = (WORD)command.m_color;
+				m_frame->m_sortingOrderArray[frameIndex] = command.m_sortingOrder;
 				
-				if (command.m_sprite[sourceIndex] == ' ')
-				{
-					m_frame->m_sortingOrderArray[frameIndex] = -1;
-				}
-				else
-				{
-					m_frame->m_sortingOrderArray[frameIndex] = command.m_sortingOrder;
-				}
-				
-
 			}
 		}
-		// Todo: 2차원 이미지 잘 나오면 지우기
-		//for (int x = visibleStartX; x <= visibleEndX; x++)
-		//{
-		//	const int sourceIndex = x - startX;
-		//	//(y-startY)* command.m_width + (x - startX) ==> y * width + x
-
-
-		//	// m_screenSize 는 frame의 width, command.--.m_y는 height
-		//	// Todo: 그러면 나중에 높이 있는 것 출력할 때도 height에 따라 m_y 증가
-		//	const int frameIndex = (command.m_position.m_y * m_screenSize.m_x) + x;
-
-		//	if (m_frame->m_sortingOrderArray[frameIndex] > command.m_sortingOrder)
-		//	{
-		//		continue;
-		//	}
-
-		//	m_frame->m_charInfoArray[frameIndex].Char.AsciiChar = command.m_text[sourceIndex];
-		//	m_frame->m_charInfoArray[frameIndex].Attributes = (WORD)command.m_color;
-
-		//	m_frame->m_sortingOrderArray[frameIndex] = command.m_sortingOrder;
-		//}
 	}
 	GetCurrentBuffer()->Draw(m_frame->m_charInfoArray);
 	Present();
@@ -175,7 +150,6 @@ void Nahoo::C_RENDERER::Draw()
 	m_renderQueue.clear();
 }
 
-// Todo: 2차원 배열 이미지 submit 할 때, height도 고려해야함
 void Nahoo::C_RENDERER::Submit
 (
 	const std::vector<char>& sprite, int width, int height, const C_VECTOR2& position, E_COLOR color, int sortingOrder

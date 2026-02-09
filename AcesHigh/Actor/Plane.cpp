@@ -2,15 +2,33 @@
 #include "Actor/Object.h"
 #include "Actor/Plane.h"
 #include "Level/Level.h"
+#include "Component/HitComponent.h"
+#include "Engine/Engine.h"
+#include "Actor/Bullet.h"
 
 
-C_PLANE::C_PLANE(const char* fileName, C_VECTOR2& position)
-	:C_ACTOR(fileName, position, true)
+C_PLANE::C_PLANE(const char* fileName, C_VECTOR2& position, bool collision, E_COLOR color,
+	 int moveSpeed, int health, E_COLLISIONTYPE collisionType, float fireRate)
+	:C_ACTOR(fileName, position, collision)
 {
-	m_moveHorizontalSpeed = 100;
+	m_color = color;
+	m_sortingOrder = 10;
+	m_moveHorizontalSpeed = moveSpeed;
 	m_moveVerticalSpeed = static_cast<int>(m_moveHorizontalSpeed * 0.8);
+	m_health = health;
+
+	if (m_hitComponent != nullptr)
+	{
+		m_hitComponent->SetCollision(collision);
+		m_hitComponent->SetCollisionType(E_COLLISIONTYPE::Plane | collisionType);
+	}
+
+	m_fireRate = fireRate;
+
 	m_xPosition = static_cast<float>(m_position.m_x);
 	m_yPosition = static_cast<float>(m_position.m_y);
+
+	m_timer.SetTargetTime(m_fireRate);
 
 }
 
@@ -22,65 +40,210 @@ C_PLANE::~C_PLANE()
 void C_PLANE::BeginPlay()
 {
 	C_ACTOR::BeginPlay();
-	m_color = E_COLOR::White;
 
 }
 
 void C_PLANE::Tick(float deltaTime)
 {
 	C_ACTOR::Tick(deltaTime);
+	m_timer.Tick(deltaTime);
 
-	if(Nahoo::C_INPUT::GetInstance().GetKeyDown(VK_SPACE))
-	{
-		Fire();
-	}
-	if (Nahoo::C_INPUT::GetInstance().GetKey(VK_LEFT))
-	{
-		m_xPosition -= m_moveHorizontalSpeed * deltaTime;
-	}
-	if (Nahoo::C_INPUT::GetInstance().GetKey(VK_RIGHT))
-	{
-		m_xPosition += m_moveHorizontalSpeed * deltaTime;
-	}
-	if (Nahoo::C_INPUT::GetInstance().GetKey(VK_UP))
-	{
-		m_yPosition -= m_moveVerticalSpeed * deltaTime;
+	ApplyMovement(deltaTime);
+	
+	Fire();
 
-	}
-	if (Nahoo::C_INPUT::GetInstance().GetKey(VK_DOWN))
-	{
-		m_yPosition += m_moveVerticalSpeed * deltaTime;
-	}
-
-	if (Nahoo::C_INPUT::GetInstance().GetKeyDown('Q'))
+	// Todo: 일정구역의 화면 밖으로 넘어가면 바로 Destroy() --> 이땐 이펙트 생성 안됨
+	// 화면 밖 파괴처리
+	if (m_position.m_x + m_width < -1 || m_position.m_x > Nahoo::C_ENGINE::GetInstance().GetWidth() + 1 ||
+		m_position.m_y + m_height < -1 || m_position.m_y > Nahoo::C_ENGINE::GetInstance().GetHeight() + 1)
 	{
 		Destroy();
 	}
-
-	
-	C_VECTOR2 newPosition = GetPosition();
-	newPosition.m_x = static_cast<int>(m_xPosition);
-	newPosition.m_y = static_cast<int>(m_yPosition);
-	SetPosition(newPosition);
 
 }
 
 void C_PLANE::OnHit(const C_ACTOR* otherActor)
 {
-	// 여기서 hitcomponent의 collisionType 가지고 hit별 행동
-	Destroy();
+	E_COLLISIONTYPE otherActorCollisionType{};
+	otherActorCollisionType = otherActor->GetHitComponent()->GetCollisionType();
+	E_COLLISIONTYPE thisActorCollisionType{};
+	thisActorCollisionType = m_hitComponent->GetCollisionType();
+
+	if ((otherActorCollisionType & E_COLLISIONTYPE::Bullet) == E_COLLISIONTYPE::Bullet)
+	{
+		// 현재 엑터에서 Plane 뺀 것 & 다른 액터 collision -> 같은 편이면 값이 남을거고 아니면 안남음
+		if (((thisActorCollisionType & ~E_COLLISIONTYPE::Plane) & otherActorCollisionType) == E_COLLISIONTYPE::None)
+		{
+			// Check: C_ACTOR를 코드의 조건식을 통해 증명했기때문에 문제 가능성 있을수도?
+			const C_BULLET* bullet = static_cast<const C_BULLET*>(otherActor);
+
+			OnDamaged(bullet->GetDamage());
+		}
+		
+		
+		//// 좌변: bullet,ally 이고 내가 plane, ally 이면 ally만 남음 (둘 다 다르면 0), 우변: 현재 비행기 collision에서 plane 만 뺀 것
+		//if ((otherActorCollisionType & m_hitComponent->GetCollisionType()) != 
+		//	(m_hitComponent->GetCollisionType() & ~E_COLLISIONTYPE::Plane))
+		//{
+		//}
+	}
+	else if ((otherActorCollisionType & E_COLLISIONTYPE::Plane) == E_COLLISIONTYPE::Plane)
+	{
+		if ((otherActorCollisionType & m_hitComponent->GetCollisionType()) != m_hitComponent->GetCollisionType())
+		{
+			//Todo: 파괴 이펙트
+			Destroy();
+		}
+	}
+	
 }
 
 void C_PLANE::OnDestroy()
 {
 	C_ACTOR::OnDestroy();
+
 }
 
 void C_PLANE::Fire()
 {
-	/*Nahoo::C_VECTOR2 firePosition{};
-	firePosition.m_x = m_position.m_x + m_width / 2 - 1;
-	firePosition.m_y = m_position.m_y - 5;
+	if (m_timer.IsTimeOut())
+	{
+		// Todo: 총알 생성
+		//GetOwner()->AddNewActor(new C_OBJECT());
+		GetOwner()->AddNewActor(
+			new C_BULLET(m_bulletSpec.fileName, m_bulletSpec.position, m_bulletSpec.color,
+				m_bulletSpec.moveSpeed.m_x, m_bulletSpec.moveSpeed.m_y,
+				(m_hitComponent->GetCollisionType() & ~E_COLLISIONTYPE::Plane), m_bulletSpec.damage)
+		);
 
-	m_owner->AddNewActor(new C_OBJECT("bullet.txt",firePosition));*/
+		m_timer.Reset();
+	}
 }
+
+void C_PLANE::OnDamaged(int damage)
+{
+	m_health -= damage;
+	if (m_health < 0)
+	{
+		// Todo: 파괴되는 이펙트 액터 생성
+		Destroy();
+	}
+}
+
+void C_PLANE::GiveMoveOrder(const E_MOVEDIRECTION& moveDirection, int moveSpeed)
+{
+	if (moveDirection == E_MOVEDIRECTION::None)
+	{
+		MoveStop();
+		return;
+	}
+	
+	// moveSpeed가 -1이면 기존에 설정된 이동속도 적용
+	if (moveSpeed != -1)
+	{
+		m_moveHorizontalSpeed = moveSpeed;
+		m_moveVerticalSpeed = static_cast<int>(m_moveHorizontalSpeed * 0.8);
+	}
+	
+	if ((moveDirection & E_MOVEDIRECTION::Left) == E_MOVEDIRECTION::Left)
+	{
+		MoveLeft();
+	}
+	else if ((moveDirection & E_MOVEDIRECTION::Right) == E_MOVEDIRECTION::Right)
+	{
+		MoveRight();
+	}
+
+	if ((moveDirection & E_MOVEDIRECTION::Up) == E_MOVEDIRECTION::Up)
+	{
+		MoveUp();
+	}
+	else if ((moveDirection & E_MOVEDIRECTION::Down) == E_MOVEDIRECTION::Down)
+	{
+		MoveDown();
+	}
+	
+}
+
+void C_PLANE::SetBulletSpec(const char* fileName, C_VECTOR2& position, E_COLOR color, int horizontalSpeed, int verticalSpeed, int damage, bool isBounce)
+{
+	m_bulletSpec.fileName = fileName;
+	m_bulletSpec.position = position;
+	m_bulletSpec.color = color;
+	m_bulletSpec.moveSpeed.m_x = horizontalSpeed;
+	m_bulletSpec.moveSpeed.m_y = verticalSpeed;
+	m_bulletSpec.damage = damage;
+	m_bulletSpec.isBounce = isBounce;
+}
+
+void C_PLANE::ApplyMovement(float deltaTime)
+{
+	if (
+		((m_currentMoveDirection & E_MOVEDIRECTION::Left) == E_MOVEDIRECTION::Left) ||
+		((m_currentMoveDirection & E_MOVEDIRECTION::Right) == E_MOVEDIRECTION::Right)
+		)
+	{
+		m_xPosition += m_moveHorizontalSpeed * deltaTime;
+	}
+
+	if (
+		((m_currentMoveDirection & E_MOVEDIRECTION::Up) == E_MOVEDIRECTION::Up) ||
+		((m_currentMoveDirection & E_MOVEDIRECTION::Down) == E_MOVEDIRECTION::Down)
+		)
+	{
+		m_yPosition += m_moveVerticalSpeed * deltaTime;
+	}
+
+	m_position.m_x = static_cast<int>(m_xPosition);
+	m_position.m_y = static_cast<int>(m_yPosition);
+}
+
+void C_PLANE::MoveLeft()
+{
+	m_currentMoveDirection = m_currentMoveDirection & ~E_MOVEDIRECTION::Right;
+	m_currentMoveDirection = m_currentMoveDirection | E_MOVEDIRECTION::Left;
+
+	if (m_moveHorizontalSpeed > 0)
+	{
+		m_moveHorizontalSpeed *= -1;
+	}
+}
+
+void C_PLANE::MoveRight()
+{
+	m_currentMoveDirection = m_currentMoveDirection & ~E_MOVEDIRECTION::Left;
+	m_currentMoveDirection = m_currentMoveDirection | E_MOVEDIRECTION::Right;
+
+	if (m_moveHorizontalSpeed < 0)
+	{
+		m_moveHorizontalSpeed *= -1;
+	}
+}
+
+void C_PLANE::MoveUp()
+{
+	m_currentMoveDirection = m_currentMoveDirection & ~E_MOVEDIRECTION::Down;
+	m_currentMoveDirection = m_currentMoveDirection | E_MOVEDIRECTION::Up;
+
+	if (m_moveVerticalSpeed > 0)
+	{
+		m_moveVerticalSpeed *= -1;
+	}
+}
+
+void C_PLANE::MoveDown()
+{
+	m_currentMoveDirection = m_currentMoveDirection & ~E_MOVEDIRECTION::Up;
+	m_currentMoveDirection = m_currentMoveDirection | E_MOVEDIRECTION::Down;
+
+	if (m_moveVerticalSpeed < 0)
+	{
+		m_moveVerticalSpeed *= -1;
+	}
+}
+
+void C_PLANE::MoveStop()
+{
+	m_currentMoveDirection = E_MOVEDIRECTION::None;
+}
+

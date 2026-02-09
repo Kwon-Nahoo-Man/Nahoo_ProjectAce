@@ -17,7 +17,7 @@ void Nahoo::COMP_HITCOMPONENT::Tick(float deltaTime)
     m_actorPosition = m_owner->GetPosition();
 }
 
-void Nahoo::COMP_HITCOMPONENT::SetCollition(bool onOffCollision)
+void Nahoo::COMP_HITCOMPONENT::SetCollision(bool onOffCollision)
 {
     m_activateCollision = onOffCollision;
 }
@@ -60,12 +60,12 @@ bool Nahoo::COMP_HITCOMPONENT::HasCollided(Nahoo::COMP_HITCOMPONENT& otherComp)
     return true;
 }
 
-void Nahoo::COMP_HITCOMPONENT::SetCollitionType(E_COLLISIONTYPE collisionType)
+void Nahoo::COMP_HITCOMPONENT::SetCollisionType(E_COLLISIONTYPE collisionType)
 {
     m_collisionType = m_collisionType | collisionType;
 }
 
-void Nahoo::COMP_HITCOMPONENT::DeleteCollitionType(E_COLLISIONTYPE collisionType)
+void Nahoo::COMP_HITCOMPONENT::DeleteCollisionType(E_COLLISIONTYPE collisionType)
 {
     m_collisionType = m_collisionType & ~collisionType;
 }

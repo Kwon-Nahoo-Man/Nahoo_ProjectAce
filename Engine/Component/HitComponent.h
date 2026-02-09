@@ -19,12 +19,12 @@ namespace Nahoo
 		virtual void Destroy();
 		virtual void OnDestroy();
 		
-		void SetCollition(bool onOffCollision);
+		void SetCollision(bool onOffCollision);
 		bool HasCollided(COMP_HITCOMPONENT& otherComp);
 
-		void SetCollitionType(E_COLLISIONTYPE collisionType);
-		void DeleteCollitionType(E_COLLISIONTYPE collisionType);
-		inline E_COLLISIONTYPE GetCollitionType() const { return m_collisionType; }
+		void SetCollisionType(E_COLLISIONTYPE collisionType);
+		void DeleteCollisionType(E_COLLISIONTYPE collisionType);
+		inline E_COLLISIONTYPE GetCollisionType() const { return m_collisionType; }
 
 		inline bool DestroyRequested() const { return m_destroyRequested; }
 		inline bool GetCurrentCollision() const { return m_activateCollision; }

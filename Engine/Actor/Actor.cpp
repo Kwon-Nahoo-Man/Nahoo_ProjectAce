@@ -12,7 +12,7 @@ Nahoo::C_ACTOR::C_ACTOR()
 }
 
 Nahoo::C_ACTOR::C_ACTOR(const char* fileName, const C_VECTOR2& position, bool collision)
-	: m_position(position.m_x, position.m_y), m_collision(collision)
+	: m_position(position.m_x, position.m_y)
 {
 	// 액터 생성자에서 width와 height 계산, 출력용 텍스트 1차원 배열(vector) 설정
 	// Todo: 현재는 vector가 char자료형이라 문자만 받는데 텍스트 하나 별로 색을 받기 위해선 CHAR_INFO 자료형 이어야함
@@ -64,7 +64,7 @@ Nahoo::C_ACTOR::C_ACTOR(const char* fileName, const C_VECTOR2& position, bool co
 	fclose(file);
 
 	// Actor 생성자가 끝나면, HitComponent는 생성됨.
-	if (m_collision == true)
+	if (collision == true)
 	{
 		MakeHitComponent();
 	}
@@ -79,12 +79,11 @@ Nahoo::C_ACTOR::~C_ACTOR()
 void Nahoo::C_ACTOR::BeginPlay()
 {
 	m_hasBegunPlay = true;
-	m_color = E_COLOR::White;
 
 	if (m_hitComponent != nullptr)
 	{
 		// set collision type
-		m_hitComponent->SetCollitionType(E_COLLISIONTYPE::None);
+		m_hitComponent->SetCollisionType(E_COLLISIONTYPE::None);
 	}
 }
 
@@ -112,7 +111,6 @@ void Nahoo::C_ACTOR::OnHit(const C_ACTOR* otherActor)
 	// 액터가 충돌판정 받았을 때 로직, otherActorType는 조건식으로 사용
 	// ex) Is(otherActorType) 
 
-
 		
 }
 
@@ -125,8 +123,6 @@ void Nahoo::C_ACTOR::Destroy()
 		m_hitComponent->Destroy();
 	}
 	
-
-	OnDestroy();
 }
 
 void Nahoo::C_ACTOR::OnDestroy()

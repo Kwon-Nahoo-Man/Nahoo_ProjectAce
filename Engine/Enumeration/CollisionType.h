@@ -7,10 +7,12 @@ namespace Nahoo
 	enum class NAHOO_API E_COLLISIONTYPE : unsigned char
 	{
 		None = 0x00,
-		Ally = 0x01,
-		Enemy = 0x02,
-		Item = 0x04,
-
+		Player = 0x01, // «√∑π¿ÃæÓ∞° æ∆¿Ã≈€ »πµÊ«“ ∂ß æ∏
+		Ally = 0x02,
+		Enemy = 0x04,
+		Bullet = 0x08,
+		Item = 0x0C,
+		Plane = 0x10,
 
 	};
 

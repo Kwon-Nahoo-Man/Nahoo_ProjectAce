@@ -124,6 +124,16 @@ Nahoo::C_ENGINE& Nahoo::C_ENGINE::GetInstance()
 	return *m_instance;
 }
 
+int Nahoo::C_ENGINE::GetWidth()
+{
+	return m_engineSetting.width;
+}
+
+int Nahoo::C_ENGINE::GetHeight()
+{
+	return m_engineSetting.height;
+}
+
 void Nahoo::C_ENGINE::LoadEngineSetting()
 {
 	FILE* file = nullptr;

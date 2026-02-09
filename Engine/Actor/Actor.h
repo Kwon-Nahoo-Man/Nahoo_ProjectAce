@@ -37,7 +37,7 @@ namespace Nahoo
 
 		inline void SetOwner(C_LEVEL* level) { m_owner = level; }
 		inline C_LEVEL* GetOwner() { return m_owner; }
-		inline COMP_HITCOMPONENT* GetHitComponent() { return m_hitComponent; }
+		inline COMP_HITCOMPONENT* GetHitComponent() const{ return m_hitComponent; }
 
 		inline bool HasBegunPlay() const { return m_hasBegunPlay; }
 		inline bool IsActive() const { return m_isActive && !m_destroyRequested; }
@@ -51,9 +51,6 @@ namespace Nahoo
 		bool m_hasBegunPlay{ false };
 		bool m_isActive{ true };
 		bool m_destroyRequested{ false };
-		bool m_collision{ false };
-		
-		char* m_fileName = nullptr;
 		
 		int m_sortingOrder{};
 		int m_width{};

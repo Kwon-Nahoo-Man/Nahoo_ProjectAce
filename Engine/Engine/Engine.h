@@ -27,12 +27,16 @@ namespace Nahoo
 
 		static C_ENGINE& GetInstance();
 
+		int GetWidth();
+		int GetHeight();
+
 	protected:
 		void LoadEngineSetting();
 		void BeginPlay();
 		void Tick(float deltatime);
 		void Draw();
 		void ShutDown();
+		
 	
 	protected:
 		bool m_isQuit{ false };

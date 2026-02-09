@@ -47,11 +47,17 @@ void Nahoo::C_LEVEL::Tick(float deltaTime)
 	{
 		for (int j = i + 1; j < length; j++)
 		{
-			if (m_actorHitComps[i]->GetCollitionType() != E_COLLISIONTYPE::None)
+			if (m_actorHitComps[i]->GetCurrentCollision() && m_actorHitComps[j]->GetCurrentCollision())
 			{
-				// 히트 판정
-				m_actorHitComps[i]->HasCollided(*(m_actorHitComps[j]));
+				if (m_actorHitComps[i]->GetCollisionType() != E_COLLISIONTYPE::None ||
+					!(m_actorHitComps[i]->DestroyRequested()) || !(m_actorHitComps[j]->DestroyRequested()))
+				{
+					// 히트 판정
+					m_actorHitComps[i]->HasCollided(*(m_actorHitComps[j]));
+				}
 			}
+
+			
 			
 		}
 	}
@@ -78,8 +84,6 @@ void Nahoo::C_LEVEL::AddNewActor(C_ACTOR* newActor)
 
 void Nahoo::C_LEVEL::ProcessActors()
 {
-	// Todo: 만약 actor에 오너쉽이 생기면, actor에서 delete할 때 Level의 deleteRequestedActor 배열에 추가해서 조건식 추가
-	// if(m_deleteRequestedActors.size() != 0)
 	ProcessDeleteActor();
 
 
@@ -114,6 +118,7 @@ void Nahoo::C_LEVEL::ProcessDeleteActor()
 {
 	// Todo: 만약 actor에 오너쉽 생기면, for루프 deleteRequestedActor 배열로 변경
 	// 근데 deleteRequestedActor 배열 따로 관리하면, m_actors에서 deleteRequestedActor에서 지워야 할 actor는 어떻게 고르지?
+	// 번호표 부여하는 것 처럼 actor한테 넌 index가 몇 번이다 라고 알려줄까?
 	
 	// 액터 배열 지우기 전에 컴포넌트 먼저 배열에서 제거
 	int cycles{};
