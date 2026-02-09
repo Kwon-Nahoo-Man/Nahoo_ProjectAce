@@ -9,7 +9,10 @@ public:
 		int horizontalSpeed, int verticalSpeed, E_COLLISIONTYPE collisionType, int damage = 1, bool isBounce = false);
 	~C_BULLET();
 
+	virtual void BeginPlay() override;
+	virtual void Tick(float deltaTime) override;
 	virtual void OnHit(const C_ACTOR* otherActor) override;
+	virtual void OnDestroy() override;
 
 	const int GetDamage() const;
 

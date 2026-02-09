@@ -21,11 +21,7 @@ Nahoo::C_VECTOR2::C_VECTOR2(int x, int y)
 
 Nahoo::C_VECTOR2::~C_VECTOR2()
 {
-	if (string != nullptr)
-	{
-		delete[] string;
-		string = nullptr;
-	}
+
 }
 
 Nahoo::C_VECTOR2 Nahoo::C_VECTOR2::operator+(const C_VECTOR2& other) const
@@ -57,16 +53,3 @@ Nahoo::C_VECTOR2::operator COORD() const
 	return coord;
 }
 
-const char* Nahoo::C_VECTOR2::Tostring()
-{
-	if (string != nullptr)
-	{
-		delete[] string;
-		string = nullptr;
-	}
-
-	string = new char[128] {};
-	sprintf_s(string, 128, "(%d, %d)", m_x, m_y);
-
-	return string;
-}

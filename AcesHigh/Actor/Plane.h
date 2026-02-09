@@ -14,9 +14,9 @@ public:
 	struct S_BULLETSPEC
 	{
 		const char* fileName = nullptr;
-		C_VECTOR2& position = C_VECTOR2::Zero;
+		C_VECTOR2 position = C_VECTOR2::Zero;
 		E_COLOR color = E_COLOR::White;
-		C_VECTOR2& moveSpeed = C_VECTOR2::Zero;
+		C_VECTOR2 moveSpeed = C_VECTOR2::Zero;
 		int damage = 1;
 		bool isBounce = false;
 	};

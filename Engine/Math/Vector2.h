@@ -20,8 +20,6 @@ namespace Nahoo
 		bool operator!=(const C_VECTOR2& other) const;
 		operator COORD() const;
 
-	public:
-		const char* Tostring();
 
 	public:
 		int m_x{};
@@ -33,6 +31,5 @@ namespace Nahoo
 		static C_VECTOR2 Right;
 
 	private:
-		char* string{};
 	};
 }

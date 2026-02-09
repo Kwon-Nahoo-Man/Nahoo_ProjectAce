@@ -50,7 +50,7 @@ void Nahoo::C_LEVEL::Tick(float deltaTime)
 			if (m_actorHitComps[i]->GetCurrentCollision() && m_actorHitComps[j]->GetCurrentCollision())
 			{
 				if (m_actorHitComps[i]->GetCollisionType() != E_COLLISIONTYPE::None ||
-					!(m_actorHitComps[i]->DestroyRequested()) || !(m_actorHitComps[j]->DestroyRequested()))
+					(!(m_actorHitComps[i]->DestroyRequested()) && !(m_actorHitComps[j]->DestroyRequested())))
 				{
 					// 히트 판정
 					m_actorHitComps[i]->HasCollided(*(m_actorHitComps[j]));

@@ -54,8 +54,8 @@ void C_PLANE::Tick(float deltaTime)
 
 	// Todo: 일정구역의 화면 밖으로 넘어가면 바로 Destroy() --> 이땐 이펙트 생성 안됨
 	// 화면 밖 파괴처리
-	if (m_position.m_x + m_width < -1 || m_position.m_x > Nahoo::C_ENGINE::GetInstance().GetWidth() + 1 ||
-		m_position.m_y + m_height < -1 || m_position.m_y > Nahoo::C_ENGINE::GetInstance().GetHeight() + 1)
+	if (m_position.m_x + m_width < 0 || m_position.m_x > Nahoo::C_ENGINE::GetInstance().GetWidth()  ||
+		m_position.m_y + m_height < 0 || m_position.m_y > Nahoo::C_ENGINE::GetInstance().GetHeight() )
 	{
 		Destroy();
 	}
@@ -79,17 +79,10 @@ void C_PLANE::OnHit(const C_ACTOR* otherActor)
 
 			OnDamaged(bullet->GetDamage());
 		}
-		
-		
-		//// 좌변: bullet,ally 이고 내가 plane, ally 이면 ally만 남음 (둘 다 다르면 0), 우변: 현재 비행기 collision에서 plane 만 뺀 것
-		//if ((otherActorCollisionType & m_hitComponent->GetCollisionType()) != 
-		//	(m_hitComponent->GetCollisionType() & ~E_COLLISIONTYPE::Plane))
-		//{
-		//}
 	}
 	else if ((otherActorCollisionType & E_COLLISIONTYPE::Plane) == E_COLLISIONTYPE::Plane)
 	{
-		if ((otherActorCollisionType & m_hitComponent->GetCollisionType()) != m_hitComponent->GetCollisionType())
+		if ((otherActorCollisionType & m_hitComponent->GetCollisionType()) != (m_hitComponent->GetCollisionType() & ~E_COLLISIONTYPE::Player))
 		{
 			//Todo: 파괴 이펙트
 			Destroy();
@@ -108,13 +101,21 @@ void C_PLANE::Fire()
 {
 	if (m_timer.IsTimeOut())
 	{
-		// Todo: 총알 생성
-		//GetOwner()->AddNewActor(new C_OBJECT());
-		GetOwner()->AddNewActor(
-			new C_BULLET(m_bulletSpec.fileName, m_bulletSpec.position, m_bulletSpec.color,
-				m_bulletSpec.moveSpeed.m_x, m_bulletSpec.moveSpeed.m_y,
-				(m_hitComponent->GetCollisionType() & ~E_COLLISIONTYPE::Plane), m_bulletSpec.damage)
-		);
+		//bullet = new C_BULLET(m_bulletSpec.fileName, m_bulletSpec.position, m_bulletSpec.color, m_bulletSpec.moveSpeed.m_x, m_bulletSpec.moveSpeed.m_y,
+		//	(m_hitComponent->GetCollisionType() & ~E_COLLISIONTYPE::Plane), m_bulletSpec.damage, m_bulletSpec.isBounce);
+		//GetOwner()->AddNewActor(bullet);
+		
+		
+		//C_VECTOR2 position;
+
+		//position.m_x = m_position.m_x + (m_width / 2) - 5;
+		//position.m_y = m_position.m_y - 6;
+
+		//C_BULLET* bullet{};
+		//bullet = new C_BULLET("bullet2.txt", position, E_COLOR::White, 30, 20, (m_hitComponent->GetCollisionType() & ~E_COLLISIONTYPE::Plane), 1, false);
+		//GetOwner()->AddNewActor(bullet);
+		//bullet->GiveMoveOrder(E_MOVEDIRECTION::Up);
+
 
 		m_timer.Reset();
 	}
