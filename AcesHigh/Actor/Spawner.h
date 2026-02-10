@@ -24,7 +24,7 @@ private:
 	void EnemyPattern3();
 
 	void MakeBigEnemy(Nahoo::C_VECTOR2& spawnPosition, E_MOVEDIRECTION bulletDirection, E_MOVEDIRECTION moveDirection, bool sideBulletSpeedFlag, bool isBounce);
-	void MakeSmallEnemy(C_VECTOR2& spawnPosition, E_MOVEDIRECTION bulletDirection, E_MOVEDIRECTION moveDirection, bool sideBulletSpeedFlag, bool isBounce);
+	void MakeSmallEnemy(Nahoo::C_VECTOR2& spawnPosition, E_MOVEDIRECTION bulletDirection, E_MOVEDIRECTION moveDirection, bool sideBulletSpeedFlag, bool isBounce);
 
 
 private:
@@ -33,7 +33,7 @@ private:
 
 	// 1차원들로 바껴진 asset들을 모아둔 곳
 	const char* m_backGroundFileNames[3]{};
-	E_COLOR m_enemyColor = E_COLOR::Red;
+	Nahoo::E_COLOR m_enemyColor = Nahoo::E_COLOR::Red;
 
 
 

@@ -7,8 +7,6 @@
 #include "Level/Level.h"
 #include "Actor/Plane.h"
 
-using namespace Nahoo;
-
 C_SPAWNER::C_SPAWNER()
 	:C_ACTOR()
 {
