@@ -6,6 +6,7 @@
 #include "Util/Timer.h"
 #include "Engine/Engine.h"
 #include "Actor/Item.h"
+#include "Level/TestLevel.h"
 
 
 C_PLAYER::C_PLAYER(const char* fileName, C_VECTOR2& position, bool collision, E_COLOR color,
@@ -16,6 +17,12 @@ C_PLAYER::C_PLAYER(const char* fileName, C_VECTOR2& position, bool collision, E_
 	m_hitComponent->SetCollisionType(E_COLLISIONTYPE::Player);
 	m_sortingOrder = 11;
 }
+
+C_PLAYER::~C_PLAYER()
+{
+	C_PLANE::OnDestroy();
+}
+
 
 void C_PLAYER::BeginPlay()
 {
@@ -110,6 +117,11 @@ void C_PLAYER::OnHit(const C_ACTOR* otherActor)
 
 }
 
+void C_PLAYER::OnDestroy()
+{
+	C_PLANE::OnDestroy();
+}
+
 void C_PLAYER::Fire()
 {
 	if (m_timer.IsTimeOut())
@@ -145,6 +157,9 @@ void C_PLAYER::Fire()
 void C_PLAYER::OnDamaged(int damage)
 {
 	C_PLANE::OnDamaged(damage);
+
+	// Check DownCasting --> testLevel 아니면 위험
+	static_cast<C_TESTLEVEL*>(m_owner)->UpdatePlayerHealthUI(m_health);
 
 	PowerDown();
 }
@@ -196,6 +211,7 @@ void C_PLAYER::EarnSpecialAttack()
 	{
 		m_specialAttack++;
 	}
+	static_cast<C_TESTLEVEL*>(m_owner)->UpdatePlayerSpecialAttackUI(m_specialAttack);
 }
 
 void C_PLAYER::SpecialAttack()
@@ -214,11 +230,11 @@ void C_PLAYER::SpecialAttack()
 	{
 		spawnPosition.m_x = (Nahoo::C_ENGINE::GetInstance().GetWidth() - 10) / 4 * i;
 		ally = new C_PLANE("ally_plane1.txt", spawnPosition, true, E_COLOR::Blue, 40, 10, E_COLLISIONTYPE::Ally, 0.5f);
-		ally->SetBulletSpec("enemyBullet.txt", E_COLOR::Blue | E_COLOR::ForegroundIntensity, 0, 80, 2, false, E_MOVEDIRECTION::Up);
+		ally->SetBulletSpec("enemyPistol.txt", E_COLOR::Blue | E_COLOR::ForegroundIntensity | E_COLOR::BackgroundBlue, 0, 80, 2, false, E_MOVEDIRECTION::Up);
 		ally->GiveMoveOrder(E_MOVEDIRECTION::Up);
 		m_owner->AddNewActor(ally);
 
 	}
-	
+	static_cast<C_TESTLEVEL*>(m_owner)->UpdatePlayerSpecialAttackUI(m_specialAttack);
 	
 }

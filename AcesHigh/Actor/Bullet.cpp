@@ -34,9 +34,9 @@ void C_BULLET::Tick(float deltaTime)
 {
 	C_OBJECT::Tick(deltaTime);
 
-	// 화면 밖 파괴처리 (bounce 함수 때문에 좀 널널하게 파괴처리 함)
-	if (m_position.m_x + m_width < -5 || m_position.m_x > Nahoo::C_ENGINE::GetInstance().GetWidth() + 5 ||
-		m_position.m_y + m_height < -5 || m_position.m_y > Nahoo::C_ENGINE::GetInstance().GetHeight() + 5)
+	// 화면 밖 파괴처리 (bounce 함수 때문에 좀 널널하게 파괴처리 함 ==> 안된다. 실제 길이보다 더 밖으로 벗어난다면 render에서 source index가 범위초과를 일으킴)
+	if (m_position.m_x + m_width < -1 || m_position.m_x > Nahoo::C_ENGINE::GetInstance().GetWidth() + 1 ||
+		m_position.m_y + m_height < -1 || m_position.m_y + m_height > Nahoo::C_ENGINE::GetInstance().GetHeight() -1 )
 	{
 		Destroy();
 	}

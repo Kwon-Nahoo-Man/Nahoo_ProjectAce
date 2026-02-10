@@ -160,6 +160,11 @@ void Nahoo::C_RENDERER::Submit
 	command.m_width = width;
 	command.m_height = height;
 
+	if (sprite.size() != width * height)
+	{
+		__debugbreak();
+	}
+
 	command.m_position = position;
 	command.m_color = color;
 	command.m_sortingOrder = sortingOrder;

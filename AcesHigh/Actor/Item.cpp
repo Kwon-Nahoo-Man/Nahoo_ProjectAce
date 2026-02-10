@@ -59,7 +59,7 @@ void C_ITEM::OnHit(const C_ACTOR* otherActor)
 
 void C_ITEM::OnDestroy()
 {
-
+	C_OBJECT::OnDestroy();
 }
 
 const E_ITEMTYPE C_ITEM::GetItemType() const

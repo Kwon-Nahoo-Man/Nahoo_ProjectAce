@@ -73,6 +73,7 @@ void Nahoo::COMP_HITCOMPONENT::DeleteCollisionType(E_COLLISIONTYPE collisionType
 void Nahoo::COMP_HITCOMPONENT::Destroy()
 {
     m_destroyRequested = true;
+    m_activateCollision = false;
 }
 
 void Nahoo::COMP_HITCOMPONENT::OnDestroy()

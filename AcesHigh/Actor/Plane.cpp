@@ -55,8 +55,8 @@ void C_PLANE::Tick(float deltaTime)
 	Fire();
 
 	// Check: 화면 밖 파괴처리
-	if (m_position.m_x + m_width < -10 || m_position.m_x > Nahoo::C_ENGINE::GetInstance().GetWidth() + 10 ||
-		m_position.m_y + m_height < -10 || m_position.m_y > Nahoo::C_ENGINE::GetInstance().GetHeight() + 10)
+	if (m_position.m_x + m_width < 0 || m_position.m_x > Nahoo::C_ENGINE::GetInstance().GetWidth() ||
+		m_position.m_y + m_height < 0 || m_position.m_y > Nahoo::C_ENGINE::GetInstance().GetHeight() -5)
 	{
 		Destroy();
 	}
@@ -86,7 +86,7 @@ void C_PLANE::OnHit(const C_ACTOR* otherActor)
 		if ((otherActorCollisionType & m_hitComponent->GetCollisionType()) != (m_hitComponent->GetCollisionType() & ~E_COLLISIONTYPE::Player))
 		{
 			//Todo: 파괴 이펙트
-			Destroy();
+			OnDamaged(10);
 		}
 	}
 	
@@ -100,6 +100,7 @@ void C_PLANE::OnDestroy()
 
 void C_PLANE::Fire()
 {
+	//if(false)
 	if (m_timer.IsTimeOut())
 	{
 		
@@ -134,10 +135,10 @@ void C_PLANE::Fire()
 void C_PLANE::OnDamaged(int damage)
 {
 	m_health -= damage;
-	if (m_health < 0)
+	if (m_health <= 0)
 	{
 		// 아군이든 적군이든 죽으면 기본 30% 확률로 아이템 드랍
-		RandomItemDrop();
+		RandomItemDrop(50);
 		// Todo: 파괴되는 이펙트 액터 생성
 		Destroy();
 	}
@@ -192,7 +193,7 @@ void C_PLANE::SetBulletSpec(const char* fileName, E_COLOR color, int horizontalS
 
 void C_PLANE::RandomItemDrop(int percentage)
 {
-	int randomNum = UTIL::RandomInteger(0, 10);
+	int randomNum = UTIL::RandomInteger(0, 100);
 	E_MOVEDIRECTION moveDirection{};
 	if (randomNum < percentage)
 	{
