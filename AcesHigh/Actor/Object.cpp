@@ -4,7 +4,7 @@
 #include "Engine/Engine.h"
 
 C_OBJECT::C_OBJECT(const char* fileName, C_VECTOR2& position, bool collision, E_COLOR color,
-	int sortingOrder, int moveSpeed, E_COLLISIONTYPE collisionType)
+	int sortingOrder, int moveSpeed)
 	:C_ACTOR(fileName, position, collision)
 {
 	m_color = color;
@@ -43,8 +43,7 @@ void C_OBJECT::Tick(float deltaTime)
 	Bounce(m_isBounce);
 	
 	// 화면 밖 파괴처리 (bounce 함수 때문에 좀 널널하게 파괴처리 함)
-	if (m_position.m_x + m_width < -5 || m_position.m_x > Nahoo::C_ENGINE::GetInstance().GetWidth() + 5 ||
-		m_position.m_y + m_height < -5 || m_position.m_y > Nahoo::C_ENGINE::GetInstance().GetHeight() + 5)
+	if (m_position.m_y > Nahoo::C_ENGINE::GetInstance().GetHeight() + 5)
 	{
 		Destroy();
 	}

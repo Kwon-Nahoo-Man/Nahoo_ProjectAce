@@ -14,12 +14,27 @@ namespace Nahoo
 		Green = FOREGROUND_GREEN,
 		Red = FOREGROUND_RED,
 		White = Blue | Green | Red,
-		IntenceBlue = FOREGROUND_BLUE | FOREGROUND_INTENSITY,
-		IntenceGreen = FOREGROUND_GREEN | FOREGROUND_INTENSITY,
-		IntenceRed = FOREGROUND_RED | FOREGROUND_INTENSITY,
-		IntenceWhite = White | FOREGROUND_INTENSITY,
+		ForegroundIntensity = FOREGROUND_INTENSITY,
+		BackgroundBlue = BACKGROUND_BLUE,
+		BackgroundGreen = BACKGROUND_GREEN,
+		BackgroundRed = BACKGROUND_RED,
+		BackgroundWhite = BackgroundBlue | BackgroundGreen | BackgroundRed,
+		BackgroundIntensity = BACKGROUND_INTENSITY,
 
 	};
+	inline E_COLOR operator|(const E_COLOR& left, const E_COLOR& right)
+	{
+		return static_cast<E_COLOR>(static_cast<unsigned char>(left) | static_cast<unsigned char>(right));
+	}
 
+	inline E_COLOR operator&(const E_COLOR& left, const E_COLOR& right)
+	{
+		return static_cast<E_COLOR>(static_cast<unsigned char>(left) & static_cast<unsigned char>(right));
+	}
+
+	inline E_COLOR operator~(const E_COLOR& target)
+	{
+		return static_cast<E_COLOR>(~static_cast<unsigned char>(target));
+	}
 	
 }

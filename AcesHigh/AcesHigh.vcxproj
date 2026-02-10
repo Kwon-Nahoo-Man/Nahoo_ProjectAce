@@ -144,17 +144,22 @@ xcopy ..\Config\* $(OutDir)..\Config\ /e /y</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Actor\Bullet.cpp" />
+    <ClCompile Include="Actor\Item.cpp" />
     <ClCompile Include="Actor\Object.cpp" />
     <ClCompile Include="Actor\Plane.cpp" />
     <ClCompile Include="Actor\Player.cpp" />
+    <ClCompile Include="Actor\Spawner.cpp" />
     <ClCompile Include="Level\TestLevel.cpp" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actor\Bullet.h" />
+    <ClInclude Include="Actor\Item.h" />
     <ClInclude Include="Actor\Object.h" />
     <ClInclude Include="Actor\Plane.h" />
     <ClInclude Include="Actor\Player.h" />
+    <ClInclude Include="Actor\Spawner.h" />
+    <ClInclude Include="Enumeration\ItemType.h" />
     <ClInclude Include="Enumeration\MoveDirection.h" />
     <ClInclude Include="Level\TestLevel.h" />
   </ItemGroup>

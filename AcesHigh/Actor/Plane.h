@@ -14,11 +14,11 @@ public:
 	struct S_BULLETSPEC
 	{
 		const char* fileName = nullptr;
-		C_VECTOR2 position = C_VECTOR2::Zero;
 		E_COLOR color = E_COLOR::White;
 		C_VECTOR2 moveSpeed = C_VECTOR2::Zero;
 		int damage = 1;
 		bool isBounce = false;
+		E_MOVEDIRECTION moveDirection = E_MOVEDIRECTION::None;
 	};
 
 
@@ -39,7 +39,11 @@ public:
 	void GiveMoveOrder(const E_MOVEDIRECTION& moveDirection, int moveSpeed = -1);
 
 	// Plane 생성 시 반드시 다음에 총알 스펙 지정해야함
-	void SetBulletSpec(const char* fileName, C_VECTOR2& position, E_COLOR color, int horizontalSpeed, int verticalSpeed, int damage, bool isBounce);
+	void SetBulletSpec(const char* fileName, E_COLOR color, int horizontalSpeed, int verticalSpeed,
+		int damage, bool isBounce, E_MOVEDIRECTION moveDirection);
+
+	// 랜덤으로 아이템을 드랍할 확률 (0 ~ 10)
+	void RandomItemDrop(int percentage = 3);
 
 	UTIL::C_TIMER m_timer{ 1.0f };
 

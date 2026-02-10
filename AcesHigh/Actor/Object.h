@@ -13,7 +13,7 @@ class C_OBJECT : public C_ACTOR
 public:
 
 	C_OBJECT(const char* fileName, C_VECTOR2& position, bool collision, E_COLOR color,
-		int sortingOrder, int moveSpeed, E_COLLISIONTYPE collisionType);
+		int sortingOrder, int moveSpeed);
 	~C_OBJECT();
 	
 	virtual void BeginPlay() override;
@@ -45,7 +45,7 @@ protected:
 	float m_xPosition{};
 	float m_yPosition{};
 	E_MOVEDIRECTION m_currentMoveDirection = E_MOVEDIRECTION::None;
-	UTIL::C_TIMER m_bounceTimer{ 10.0f };
+	UTIL::C_TIMER m_bounceTimer{ 7.0f };
 
 };
 

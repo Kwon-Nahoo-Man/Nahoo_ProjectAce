@@ -5,6 +5,8 @@
 #include "Component/HitComponent.h"
 #include "Engine/Engine.h"
 #include "Actor/Bullet.h"
+#include "Util/Util.h"
+#include "Actor/Item.h"
 
 
 C_PLANE::C_PLANE(const char* fileName, C_VECTOR2& position, bool collision, E_COLOR color,
@@ -52,10 +54,9 @@ void C_PLANE::Tick(float deltaTime)
 	
 	Fire();
 
-	// Todo: 일정구역의 화면 밖으로 넘어가면 바로 Destroy() --> 이땐 이펙트 생성 안됨
-	// 화면 밖 파괴처리
-	if (m_position.m_x + m_width < 0 || m_position.m_x > Nahoo::C_ENGINE::GetInstance().GetWidth()  ||
-		m_position.m_y + m_height < 0 || m_position.m_y > Nahoo::C_ENGINE::GetInstance().GetHeight() )
+	// Check: 화면 밖 파괴처리
+	if (m_position.m_x + m_width < -10 || m_position.m_x > Nahoo::C_ENGINE::GetInstance().GetWidth() + 10 ||
+		m_position.m_y + m_height < -10 || m_position.m_y > Nahoo::C_ENGINE::GetInstance().GetHeight() + 10)
 	{
 		Destroy();
 	}
@@ -101,20 +102,29 @@ void C_PLANE::Fire()
 {
 	if (m_timer.IsTimeOut())
 	{
-		//bullet = new C_BULLET(m_bulletSpec.fileName, m_bulletSpec.position, m_bulletSpec.color, m_bulletSpec.moveSpeed.m_x, m_bulletSpec.moveSpeed.m_y,
-		//	(m_hitComponent->GetCollisionType() & ~E_COLLISIONTYPE::Plane), m_bulletSpec.damage, m_bulletSpec.isBounce);
-		//GetOwner()->AddNewActor(bullet);
 		
+		C_VECTOR2 position;
+		position.m_x = m_position.m_x + (m_width / 2) - 5;
 		
-		//C_VECTOR2 position;
+		if ((m_bulletSpec.moveDirection & E_MOVEDIRECTION::Up) == E_MOVEDIRECTION::Up)
+		{
+			position.m_y = m_position.m_y - 6;
+		}
+		else if ((m_bulletSpec.moveDirection & E_MOVEDIRECTION::Down) == E_MOVEDIRECTION::Down)
+		{
+			position.m_y = m_position.m_y + m_height + 6;
+		}
+		else
+		{
+			position.m_y = m_position.m_y + (m_height / 2);
+		}
 
-		//position.m_x = m_position.m_x + (m_width / 2) - 5;
-		//position.m_y = m_position.m_y - 6;
-
-		//C_BULLET* bullet{};
-		//bullet = new C_BULLET("bullet2.txt", position, E_COLOR::White, 30, 20, (m_hitComponent->GetCollisionType() & ~E_COLLISIONTYPE::Plane), 1, false);
-		//GetOwner()->AddNewActor(bullet);
-		//bullet->GiveMoveOrder(E_MOVEDIRECTION::Up);
+		C_BULLET* bullet{};
+		bullet = new C_BULLET(m_bulletSpec.fileName, position, m_bulletSpec.color, 
+			m_bulletSpec.moveSpeed.m_x, m_bulletSpec.moveSpeed.m_y,
+			(m_hitComponent->GetCollisionType() & ~E_COLLISIONTYPE::Plane), m_bulletSpec.damage, m_bulletSpec.isBounce);
+		GetOwner()->AddNewActor(bullet);
+		bullet->GiveMoveOrder(m_bulletSpec.moveDirection);
 
 
 		m_timer.Reset();
@@ -126,6 +136,8 @@ void C_PLANE::OnDamaged(int damage)
 	m_health -= damage;
 	if (m_health < 0)
 	{
+		// 아군이든 적군이든 죽으면 기본 30% 확률로 아이템 드랍
+		RandomItemDrop();
 		// Todo: 파괴되는 이펙트 액터 생성
 		Destroy();
 	}
@@ -166,15 +178,65 @@ void C_PLANE::GiveMoveOrder(const E_MOVEDIRECTION& moveDirection, int moveSpeed)
 	
 }
 
-void C_PLANE::SetBulletSpec(const char* fileName, C_VECTOR2& position, E_COLOR color, int horizontalSpeed, int verticalSpeed, int damage, bool isBounce)
+void C_PLANE::SetBulletSpec(const char* fileName, E_COLOR color, int horizontalSpeed, int verticalSpeed,
+	int damage, bool isBounce, E_MOVEDIRECTION moveDirection)
 {
 	m_bulletSpec.fileName = fileName;
-	m_bulletSpec.position = position;
 	m_bulletSpec.color = color;
 	m_bulletSpec.moveSpeed.m_x = horizontalSpeed;
 	m_bulletSpec.moveSpeed.m_y = verticalSpeed;
 	m_bulletSpec.damage = damage;
 	m_bulletSpec.isBounce = isBounce;
+	m_bulletSpec.moveDirection = moveDirection;
+}
+
+void C_PLANE::RandomItemDrop(int percentage)
+{
+	int randomNum = UTIL::RandomInteger(0, 10);
+	E_MOVEDIRECTION moveDirection{};
+	if (randomNum < percentage)
+	{
+		// 아이템 드랍함
+		C_ITEM* item{};
+		randomNum = UTIL::RandomInteger(0, 10);
+		
+		if (randomNum < 2.5)
+		{
+			moveDirection = E_MOVEDIRECTION::Left | E_MOVEDIRECTION::Up;
+		}
+		else if (randomNum < 5)
+		{
+			moveDirection = E_MOVEDIRECTION::Right | E_MOVEDIRECTION::Up;
+		}
+		else if (randomNum < 7.5)
+		{
+			moveDirection = E_MOVEDIRECTION::Right | E_MOVEDIRECTION::Down;
+		}
+		else
+		{
+			moveDirection = E_MOVEDIRECTION::Right | E_MOVEDIRECTION::Up;
+		}
+
+		randomNum = UTIL::RandomInteger(0, 10);
+
+		// powerUp
+		if (randomNum < 5)
+		{
+			item = new C_ITEM("powerUp.txt", m_position, E_COLOR::Green | E_COLOR::Red | E_COLOR::BackgroundRed | E_COLOR::BackgroundGreen, 25, 50, 40, E_ITEMTYPE::PowerUp, true);
+			item->GiveMoveOrder(moveDirection);
+			m_owner->AddNewActor(item);
+		}
+		else //special attack
+		{
+			item = new C_ITEM("specialAttack.txt", m_position, E_COLOR::Red | E_COLOR::Blue | E_COLOR::BackgroundRed | E_COLOR::BackgroundBlue, 25, 50, 40, E_ITEMTYPE::SpecialAttack, true);
+			item->GiveMoveOrder(moveDirection);
+			m_owner->AddNewActor(item);
+		}
+
+	}
+
+
+	
 }
 
 void C_PLANE::ApplyMovement(float deltaTime)

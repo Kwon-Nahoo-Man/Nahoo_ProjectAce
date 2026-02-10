@@ -5,6 +5,7 @@
 #include "Actor/Bullet.h"
 #include "Util/Timer.h"
 #include "Engine/Engine.h"
+#include "Actor/Item.h"
 
 
 C_PLAYER::C_PLAYER(const char* fileName, C_VECTOR2& position, bool collision, E_COLOR color,
@@ -26,6 +27,7 @@ void C_PLAYER::BeginPlay()
 	m_damage = 1;
 	m_bulletFileName = "bullet.txt";
 	m_specialAttack = 3;
+	m_timer.SetTargetTime(m_fireRate);
 }
 
 void C_PLAYER::Tick(float deltaTime)
@@ -40,22 +42,27 @@ void C_PLAYER::Tick(float deltaTime)
 			Fire();
 		}
 
-		if (Nahoo::C_INPUT::GetInstance().GetKey(VK_LEFT))
+		if (Nahoo::C_INPUT::GetInstance().GetKey(VK_LEFT) && m_position.m_x > 0)
 		{
 			m_xPosition -= m_moveHorizontalSpeed * deltaTime;
+			
 		}
-		if (Nahoo::C_INPUT::GetInstance().GetKey(VK_RIGHT))
+		if (Nahoo::C_INPUT::GetInstance().GetKey(VK_RIGHT)&& m_position.m_x + m_width +2 < Nahoo::C_ENGINE::GetInstance().GetWidth())
 		{
 			m_xPosition += m_moveHorizontalSpeed * deltaTime;
-		}
-		if (Nahoo::C_INPUT::GetInstance().GetKey(VK_UP))
-		{
-			m_yPosition -= m_moveVerticalSpeed * deltaTime;
+			
 
 		}
-		if (Nahoo::C_INPUT::GetInstance().GetKey(VK_DOWN))
+		if (Nahoo::C_INPUT::GetInstance().GetKey(VK_UP) && m_position.m_y > 0)
+		{
+			m_yPosition -= m_moveVerticalSpeed * deltaTime;
+			
+
+		}
+		if (Nahoo::C_INPUT::GetInstance().GetKey(VK_DOWN) && m_position.m_y + m_height +1 < Nahoo::C_ENGINE::GetInstance().GetHeight())
 		{
 			m_yPosition += m_moveVerticalSpeed * deltaTime;
+			
 		}
 
 		m_position.m_x = static_cast<int>(m_xPosition);
@@ -65,6 +72,12 @@ void C_PLAYER::Tick(float deltaTime)
 		{
 			SpecialAttack();
 		}
+		if (Nahoo::C_INPUT::GetInstance().GetKeyDown('Q'))
+		{
+			PowerUp();
+		}
+
+
 
 	}
 	
@@ -83,7 +96,15 @@ void C_PLAYER::OnHit(const C_ACTOR* otherActor)
 
 	if ((otherActorCollisionType & E_COLLISIONTYPE::Item) == E_COLLISIONTYPE::Item)
 	{
-		// Todo: item È¿°ú
+		const C_ITEM* item = static_cast<const C_ITEM*>(otherActor);
+		if (item->GetItemType() == E_ITEMTYPE::PowerUp)
+		{
+			PowerUp();
+		}
+		else if (item->GetItemType() == E_ITEMTYPE::SpecialAttack)
+		{
+			EarnSpecialAttack();
+		}
 
 	}
 
@@ -109,7 +130,9 @@ void C_PLAYER::Fire()
 		m_firePosition.m_y = m_position.m_y - 6;
 
 		C_BULLET* bullet{};
-		bullet = new C_BULLET(m_bulletFileName, m_firePosition, E_COLOR::IntenceGreen, 0, 100, E_COLLISIONTYPE::Ally, m_damage, false);
+		bullet = new C_BULLET(m_bulletFileName, m_firePosition, 
+			E_COLOR::Green | E_COLOR::ForegroundIntensity | E_COLOR::BackgroundGreen | E_COLOR::BackgroundIntensity
+			, 0, 200, E_COLLISIONTYPE::Ally, m_damage, false);
 		GetOwner()->AddNewActor(bullet);
 		bullet->GiveMoveOrder(E_MOVEDIRECTION::Up);
 
@@ -190,7 +213,8 @@ void C_PLAYER::SpecialAttack()
 	for (int i = 1; i <= 3; i++)
 	{
 		spawnPosition.m_x = (Nahoo::C_ENGINE::GetInstance().GetWidth() - 10) / 4 * i;
-		ally = new C_PLANE("ally_plane1.txt", spawnPosition, true, E_COLOR::Blue, 40, 10, E_COLLISIONTYPE::Ally, 0.2f);
+		ally = new C_PLANE("ally_plane1.txt", spawnPosition, true, E_COLOR::Blue, 40, 10, E_COLLISIONTYPE::Ally, 0.5f);
+		ally->SetBulletSpec("enemyBullet.txt", E_COLOR::Blue | E_COLOR::ForegroundIntensity, 0, 80, 2, false, E_MOVEDIRECTION::Up);
 		ally->GiveMoveOrder(E_MOVEDIRECTION::Up);
 		m_owner->AddNewActor(ally);
 

@@ -11,9 +11,8 @@ namespace Nahoo
 		Ally = 0x02,
 		Enemy = 0x04,
 		Bullet = 0x08,
-		Item = 0x0C,
-		Plane = 0x10,
-
+		Item = 0x10,
+		Plane = 0x20,
 	};
 
 	inline E_COLLISIONTYPE operator|(const E_COLLISIONTYPE& left, const E_COLLISIONTYPE& right)
