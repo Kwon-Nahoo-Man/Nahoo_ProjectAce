@@ -24,12 +24,12 @@ C_OBJECT::C_OBJECT(const char* fileName, C_VECTOR2& position, bool collision, E_
 
 C_OBJECT::~C_OBJECT()
 {
-	OnDestroy();
+
 }
 
 void C_OBJECT::BeginPlay()
 {
-
+	C_ACTOR::BeginPlay();
 }
 
 void C_OBJECT::Tick(float deltaTime)
@@ -52,12 +52,6 @@ void C_OBJECT::Tick(float deltaTime)
 void C_OBJECT::OnHit(const C_ACTOR* otherActor)
 {
 	
-}
-
-void C_OBJECT::OnDestroy()
-{
-	C_ACTOR::OnDestroy();
-
 }
 
 void C_OBJECT::GiveMoveOrder(const E_MOVEDIRECTION& moveDirection, int moveSpeed)

@@ -12,7 +12,7 @@ C_SPAWNER::C_SPAWNER()
 
 C_SPAWNER::~C_SPAWNER()
 {
-	OnDestroy();
+
 }
 
 void C_SPAWNER::BeginPlay()
@@ -56,11 +56,6 @@ void C_SPAWNER::Tick(float deltaTime)
 	{
 		SpawnEnemy();
 	}
-
-}
-
-void C_SPAWNER::OnDestroy()
-{
 
 }
 

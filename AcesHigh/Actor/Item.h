@@ -14,7 +14,6 @@ public:
 	virtual void BeginPlay() override;
 	virtual void Tick(float deltaTime) override;
 	virtual void OnHit(const C_ACTOR* otherActor) override;
-	virtual void OnDestroy() override;
 
 	const E_ITEMTYPE GetItemType () const;
 

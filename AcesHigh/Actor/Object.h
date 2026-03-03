@@ -19,7 +19,6 @@ public:
 	virtual void BeginPlay() override;
 	virtual void Tick(float deltaTime) override;
 	virtual void OnHit(const C_ACTOR* otherActor) override;
-	virtual void OnDestroy() override;
 
 	// moveSpeed에 -1을 넣으면 기존 사용하던 속도 사용(Default = -1)
 	void GiveMoveOrder(const E_MOVEDIRECTION& moveDirection, int moveSpeed = -1);

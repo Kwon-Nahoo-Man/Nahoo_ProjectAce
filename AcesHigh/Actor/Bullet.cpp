@@ -22,7 +22,6 @@ C_BULLET::C_BULLET(const char* fileName, C_VECTOR2& position, E_COLOR color,
 
 C_BULLET::~C_BULLET()
 {
-	OnDestroy();
 }
 
 void C_BULLET::BeginPlay()
@@ -58,11 +57,6 @@ void C_BULLET::OnHit(const C_ACTOR* otherActor)
 		}
 	}
 
-}
-
-void C_BULLET::OnDestroy()
-{
-	C_OBJECT::OnDestroy();
 }
 
 const int C_BULLET::GetDamage() const

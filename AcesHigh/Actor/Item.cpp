@@ -20,7 +20,7 @@ C_ITEM::C_ITEM(const char* fileName, C_VECTOR2& position, E_COLOR color, int sor
 
 C_ITEM::~C_ITEM()
 {
-	OnDestroy();
+
 }
 
 void C_ITEM::BeginPlay()
@@ -55,11 +55,6 @@ void C_ITEM::OnHit(const C_ACTOR* otherActor)
 		Destroy();
 	}
 
-}
-
-void C_ITEM::OnDestroy()
-{
-	C_OBJECT::OnDestroy();
 }
 
 const E_ITEMTYPE C_ITEM::GetItemType() const

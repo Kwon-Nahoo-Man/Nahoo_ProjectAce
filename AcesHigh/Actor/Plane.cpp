@@ -36,7 +36,7 @@ C_PLANE::C_PLANE(const char* fileName, C_VECTOR2& position, bool collision, E_CO
 
 C_PLANE::~C_PLANE()
 {
-	OnDestroy();
+
 }
 
 void C_PLANE::BeginPlay()
@@ -56,7 +56,7 @@ void C_PLANE::Tick(float deltaTime)
 
 	// Check: 화면 밖 파괴처리
 	if (m_position.m_x + m_width < 0 || m_position.m_x > Nahoo::C_ENGINE::GetInstance().GetWidth() ||
-		m_position.m_y + m_height < 0 || m_position.m_y > Nahoo::C_ENGINE::GetInstance().GetHeight() -5)
+		m_position.m_y + m_height < 0 || m_position.m_y > Nahoo::C_ENGINE::GetInstance().GetHeight() +5)
 	{
 		Destroy();
 	}
@@ -90,12 +90,6 @@ void C_PLANE::OnHit(const C_ACTOR* otherActor)
 		}
 	}
 	
-}
-
-void C_PLANE::OnDestroy()
-{
-	C_ACTOR::OnDestroy();
-
 }
 
 void C_PLANE::Fire()

@@ -9,7 +9,7 @@ Nahoo::COMP_HITCOMPONENT::COMP_HITCOMPONENT(const C_VECTOR2& actorPosition, int 
 
 Nahoo::COMP_HITCOMPONENT::~COMP_HITCOMPONENT()
 {
-    OnDestroy();
+
 }
 
 void Nahoo::COMP_HITCOMPONENT::Tick(float deltaTime)

@@ -121,29 +121,41 @@ void Nahoo::C_LEVEL::ProcessDeleteActor()
 	// 번호표 부여하는 것 처럼 actor한테 넌 index가 몇 번이다 라고 알려줄까?
 	
 	// 액터 배열 지우기 전에 컴포넌트 먼저 배열에서 제거
+	//int cycles{};
+	//cycles = static_cast<int>(m_actorHitComps.size());
+	//for (int i = 0; i < cycles;)
+	//{
+	//	if (m_actorHitComps[i]->DestroyRequested() == true)
+	//	{
+	//		// 컴포넌트의 해제는 액터에서 담당하고 있다. 여기서는 레벨에 있는 컴포넌트 배열만 삭제
+	//		m_actorHitComps.erase(m_actorHitComps.begin() + i);
+	//		cycles -= 1;
+	//	}
+	//	else
+	//	{
+	//		i++;
+	//	}
+	//}
 	int cycles{};
-	cycles = static_cast<int>(m_actorHitComps.size());
-	for (int i = 0; i < cycles;)
-	{
-		if (m_actorHitComps[i]->DestroyRequested() == true)
-		{
-			// 컴포넌트의 해제는 액터에서 담당하고 있다. 여기서는 레벨에 있는 컴포넌트 배열만 삭제
-			m_actorHitComps.erase(m_actorHitComps.begin() + i);
-			cycles -= 1;
-		}
-		else
-		{
-			i++;
-		}
-	}
-
 	// 액터 제거
 	cycles = static_cast<int>(m_actors.size());
 	for (int i = 0; i < cycles;)
 	{
 		if (m_actors[i]->DestroyRequested() == true)
 		{
-			delete m_actors[i];
+			C_ACTOR* pTargetActor = m_actors[i];
+			COMP_HITCOMPONENT* pTargetComp = pTargetActor->GetHitComponent();
+
+			if (pTargetComp != nullptr)
+			{
+				auto iter = std::find(m_actorHitComps.begin(), m_actorHitComps.end(), pTargetComp);
+				if (iter != m_actorHitComps.end())
+				{
+					m_actorHitComps.erase(iter);
+				}
+			}
+
+			delete pTargetActor;
 			m_actors.erase(m_actors.begin() + i);
 			cycles -= 1;
 		}

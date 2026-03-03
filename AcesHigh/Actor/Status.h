@@ -2,7 +2,7 @@
 
 #include "Actor/Actor.h"
 #include "Math/Vector2.h"
-#include "Math/Color.h"
+#include "Enumeration/Color.h"
 
 class C_STATUS : public Nahoo::C_ACTOR
 {

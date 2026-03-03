@@ -109,16 +109,16 @@ void Nahoo::C_RENDERER::Draw()
 		const int endY = command.m_position.m_y + command.m_height - 1;
 
 		// Todo: 만약 게임 창이 왼쪽에 바로 붙어있지 않으면 바운더리 다시 clamp --> 그냥 액터에서 UI 못들어가게움직임을 막을까?
-		if (startX > m_screenSize.m_x || endX < 0 || startY > m_screenSize.m_y || endY < 0)
+		if (startX >= m_screenSize.m_x || endX < 0 || startY >= m_screenSize.m_y || endY < 0)
 		{
 			continue;
 		}
 
 		const int visibleStartX = startX < 0 ? 0 : startX;
-		const int visibleEndX = endX > m_screenSize.m_x ? m_screenSize.m_x - 1 : endX;
+		const int visibleEndX = endX >= m_screenSize.m_x ? m_screenSize.m_x - 1 : endX;
 
 		const int visibleStartY = startY < 0 ? 0 : startY;
-		const int visibleEndY = endY > m_screenSize.m_y ? m_screenSize.m_y - 1 : endY;
+		const int visibleEndY = endY >= m_screenSize.m_y ? m_screenSize.m_y - 1 : endY;
 
 		for (int y = visibleStartY; y <= visibleEndY; y++)
 		{
@@ -137,6 +137,11 @@ void Nahoo::C_RENDERER::Draw()
 					continue;
 				}
 
+				if (frameIndex < 0 || frameIndex >= (m_screenSize.m_x * m_screenSize.m_y))
+				{
+					continue;
+				}
+				
 				m_frame->m_charInfoArray[frameIndex].Char.AsciiChar = command.m_sprite[sourceIndex];
 				m_frame->m_charInfoArray[frameIndex].Attributes = (WORD)command.m_color;
 				m_frame->m_sortingOrderArray[frameIndex] = command.m_sortingOrder;

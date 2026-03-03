@@ -12,7 +12,6 @@ public:
 
 	virtual void BeginPlay() override;
 	virtual void Tick(float deltaTime) override;
-	virtual void OnDestroy() override;
 
 	void SpawnBackGround();
 	void SpawnEnemy();

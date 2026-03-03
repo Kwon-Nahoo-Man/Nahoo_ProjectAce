@@ -73,7 +73,11 @@ Nahoo::C_ACTOR::C_ACTOR(const char* fileName, const C_VECTOR2& position, bool co
 
 Nahoo::C_ACTOR::~C_ACTOR()
 {
-	OnDestroy();
+	if (m_hitComponent != nullptr)
+	{
+		delete m_hitComponent;
+		m_hitComponent = nullptr;
+	}
 }
 
 void Nahoo::C_ACTOR::BeginPlay()
@@ -127,11 +131,7 @@ void Nahoo::C_ACTOR::Destroy()
 
 void Nahoo::C_ACTOR::OnDestroy()
 {
-	if (m_hitComponent != nullptr)
-	{
-		delete m_hitComponent;
-		m_hitComponent = nullptr;
-	}
+	
 }
 
 void Nahoo::C_ACTOR::SetPosition(const C_VECTOR2& newPosition)

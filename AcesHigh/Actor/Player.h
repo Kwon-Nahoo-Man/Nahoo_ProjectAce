@@ -6,6 +6,8 @@ using namespace Nahoo;
 
 class C_PLAYER : public C_PLANE
 {
+	RTTI_DECLARATIONS(C_PLAYER, C_PLANE)
+
 public:
 	
 	C_PLAYER(const char* fileName, C_VECTOR2& position, bool collision, E_COLOR color,
@@ -16,7 +18,6 @@ public:
 	virtual void BeginPlay() override;
 	virtual void Tick(float deltaTime) override;
 	virtual void OnHit(const C_ACTOR* otherActor) override;
-	virtual void OnDestroy() override;
 
 	virtual void Fire() override;
 	virtual void OnDamaged(int damage) override;

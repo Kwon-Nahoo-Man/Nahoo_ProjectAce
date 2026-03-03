@@ -20,7 +20,7 @@ C_PLAYER::C_PLAYER(const char* fileName, C_VECTOR2& position, bool collision, E_
 
 C_PLAYER::~C_PLAYER()
 {
-	C_PLANE::OnDestroy();
+
 }
 
 
@@ -79,6 +79,8 @@ void C_PLAYER::Tick(float deltaTime)
 		{
 			SpecialAttack();
 		}
+		
+		// Check: Debug
 		if (Nahoo::C_INPUT::GetInstance().GetKeyDown('Q'))
 		{
 			PowerUp();
@@ -115,11 +117,6 @@ void C_PLAYER::OnHit(const C_ACTOR* otherActor)
 
 	}
 
-}
-
-void C_PLAYER::OnDestroy()
-{
-	C_PLANE::OnDestroy();
 }
 
 void C_PLAYER::Fire()

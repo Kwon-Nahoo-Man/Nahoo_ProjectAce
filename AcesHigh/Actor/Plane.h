@@ -30,7 +30,6 @@ public:
 	virtual void Tick(float deltaTime) override;
 	virtual void OnHit(const C_ACTOR* otherActor) override;
 
-	virtual void OnDestroy() override;
 
 	virtual void Fire();
 	virtual void OnDamaged(int damage);
