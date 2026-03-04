@@ -1,5 +1,6 @@
 #include "Level.h"
 #include "Actor/Actor.h"
+#include "UI/UIClass.h"
 #include "Component/HitComponent.h"
 #include "Enumeration/CollisionType.h"
 
@@ -48,6 +49,7 @@ void Nahoo::C_LEVEL::Tick(float deltaTime)
 	for (C_ACTOR* actor : m_actors)
 	{
 		actor->Tick(deltaTime);
+		
 	}
 
 
@@ -65,8 +67,6 @@ void Nahoo::C_LEVEL::Tick(float deltaTime)
 					m_actorHitComps[i]->HasCollided(*(m_actorHitComps[j]));
 				}
 			}
-
-			
 			
 		}
 	}
@@ -76,10 +76,12 @@ void Nahoo::C_LEVEL::Draw()
 {
 	for (C_ACTOR* actor : m_actors)
 	{
-		if (actor->IsActive())
-		{
-			actor->Draw();
-		}
+		actor->Draw();
+	}
+
+	for (C_UICLASS* UI : m_UIs)
+	{
+		UI->Draw();
 	}
 }
 
@@ -91,14 +93,25 @@ void Nahoo::C_LEVEL::AddNewActor(C_ACTOR* newActor)
 	newActor->SetOwner(this);
 }
 
-void Nahoo::C_LEVEL::ProcessActors()
+void Nahoo::C_LEVEL::AddNewUI(C_UICLASS* newUI)
+{
+	m_addRequestedUIs.emplace_back(newUI);
+	newUI->SetOwner(this);
+}
+
+void Nahoo::C_LEVEL::ProcessClasses()
 {
 	ProcessDeleteActor();
-
+	ProcessDeleteUI();
 
 	if (m_addRequestedActors.size() != 0)
 	{
 		ProcessAddActor();
+	}
+
+	if (m_addRequestedUIs.empty() == false)
+	{
+		ProcessAddUI();
 	}
 
 }
@@ -123,30 +136,19 @@ void Nahoo::C_LEVEL::ProcessAddActor()
 	m_addRequestedActors.clear();
 }
 
+void Nahoo::C_LEVEL::ProcessAddUI()
+{
+	for (C_UICLASS* UI : m_addRequestedUIs)
+	{
+		m_UIs.emplace_back(UI);
+	}
+	m_addRequestedUIs.clear();
+}
+
 void Nahoo::C_LEVEL::ProcessDeleteActor()
 {
-	// Todo: 만약 actor에 오너쉽 생기면, for루프 deleteRequestedActor 배열로 변경
-	// 근데 deleteRequestedActor 배열 따로 관리하면, m_actors에서 deleteRequestedActor에서 지워야 할 actor는 어떻게 고르지?
-	// 번호표 부여하는 것 처럼 actor한테 넌 index가 몇 번이다 라고 알려줄까?
 	
-	// 액터 배열 지우기 전에 컴포넌트 먼저 배열에서 제거
-	//int cycles{};
-	//cycles = static_cast<int>(m_actorHitComps.size());
-	//for (int i = 0; i < cycles;)
-	//{
-	//	if (m_actorHitComps[i]->DestroyRequested() == true)
-	//	{
-	//		// 컴포넌트의 해제는 액터에서 담당하고 있다. 여기서는 레벨에 있는 컴포넌트 배열만 삭제
-	//		m_actorHitComps.erase(m_actorHitComps.begin() + i);
-	//		cycles -= 1;
-	//	}
-	//	else
-	//	{
-	//		i++;
-	//	}
-	//}
 	int cycles{};
-	// 액터 제거
 	cycles = static_cast<int>(m_actors.size());
 	for (int i = 0; i < cycles;)
 	{
@@ -171,6 +173,26 @@ void Nahoo::C_LEVEL::ProcessDeleteActor()
 		else
 		{
 			i++;
+		}
+	}
+}
+
+void Nahoo::C_LEVEL::ProcessDeleteUI()
+{
+	int cycles{};
+	cycles = static_cast<int>(m_UIs.size());
+
+	for (int i = 0; i < cycles;)
+	{
+		if (m_UIs[i]->DestroyRequested() == true)
+		{
+			delete m_UIs[i];
+			m_UIs.erase(m_UIs.begin() + i);
+			cycles -= 1;
+		}
+		else
+		{
+			++i;
 		}
 	}
 }

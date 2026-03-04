@@ -92,7 +92,7 @@ void Nahoo::C_ENGINE::Run()
 
 			if (m_mainLevel != nullptr)
 			{
-				m_mainLevel->ProcessActors();
+				m_mainLevel->ProcessClasses();
 			}
 		}
 

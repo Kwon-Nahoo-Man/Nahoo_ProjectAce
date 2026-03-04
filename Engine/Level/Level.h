@@ -8,6 +8,7 @@
 namespace Nahoo
 {
 	class C_ACTOR;
+	class C_UICLASS;
 	class COMP_HITCOMPONENT;
 	
 	class NAHOO_API C_LEVEL : public C_RTTI
@@ -25,17 +26,24 @@ namespace Nahoo
 		virtual void Draw();
 
 		void AddNewActor(C_ACTOR* newActor);
-		void ProcessActors();
+		void AddNewUI(C_UICLASS* newUI);
+		void ProcessClasses();
 
 	protected:
 		void ProcessAddActor();
+		void ProcessAddUI();
+
 		void ProcessDeleteActor();
+		void ProcessDeleteUI();
 
 	protected:
 		std::vector<C_ACTOR*> m_actors{};
 		std::vector<C_ACTOR*> m_addRequestedActors{};
 
 		std::vector<COMP_HITCOMPONENT*> m_actorHitComps{};
+
+		std::vector<C_UICLASS*> m_UIs{};
+		std::vector<C_UICLASS*> m_addRequestedUIs{};
 
 	private:
 

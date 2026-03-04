@@ -167,7 +167,6 @@ void C_PLAYER::PowerUp()
 	{
 		m_currentPower++;
 	}
-	EarnSpecialAttack();
 
 	if (m_currentPower == 2)
 	{

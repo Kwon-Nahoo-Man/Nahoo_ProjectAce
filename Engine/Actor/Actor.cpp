@@ -93,7 +93,7 @@ void Nahoo::C_ACTOR::BeginPlay()
 
 void Nahoo::C_ACTOR::Tick(float deltaTime)
 {
-	// hit comp -> tick(deltaTime)
+
 	if (m_hitComponent != nullptr)
 	{
 		m_hitComponent->Tick(deltaTime);
@@ -104,10 +104,12 @@ void Nahoo::C_ACTOR::Tick(float deltaTime)
 
 void Nahoo::C_ACTOR::Draw()
 {
+	
 	Nahoo::C_RENDERER::GetInstance().Submit
 	(
 		m_sprite, m_width, m_height, m_position, m_color, m_sortingOrder
 	);
+	
 }
 
 void Nahoo::C_ACTOR::OnHit(const C_ACTOR* otherActor)
@@ -121,6 +123,7 @@ void Nahoo::C_ACTOR::OnHit(const C_ACTOR* otherActor)
 void Nahoo::C_ACTOR::Destroy()
 {
 	m_destroyRequested = true;
+	SetActive(false);
 
 	if (m_hitComponent != nullptr)
 	{
@@ -136,12 +139,19 @@ void Nahoo::C_ACTOR::OnDestroy()
 
 void Nahoo::C_ACTOR::SetPosition(const C_VECTOR2& newPosition)
 {
-
 	if (m_position != newPosition)
 	{
 		m_position = newPosition;
 	}
+}
 
+void Nahoo::C_ACTOR::SetActive(bool isActive)
+{
+	m_isActive = isActive;
+	if (m_hitComponent != nullptr)
+	{
+		m_hitComponent->SetCollision(isActive);
+	}
 }
 
 void Nahoo::C_ACTOR::MakeHitComponent()

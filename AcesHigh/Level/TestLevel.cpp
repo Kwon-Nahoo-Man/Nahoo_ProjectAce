@@ -11,13 +11,17 @@ C_TESTLEVEL::C_TESTLEVEL()
 	position1.m_x = 10;
 	position1.m_y = Nahoo::C_ENGINE::GetInstance().GetHeight() - 30;
 
+
+	heartUI[0] = new C_STATUS("leftHeart.txt", position1, E_COLOR::BackgroundRed | E_COLOR::Red);
+	AddNewUI(heartUI[0]);
+
 	for (int i = 0; i < 10; i += 2)
 	{
 		heartUI[i] = new C_STATUS("leftHeart.txt", position1,E_COLOR::BackgroundRed | E_COLOR::Red);
-		AddNewActor(heartUI[i]);
+		AddNewUI(heartUI[i]);
 		position1.m_x += 11;
 		heartUI[i+1] = new C_STATUS("rightHeart.txt", position1, E_COLOR::BackgroundRed | E_COLOR::Red);
-		AddNewActor(heartUI[i+1]);
+		AddNewUI(heartUI[i+1]);
 		position1.m_x += 11;
 	}
 	
@@ -26,7 +30,7 @@ C_TESTLEVEL::C_TESTLEVEL()
 	for (int i = 0; i < 3; i++)
 	{
 		specialAttackUI[i] = new C_STATUS("specialAttackUI.txt", position1, E_COLOR::BackgroundWhite | E_COLOR::White);
-		AddNewActor(specialAttackUI[i]);
+		AddNewUI(specialAttackUI[i]);
 		position1.m_x -= 15;
 	}
 	
@@ -49,12 +53,12 @@ void C_TESTLEVEL::UpdatePlayerHealthUI(int currentHealth)
 {
 	for (int i = 0; i < 10; i++)
 	{
-		heartUI[i]->SetPaint(false);
+		heartUI[i]->SetActive(false);
 	}
 	
 	for (int i = 0; i < currentHealth; i++)
 	{
-		heartUI[i]->SetPaint(true);
+		heartUI[i]->SetActive(true);
 	}
 }
 
@@ -62,11 +66,13 @@ void C_TESTLEVEL::UpdatePlayerSpecialAttackUI(int currentSpecialAttack)
 {
 	for (int i = 0; i < 3; i++)
 	{
-		specialAttackUI[i]->SetPaint(false);
+		specialAttackUI[i]->SetActive(false);
 	}
 
 	for (int i = 0; i < currentSpecialAttack; i++)
 	{
-		specialAttackUI[i]->SetPaint(true);
+		specialAttackUI[i]->SetActive(true);
 	}
 }
+
+
