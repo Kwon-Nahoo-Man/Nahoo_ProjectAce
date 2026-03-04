@@ -15,9 +15,9 @@ namespace Nahoo
 		COMP_HITCOMPONENT(const C_VECTOR2& actorPosition, int width, int height);
 		~COMP_HITCOMPONENT();
 
-		virtual void Tick(float deltaTime);
-		virtual void Destroy();
-		virtual void OnDestroy();
+		virtual void Tick(float deltaTime) override;
+		virtual void Destroy() override;
+		virtual void OnDestroy() override;
 		
 		void SetCollision(bool onOffCollision);
 		bool HasCollided(COMP_HITCOMPONENT& otherComp);
@@ -39,7 +39,7 @@ namespace Nahoo
 		C_VECTOR2 m_actorPosition = C_VECTOR2::Zero;
 
 		// 액터 x, y 좌표의 최대를 m_x, m_y에 저장
-		C_VECTOR2 m_actorMaxPosition = C_VECTOR2::Zero;
+		C_VECTOR2 m_actorWidthHeight = C_VECTOR2::Zero;
 		
 	};
 }

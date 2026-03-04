@@ -145,6 +145,7 @@ xcopy $(OutDir)Engine.lib $(SolutionDir)Library\Engine\$(Platform)\$(Configurati
     <ClCompile Include="Level\Level.cpp" />
     <ClCompile Include="Math\Vector2.cpp" />
     <ClCompile Include="Renderer\ScreenBuffer.cpp" />
+    <ClCompile Include="UI\UIClass.cpp" />
     <ClCompile Include="Util\Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -161,6 +162,7 @@ xcopy $(OutDir)Engine.lib $(SolutionDir)Library\Engine\$(Platform)\$(Configurati
     <ClInclude Include="Enumeration\Color.h" />
     <ClInclude Include="Math\Vector2.h" />
     <ClInclude Include="Renderer\ScreenBuffer.h" />
+    <ClInclude Include="UI\UIClass.h" />
     <ClInclude Include="Util\Timer.h" />
     <ClInclude Include="Util\Util.h" />
   </ItemGroup>

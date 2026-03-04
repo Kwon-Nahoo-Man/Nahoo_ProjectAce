@@ -2,7 +2,7 @@
 #include "HitComponent.h"
 
 Nahoo::COMP_HITCOMPONENT::COMP_HITCOMPONENT(const C_VECTOR2& actorPosition, int width, int height)
-    : m_actorPosition(actorPosition), m_actorMaxPosition(width, height)
+    : m_actorPosition(actorPosition), m_actorWidthHeight(width, height)
 {
 
 }
@@ -31,16 +31,16 @@ bool Nahoo::COMP_HITCOMPONENT::HasCollided(Nahoo::COMP_HITCOMPONENT& otherComp)
     }
 
     int xMin = m_actorPosition.m_x;
-    int xMax = m_actorPosition.m_x + m_actorMaxPosition.m_x - 1;
+    int xMax = m_actorPosition.m_x + m_actorWidthHeight.m_x - 1;
 
     int otherXMin = otherComp.m_actorPosition.m_x;
-    int otherXMax = otherComp.m_actorPosition.m_x + otherComp.m_actorMaxPosition.m_x - 1;
+    int otherXMax = otherComp.m_actorPosition.m_x + otherComp.m_actorWidthHeight.m_x - 1;
 
     int yMin = m_actorPosition.m_y;
-    int yMax = m_actorPosition.m_y + m_actorMaxPosition.m_y - 1;
+    int yMax = m_actorPosition.m_y + m_actorWidthHeight.m_y - 1;
 
     int otherYMin = otherComp.m_actorPosition.m_y;
-    int otherYMax = otherComp.m_actorPosition.m_y + otherComp.m_actorMaxPosition.m_y - 1;
+    int otherYMax = otherComp.m_actorPosition.m_y + otherComp.m_actorWidthHeight.m_y - 1;
 
     if (xMin > otherXMax || xMax < otherXMin || yMin > otherYMax || yMax < otherYMin)
     {

@@ -10,7 +10,16 @@ Nahoo::C_LEVEL::C_LEVEL()
 
 Nahoo::C_LEVEL::~C_LEVEL()
 {
-	for (C_ACTOR* actor : m_actors)
+	for (C_ACTOR*& actor : m_addRequestedActors)
+	{
+		if (actor != nullptr)
+		{
+			delete actor;
+			actor = nullptr;
+		}
+	}
+
+	for (C_ACTOR*& actor : m_actors)
 	{
 		if (actor)
 		{
