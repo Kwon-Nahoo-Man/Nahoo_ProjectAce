@@ -19,6 +19,7 @@ Nahoo::C_LEVEL::~C_LEVEL()
 			actor = nullptr;
 		}
 	}
+	m_addRequestedActors.clear();
 
 	for (C_ACTOR*& actor : m_actors)
 	{
@@ -30,6 +31,26 @@ Nahoo::C_LEVEL::~C_LEVEL()
 	}
 
 	m_actors.clear();
+
+	for (C_UICLASS*& UI : m_addRequestedUIs)
+	{
+		if (UI != nullptr)
+		{
+			delete UI;
+			UI = nullptr;
+		}
+	}
+	m_addRequestedUIs.clear();
+
+	for (C_UICLASS*& UI : m_UIs)
+	{
+		if (UI != nullptr)
+		{
+			delete UI;
+			UI = nullptr;
+		}
+	}
+	m_UIs.clear();
 }
 
 void Nahoo::C_LEVEL::BeginPlay()
@@ -40,7 +61,14 @@ void Nahoo::C_LEVEL::BeginPlay()
 		{
 			actor->BeginPlay();
 		}
-		
+	}
+	
+	for (C_UICLASS* UI : m_UIs)
+	{
+		if (UI->HasBegunPlay() == false)
+		{
+			UI->BeginPlay();
+		}
 	}
 }
 
@@ -49,7 +77,11 @@ void Nahoo::C_LEVEL::Tick(float deltaTime)
 	for (C_ACTOR* actor : m_actors)
 	{
 		actor->Tick(deltaTime);
-		
+	}
+
+	for (C_UICLASS* UI : m_UIs)
+	{
+		UI->Tick(deltaTime);
 	}
 
 
