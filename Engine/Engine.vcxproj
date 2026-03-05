@@ -140,6 +140,7 @@ xcopy $(OutDir)Engine.lib $(SolutionDir)Library\Engine\$(Platform)\$(Configurati
     <ClCompile Include="Component\Component.cpp" />
     <ClCompile Include="Component\HitComponent.cpp" />
     <ClCompile Include="Core\Input.cpp" />
+    <ClCompile Include="Partition\Node.cpp" />
     <ClCompile Include="Renderer\Renderer.cpp" />
     <ClCompile Include="Engine\Engine.cpp" />
     <ClCompile Include="Level\Level.cpp" />
@@ -156,6 +157,8 @@ xcopy $(OutDir)Engine.lib $(SolutionDir)Library\Engine\$(Platform)\$(Configurati
     <ClInclude Include="Core\Input.h" />
     <ClInclude Include="Common\RTTI.h" />
     <ClInclude Include="Enumeration\CollisionType.h" />
+    <ClInclude Include="Enumeration\NodeIndex.h" />
+    <ClInclude Include="Partition\Node.h" />
     <ClInclude Include="Renderer\Renderer.h" />
     <ClInclude Include="Engine\Engine.h" />
     <ClInclude Include="Level\Level.h" />

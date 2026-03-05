@@ -153,10 +153,16 @@ void C_PLAYER::Fire()
 
 void C_PLAYER::OnDamaged(int damage)
 {
-	C_PLANE::OnDamaged(damage);
-
+	
+	m_health -= damage;
 	// Check DownCasting --> testLevel 아니면 위험
 	static_cast<C_TESTLEVEL*>(m_owner)->UpdatePlayerHealthUI(m_health);
+
+	if (m_health <= 0)
+	{
+
+		Destroy();
+	}
 
 	PowerDown();
 }

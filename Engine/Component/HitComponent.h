@@ -24,11 +24,16 @@ namespace Nahoo
 
 		void SetCollisionType(E_COLLISIONTYPE collisionType);
 		void DeleteCollisionType(E_COLLISIONTYPE collisionType);
-		inline E_COLLISIONTYPE GetCollisionType() const { return m_collisionType; }
 
+
+	public:
+
+		//getter
+		inline E_COLLISIONTYPE GetCollisionType() const { return m_collisionType; }
 		inline bool DestroyRequested() const { return m_destroyRequested; }
 		inline bool GetCurrentCollision() const { return m_activateCollision; }
-
+		inline const C_VECTOR2& GetActorPosition() const { return m_actorPosition; }
+		inline const C_VECTOR2& GetActorWidthHeight() const { return m_actorWidthHeight; }
 
 	private:
 		bool m_activateCollision{ true };
@@ -38,7 +43,7 @@ namespace Nahoo
 		// 액터 기준 좌표
 		C_VECTOR2 m_actorPosition = C_VECTOR2::Zero;
 
-		// 액터 x, y 좌표의 최대를 m_x, m_y에 저장
+		// 액터의 width를 x, height를 y에 저장
 		C_VECTOR2 m_actorWidthHeight = C_VECTOR2::Zero;
 		
 	};
