@@ -10,13 +10,14 @@ namespace Nahoo
 	class C_ACTOR;
 	class C_UICLASS;
 	class COMP_HITCOMPONENT;
+	class C_QUADTREE;
 	
 	class NAHOO_API C_LEVEL : public C_RTTI
 	{
 		RTTI_DECLARATIONS(C_LEVEL, C_RTTI)
 
 	public:
-		C_LEVEL();
+		C_LEVEL(bool quadTreeFlag = false);
 		virtual ~C_LEVEL();
 
 	public:
@@ -42,8 +43,11 @@ namespace Nahoo
 
 		std::vector<COMP_HITCOMPONENT*> m_actorHitComps{};
 
+		// Todo: UI만을 관리하는 클래스 따로 구현해서 그곳에서 UI를 add,delete
 		std::vector<C_UICLASS*> m_UIs{};
 		std::vector<C_UICLASS*> m_addRequestedUIs{};
+
+		C_QUADTREE* m_quadTree{};
 
 	private:
 

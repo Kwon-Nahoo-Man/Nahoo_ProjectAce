@@ -54,7 +54,6 @@ void C_PLANE::Tick(float deltaTime)
 	
 	Fire();
 
-	// Check: 화면 밖 파괴처리
 	if (m_position.m_x + m_width < 0 || m_position.m_x > Nahoo::C_ENGINE::GetInstance().GetWidth() ||
 		m_position.m_y + m_height < 0 || m_position.m_y > Nahoo::C_ENGINE::GetInstance().GetHeight() +5)
 	{

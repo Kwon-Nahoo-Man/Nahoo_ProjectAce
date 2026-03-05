@@ -3,10 +3,16 @@
 #include "UI/UIClass.h"
 #include "Component/HitComponent.h"
 #include "Enumeration/CollisionType.h"
+#include "Partition/QuadTree.h"
+#include "Engine/Engine.h"
 
-Nahoo::C_LEVEL::C_LEVEL()
+Nahoo::C_LEVEL::C_LEVEL(bool quadTreeFlag)
 {
+	if (quadTreeFlag == true)
+	{
+		m_quadTree = new C_QUADTREE(0, 0, Nahoo::C_ENGINE::GetInstance().GetWidth(), Nahoo::C_ENGINE::GetInstance().GetHeight(), 4);
 
+	}
 }
 
 Nahoo::C_LEVEL::~C_LEVEL()
@@ -51,6 +57,13 @@ Nahoo::C_LEVEL::~C_LEVEL()
 		}
 	}
 	m_UIs.clear();
+
+	if (m_quadTree != nullptr)
+	{
+		delete m_quadTree;
+		m_quadTree = nullptr;
+	}
+
 }
 
 void Nahoo::C_LEVEL::BeginPlay()
@@ -84,24 +97,37 @@ void Nahoo::C_LEVEL::Tick(float deltaTime)
 		UI->Tick(deltaTime);
 	}
 
-
+	// 쿼드트리에 충돌할 Hit Component 삽입
 	int length = static_cast<int>(m_actorHitComps.size());
-	for (int i = 0; i < length-1; i++)
+	for (int i = 0; i < length; ++i)
 	{
-		for (int j = i + 1; j < length; j++)
-		{
-			if (m_actorHitComps[i]->GetCurrentCollision() && m_actorHitComps[j]->GetCurrentCollision())
-			{
-				if (m_actorHitComps[i]->GetCollisionType() != E_COLLISIONTYPE::None ||
-					(!(m_actorHitComps[i]->DestroyRequested()) && !(m_actorHitComps[j]->DestroyRequested())))
-				{
-					// 히트 판정
-					m_actorHitComps[i]->HasCollided(*(m_actorHitComps[j]));
-				}
-			}
-			
-		}
+		m_quadTree->Insert(m_actorHitComps[i]);
 	}
+	for (int i = 0; i < length; ++i)
+	{
+		m_quadTree->QueryCollision(m_actorHitComps[i]);
+	}
+	// 쿼드트리 노드 안 Hit Component list 삭제
+	m_quadTree->ClearCompList();
+
+
+
+	//for (int i = 0; i < length-1; i++)
+	//{
+	//	for (int j = i + 1; j < length; j++)
+	//	{
+	//		if (m_actorHitComps[i]->GetCurrentCollision() && m_actorHitComps[j]->GetCurrentCollision())
+	//		{
+	//			if (m_actorHitComps[i]->GetCollisionType() != E_COLLISIONTYPE::None ||
+	//				(!(m_actorHitComps[i]->DestroyRequested()) && !(m_actorHitComps[j]->DestroyRequested())))
+	//			{
+	//				// 히트 판정
+	//				m_actorHitComps[i]->HasCollided(m_actorHitComps[j]);
+	//			}
+	//		}
+	//		
+	//	}
+	//}
 }
 
 void Nahoo::C_LEVEL::Draw()

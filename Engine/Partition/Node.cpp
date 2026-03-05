@@ -2,15 +2,15 @@
 #include "Enumeration/NodeIndex.h"
 #include "Component/HitComponent.h"
 
-Nahoo::C_NODE::C_NODE(int x, int y, int width, int height, int depth)
-    :m_x(x),m_y(y),m_width(width), m_height(height)
+Nahoo::C_NODE::C_NODE(int x, int y, int width, int height, int depth, int maxDepth)
+    :m_x(x),m_y(y),m_width(width), m_height(height), m_maxDepth(maxDepth)
 {
 
 }
 
 Nahoo::C_NODE::~C_NODE()
 {
-    Clear();
+    Clear(true);
 }
 
 bool Nahoo::C_NODE::IsDivided()
@@ -29,10 +29,10 @@ bool Nahoo::C_NODE::Subdivide()
         int halfWidth = m_width / 2;
         int halfHeight = m_height / 2;
 
-        m_topLeft = new C_NODE(m_x, m_y, halfWidth, halfHeight, m_depth + 1);
-        m_topRight = new C_NODE(m_x + halfWidth, m_y, m_width - halfWidth, halfHeight, m_depth + 1);
-        m_bottomLeft = new C_NODE(m_x, m_y + halfHeight, halfWidth, m_height - halfHeight, m_depth + 1);
-        m_bottomRight = new C_NODE(m_x + halfWidth, m_y + halfHeight, m_width - halfWidth, m_height - halfHeight, m_depth + 1);
+        m_topLeft = new C_NODE(m_x, m_y, halfWidth, halfHeight, m_depth + 1, m_maxDepth);
+        m_topRight = new C_NODE(m_x + halfWidth, m_y, m_width - halfWidth, halfHeight, m_depth + 1, m_maxDepth);
+        m_bottomLeft = new C_NODE(m_x, m_y + halfHeight, halfWidth, m_height - halfHeight, m_depth + 1, m_maxDepth);
+        m_bottomRight = new C_NODE(m_x + halfWidth, m_y + halfHeight, m_width - halfWidth, m_height - halfHeight, m_depth + 1, m_maxDepth);
 
         return true;
     }
@@ -46,8 +46,8 @@ Nahoo::E_NODEINDEX Nahoo::C_NODE::GetNodeIndex(int x, int y, int width, int heig
 
     int halfWidth = m_width / 2;
     int halfHeight = m_height / 2;
-    int centerX = m_x + m_width;
-    int centerY = m_y + m_height;
+    int centerX = m_x + halfWidth;
+    int centerY = m_y + halfHeight;
 
     bool left = x + width >= m_x && x < centerX;
     bool right = x + width >= centerX && x < m_x + m_width;
@@ -93,7 +93,7 @@ Nahoo::E_NODEINDEX Nahoo::C_NODE::TestRegion(int x, int y, int width, int height
 
 }
 
-bool Nahoo::C_NODE::Insert(const COMP_HITCOMPONENT* hitComp)
+bool Nahoo::C_NODE::Insert(COMP_HITCOMPONENT* hitComp)
 {
     if (hitComp == nullptr)
     {
@@ -148,13 +148,12 @@ bool Nahoo::C_NODE::Insert(const COMP_HITCOMPONENT* hitComp)
         }
     }
 
-
     return false;
 }
 
-void Nahoo::C_NODE::Query(const COMP_HITCOMPONENT* hitComp, std::vector<COMP_HITCOMPONENT*>& possibleComp)
+void Nahoo::C_NODE::Query(const COMP_HITCOMPONENT* hitComp, std::vector<C_NODE*>& possibleNodes)
 {
-    possibleComp.emplace_back(hitComp);
+    possibleNodes.emplace_back(this);
 
     if (IsDivided() == true)
     {
@@ -168,39 +167,43 @@ void Nahoo::C_NODE::Query(const COMP_HITCOMPONENT* hitComp, std::vector<COMP_HIT
 
         if ((result & E_NODEINDEX::TopLeft) != E_NODEINDEX::None)
         {
-            m_topLeft->Query(hitComp, possibleComp);
+            m_topLeft->Query(hitComp, possibleNodes);
         }
         if ((result & E_NODEINDEX::TopRight) != E_NODEINDEX::None)
         {
-            m_topRight->Query(hitComp, possibleComp);
+            m_topRight->Query(hitComp, possibleNodes);
         }
         if ((result & E_NODEINDEX::BottomLeft) != E_NODEINDEX::None)
         {
-            m_bottomLeft->Query(hitComp, possibleComp);
+            m_bottomLeft->Query(hitComp, possibleNodes);
         }
         if ((result & E_NODEINDEX::BottomRight) != E_NODEINDEX::None)
         {
-            m_bottomRight->Query(hitComp, possibleComp);
+            m_bottomRight->Query(hitComp, possibleNodes);
         }
 
     }
 
 }
 
-void Nahoo::C_NODE::Clear()
+void Nahoo::C_NODE::Clear(bool memoryReleaseFlag)
 {
     m_hitComps.clear();
 
     if (IsDivided() == true)
     {
-        m_topLeft->Clear();
-        m_topRight->Clear();
-        m_bottomLeft->Clear();
-        m_bottomRight->Clear();
+        m_topLeft->Clear(memoryReleaseFlag);
+        m_topRight->Clear(memoryReleaseFlag);
+        m_bottomLeft->Clear(memoryReleaseFlag);
+        m_bottomRight->Clear(memoryReleaseFlag);
 
-        ClearChildren();
+        if (memoryReleaseFlag == true)
+        {
+            ClearChildren();
+        }
     }
 }
+
 
 void Nahoo::C_NODE::ClearChildren()
 {

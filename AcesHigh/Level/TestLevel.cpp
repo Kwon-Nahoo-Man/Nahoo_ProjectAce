@@ -5,6 +5,7 @@
 #include "Actor/Status.h"
 
 C_TESTLEVEL::C_TESTLEVEL()
+	:C_LEVEL(true)
 {
 	AddNewActor(new C_SPAWNER());
 	C_VECTOR2 position1{};

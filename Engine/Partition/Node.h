@@ -11,12 +11,12 @@ namespace Nahoo
 	{
 
 	public:
-		C_NODE(int x, int y, int width, int height, int depth);
+		C_NODE(int x, int y, int width, int height, int depth, int maxDepth);
 		~C_NODE();
 
-		bool Insert(const COMP_HITCOMPONENT* hitComp);
-		void Query(const COMP_HITCOMPONENT* hitComp, std::vector<COMP_HITCOMPONENT*>& possibleComp);
-		void Clear();
+		bool Insert(COMP_HITCOMPONENT* hitComp);
+		void Query(const COMP_HITCOMPONENT* hitComp, std::vector<C_NODE*>& possibleNodes);
+		void Clear(bool memoryReleaseFlag);
 
 
 	public:
@@ -27,6 +27,7 @@ namespace Nahoo
 		inline int GetWidth() const { return m_width; }
 		inline int GetHeight() const { return m_height; }
 
+		const std::vector<COMP_HITCOMPONENT*>& GetHitComp() { return m_hitComps; }
 
 	private:
 
@@ -52,7 +53,7 @@ namespace Nahoo
 		C_NODE* m_bottomLeft{};
 		C_NODE* m_bottomRight{};
 
-		std::vector<const COMP_HITCOMPONENT*> m_hitComps{};
+		std::vector<COMP_HITCOMPONENT*> m_hitComps{};
 
 
 	};

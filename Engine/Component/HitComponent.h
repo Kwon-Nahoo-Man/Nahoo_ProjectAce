@@ -20,11 +20,12 @@ namespace Nahoo
 		virtual void OnDestroy() override;
 		
 		void SetCollision(bool onOffCollision);
-		bool HasCollided(COMP_HITCOMPONENT& otherComp);
+		bool HasCollided(COMP_HITCOMPONENT* otherComp);
 
 		void SetCollisionType(E_COLLISIONTYPE collisionType);
 		void DeleteCollisionType(E_COLLISIONTYPE collisionType);
 
+		bool IsActive() const;
 
 	public:
 
