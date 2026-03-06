@@ -37,6 +37,8 @@ namespace Nahoo
 		void ProcessDeleteActor();
 		void ProcessDeleteUI();
 
+		void ProcessQuadTree();
+
 	protected:
 		std::vector<C_ACTOR*> m_actors{};
 		std::vector<C_ACTOR*> m_addRequestedActors{};

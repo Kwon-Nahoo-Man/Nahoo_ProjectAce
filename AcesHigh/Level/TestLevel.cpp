@@ -36,7 +36,7 @@ C_TESTLEVEL::C_TESTLEVEL()
 	}
 	
 
-	position1.m_x = Nahoo::C_ENGINE::GetInstance().GetWidth() / 2;
+	position1.m_x = Nahoo::C_ENGINE::GetInstance().GetWidth() / 2 - 22;
 	position1.m_y = Nahoo::C_ENGINE::GetInstance().GetHeight() - 50;
 
 	C_PLAYER* test{};

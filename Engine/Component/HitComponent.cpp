@@ -54,7 +54,7 @@ bool Nahoo::COMP_HITCOMPONENT::HasCollided(Nahoo::COMP_HITCOMPONENT* otherComp)
     m_owner->OnHit(otherComp->GetOwner());
 
     // Check: QuadTree가 중복해서 물어본다면 이 부분 빼야함(충돌 중복 일어남)
-    otherComp->GetOwner()->OnHit(m_owner);
+    //otherComp->GetOwner()->OnHit(m_owner);
 
     return true;
 }

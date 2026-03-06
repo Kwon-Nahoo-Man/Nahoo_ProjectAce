@@ -71,7 +71,7 @@ void Nahoo::C_ENGINE::Run()
 
 	while (m_isQuit == false)
 	{
-		QueryPerformanceCounter(&time);
+ 		QueryPerformanceCounter(&time);
 		currentTime = time.QuadPart;
 
 		float deltaTime{};

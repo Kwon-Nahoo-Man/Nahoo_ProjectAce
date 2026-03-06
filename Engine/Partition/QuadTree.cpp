@@ -41,6 +41,11 @@ void Nahoo::C_QUADTREE::QueryCollision(COMP_HITCOMPONENT* hitComp)
 	{
 		for (COMP_HITCOMPONENT* compareHitComp : node->GetHitComp())
 		{
+			if (compareHitComp == hitComp)
+			{
+				continue;
+			}
+
 			// 충돌 판정
 			hitComp->HasCollided(compareHitComp);
 		}

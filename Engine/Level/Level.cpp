@@ -97,37 +97,12 @@ void Nahoo::C_LEVEL::Tick(float deltaTime)
 		UI->Tick(deltaTime);
 	}
 
-	// 쿼드트리에 충돌할 Hit Component 삽입
-	int length = static_cast<int>(m_actorHitComps.size());
-	for (int i = 0; i < length; ++i)
+	if (m_quadTree != nullptr)
 	{
-		m_quadTree->Insert(m_actorHitComps[i]);
+		ProcessQuadTree();
 	}
-	for (int i = 0; i < length; ++i)
-	{
-		m_quadTree->QueryCollision(m_actorHitComps[i]);
-	}
-	// 쿼드트리 노드 안 Hit Component list 삭제
-	m_quadTree->ClearCompList();
 
 
-
-	//for (int i = 0; i < length-1; i++)
-	//{
-	//	for (int j = i + 1; j < length; j++)
-	//	{
-	//		if (m_actorHitComps[i]->GetCurrentCollision() && m_actorHitComps[j]->GetCurrentCollision())
-	//		{
-	//			if (m_actorHitComps[i]->GetCollisionType() != E_COLLISIONTYPE::None ||
-	//				(!(m_actorHitComps[i]->DestroyRequested()) && !(m_actorHitComps[j]->DestroyRequested())))
-	//			{
-	//				// 히트 판정
-	//				m_actorHitComps[i]->HasCollided(m_actorHitComps[j]);
-	//			}
-	//		}
-	//		
-	//	}
-	//}
 }
 
 void Nahoo::C_LEVEL::Draw()
@@ -186,7 +161,6 @@ void Nahoo::C_LEVEL::ProcessAddActor()
 			m_actorHitComps.emplace_back(actor->GetHitComponent());
 		}
 		
-
 		// 액터는 이미 m_addRequestedActors에 들어갈 때 부터 생성될 것이기 때문에 (AddNewActor(new C_ACTOR))
 		// 이미 C_ACTOR 생성자 기점은 지나서 HitComponent는 존재한다.
 
@@ -255,4 +229,38 @@ void Nahoo::C_LEVEL::ProcessDeleteUI()
 	}
 }
 
+void Nahoo::C_LEVEL::ProcessQuadTree()
+{
+	int length = static_cast<int>(m_actorHitComps.size());
+	// 쿼드트리에 충돌할 Hit Component 삽입
+	if (length != 0)
+	{
 
+		for (int i = 0; i < length; ++i)
+		{
+			m_quadTree->Insert(m_actorHitComps[i]);
+		}
+		for (int i = 0; i < length; ++i)
+		{
+			m_quadTree->QueryCollision(m_actorHitComps[i]);
+		}
+		// 쿼드트리 노드 안 Hit Component list 삭제
+		m_quadTree->ClearCompList();
+	}
+}
+
+
+
+////Legacy Collision Check(not using QuadTree)
+//for (int i = 0; i < length - 1; i++)
+//{
+//	for (int j = i + 1; j < length; j++)
+//	{
+//		if (m_actorHitComps[i]->IsActive() == true && m_actorHitComps[j]->IsActive() == true)
+//		{
+//			// 히트판정
+//			m_actorHitComps[i]->HasCollided(m_actorHitComps[j]);
+//			// Legacy 방식으로 할려면 HitComponent의 HasCollided 함수에서 otherComp->Onhit()까지 불러줘야함
+//		}
+//	}
+//}
