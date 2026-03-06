@@ -34,7 +34,6 @@ C_TESTLEVEL::C_TESTLEVEL()
 		AddNewUI(specialAttackUI[i]);
 		position1.m_x -= 15;
 	}
-	
 
 	position1.m_x = Nahoo::C_ENGINE::GetInstance().GetWidth() / 2 - 22;
 	position1.m_y = Nahoo::C_ENGINE::GetInstance().GetHeight() - 50;

@@ -25,7 +25,7 @@ namespace Nahoo
 		// 생성자 이후에 초기화 하고싶은 내용 있으면 beginPlay에 넣기
 		virtual void BeginPlay();
 		virtual void Tick(float deltaTime);
-		virtual void Draw();
+		virtual void Draw(bool debugHitCompDraw = false);
 
 		virtual void OnHit(const C_ACTOR* otherActor);
 

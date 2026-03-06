@@ -17,23 +17,15 @@ namespace Nahoo
 
 		bool Insert(COMP_HITCOMPONENT* hitComp);
 		
-		// Check: return 값은 이후 변경
 		void QueryCollision(COMP_HITCOMPONENT* hitComp);
 		void ClearCompList();
+
+		void DebugShow();
 
 	private:
 
 		C_NODE* m_root{};
 
-
-
 	};
-
-
-
-
-
-
-
 
 }

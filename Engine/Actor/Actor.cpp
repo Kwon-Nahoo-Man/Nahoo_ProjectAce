@@ -102,13 +102,18 @@ void Nahoo::C_ACTOR::Tick(float deltaTime)
 
 }
 
-void Nahoo::C_ACTOR::Draw()
+void Nahoo::C_ACTOR::Draw(bool debugHitCompDraw)
 {
 	
 	Nahoo::C_RENDERER::GetInstance().Submit
 	(
 		m_sprite, m_width, m_height, m_position, m_color, m_sortingOrder
 	);
+
+	if (debugHitCompDraw == true && m_hitComponent != nullptr)
+	{
+		m_hitComponent->DebugDraw();
+	}
 	
 }
 

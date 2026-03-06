@@ -57,3 +57,8 @@ void Nahoo::C_QUADTREE::ClearCompList()
 {
 	m_root->Clear(false);
 }
+
+void Nahoo::C_QUADTREE::DebugShow()
+{
+	m_root->DebugDraw();
+}

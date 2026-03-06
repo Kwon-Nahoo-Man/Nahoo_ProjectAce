@@ -1,4 +1,5 @@
 #include "Level.h"
+#include "Core/Input.h"
 #include "Actor/Actor.h"
 #include "UI/UIClass.h"
 #include "Component/HitComponent.h"
@@ -11,7 +12,6 @@ Nahoo::C_LEVEL::C_LEVEL(bool quadTreeFlag)
 	if (quadTreeFlag == true)
 	{
 		m_quadTree = new C_QUADTREE(0, 0, Nahoo::C_ENGINE::GetInstance().GetWidth(), Nahoo::C_ENGINE::GetInstance().GetHeight(), 4);
-
 	}
 }
 
@@ -35,7 +35,6 @@ Nahoo::C_LEVEL::~C_LEVEL()
 			actor = nullptr;
 		}
 	}
-
 	m_actors.clear();
 
 	for (C_UICLASS*& UI : m_addRequestedUIs)
@@ -101,21 +100,40 @@ void Nahoo::C_LEVEL::Tick(float deltaTime)
 	{
 		ProcessQuadTree();
 	}
-
+	
+	if (Nahoo::C_INPUT::GetInstance().GetKeyDown(VK_F1))
+	{
+		SetDebugDraw(E_DEBUGSHOW::HitComponent);
+	}
+	if (Nahoo::C_INPUT::GetInstance().GetKeyDown(VK_F2))
+	{
+		SetDebugDraw(E_DEBUGSHOW::QuadTree);
+	}
 
 }
 
 void Nahoo::C_LEVEL::Draw()
 {
+	bool HitComponentDebugShow = BitMask::HasFlag(m_debugShow, E_DEBUGSHOW::HitComponent);
+	
+
+
 	for (C_ACTOR* actor : m_actors)
 	{
-		actor->Draw();
+		actor->Draw(HitComponentDebugShow);
 	}
 
 	for (C_UICLASS* UI : m_UIs)
 	{
 		UI->Draw();
 	}
+
+}
+
+void Nahoo::C_LEVEL::SetDebugDraw(E_DEBUGSHOW changeValue)
+{
+	// Check: 현재 QuadTree의 Debug Submit은 Tick()에서, HitComponent의 Debug Submit은 Draw()에서 이루어짐
+	m_debugShow = m_debugShow ^ changeValue;
 }
 
 void Nahoo::C_LEVEL::AddNewActor(C_ACTOR* newActor)
@@ -244,9 +262,17 @@ void Nahoo::C_LEVEL::ProcessQuadTree()
 		{
 			m_quadTree->QueryCollision(m_actorHitComps[i]);
 		}
+		
+		// 렌더 submit 타이밍이 Draw()가 아닌 Tick()임을 숙지
+		if (BitMask::HasFlag(m_debugShow, E_DEBUGSHOW::QuadTree) == true)
+		{
+			m_quadTree->DebugShow();
+		}
+		
 		// 쿼드트리 노드 안 Hit Component list 삭제
 		m_quadTree->ClearCompList();
 	}
+	
 }
 
 

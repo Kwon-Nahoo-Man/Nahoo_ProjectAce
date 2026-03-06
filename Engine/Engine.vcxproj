@@ -157,7 +157,9 @@ xcopy $(OutDir)Engine.lib $(SolutionDir)Library\Engine\$(Platform)\$(Configurati
     <ClInclude Include="Component\HitComponent.h" />
     <ClInclude Include="Core\Input.h" />
     <ClInclude Include="Common\RTTI.h" />
+    <ClInclude Include="Enumeration\BitMaskHelperFunc.h" />
     <ClInclude Include="Enumeration\CollisionType.h" />
+    <ClInclude Include="Enumeration\DebugShow.h" />
     <ClInclude Include="Enumeration\NodeIndex.h" />
     <ClInclude Include="Partition\Node.h" />
     <ClInclude Include="Partition\QuadTree.h" />

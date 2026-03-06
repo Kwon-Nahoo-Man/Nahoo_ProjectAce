@@ -1,5 +1,6 @@
 #include "Actor/Actor.h"
 #include "HitComponent.h"
+#include "Renderer/Renderer.h"
 
 Nahoo::COMP_HITCOMPONENT::COMP_HITCOMPONENT(const C_VECTOR2& actorPosition, int width, int height)
     : m_actorPosition(actorPosition), m_actorWidthHeight(width, height)
@@ -11,6 +12,13 @@ Nahoo::COMP_HITCOMPONENT::~COMP_HITCOMPONENT()
 {
 
 }
+
+void Nahoo::COMP_HITCOMPONENT::DebugDraw()
+{
+    // Todo: Collided = true이면 색 바꾸기?
+    Nahoo::C_RENDERER::GetInstance().DebugSubmit(m_actorWidthHeight.m_x, m_actorWidthHeight.m_y, m_actorPosition, E_COLOR::BackgroundWhite, 52);
+}
+
 
 void Nahoo::COMP_HITCOMPONENT::Tick(float deltaTime)
 {

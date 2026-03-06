@@ -94,6 +94,7 @@ void Nahoo::C_RENDERER::Draw()
 {
 	Clear();
 
+	// 일반 렌더링
 	for (S_RENDERCOMMAND& command : m_renderQueue)
 	{
 
@@ -131,12 +132,12 @@ void Nahoo::C_RENDERER::Draw()
 					continue;
 				}
 
-				if (m_frame->m_sortingOrderArray[frameIndex] > command.m_sortingOrder)
+				if (frameIndex < 0 || frameIndex >= (m_screenSize.m_x * m_screenSize.m_y))
 				{
 					continue;
 				}
 
-				if (frameIndex < 0 || frameIndex >= (m_screenSize.m_x * m_screenSize.m_y))
+				if (m_frame->m_sortingOrderArray[frameIndex] > command.m_sortingOrder)
 				{
 					continue;
 				}
@@ -148,10 +149,62 @@ void Nahoo::C_RENDERER::Draw()
 			}
 		}
 	}
+	
+	// Debug 렌더링
+	for (S_RENDERCOMMAND& command : m_debugRenderQueue)
+	{
+		const int startX = command.m_position.m_x;
+		const int endX = startX + command.m_width;
+
+		const int startY = command.m_position.m_y;
+		const int endY = startY + command.m_height;
+
+		if (startX >= m_screenSize.m_x || endX < 0 || startY >= m_screenSize.m_y || endY < 0)
+		{
+			continue;
+		}
+
+		const int visibleStartX = startX < 0 ? 0 : startX;
+		const int visibleEndX = endX >= m_screenSize.m_x ? m_screenSize.m_x - 1 : endX;
+
+		const int visibleStartY = startY < 0 ? 0 : startY;
+		const int visibleEndY = endY >= m_screenSize.m_y ? m_screenSize.m_y - 1 : endY;
+
+		for (int y = visibleStartY; y <= visibleEndY; ++y)
+		{
+			for (int x = visibleStartX; x <= visibleEndX; ++x)
+			{
+				int frameIndex = y * m_screenSize.m_x + x;
+				
+				if (frameIndex < 0 || frameIndex >= (m_screenSize.m_x * m_screenSize.m_y))
+				{
+					continue;
+				}
+
+				if (m_frame->m_sortingOrderArray[frameIndex] > command.m_sortingOrder)
+				{
+					continue;
+				}
+
+				// 맨 윗줄, 맨 아랫줄, 맨 왼쪽, 맨 오른쪽 일 때, 텍스트 값을 넣어줘서 표시
+				if (y == startY || y == endY || x == startX || x == endX)
+				{
+					m_frame->m_charInfoArray[frameIndex].Char.AsciiChar = '.';
+					m_frame->m_charInfoArray[frameIndex].Attributes = (WORD)command.m_color;
+					m_frame->m_sortingOrderArray[frameIndex] = command.m_sortingOrder;
+
+				}
+				// 아니면 암것도 안함
+
+			}
+		}
+	}
+
 	GetCurrentBuffer()->Draw(m_frame->m_charInfoArray);
 	Present();
 
 	m_renderQueue.clear();
+	m_debugRenderQueue.clear();
 }
 
 void Nahoo::C_RENDERER::Submit
@@ -174,6 +227,18 @@ void Nahoo::C_RENDERER::Submit
 	command.m_sortingOrder = sortingOrder;
 
 	m_renderQueue.emplace_back(command);
+}
+
+void Nahoo::C_RENDERER::DebugSubmit(int width, int height, const C_VECTOR2& position, E_COLOR color, int sortingOrder)
+{
+	S_RENDERCOMMAND command{};
+	command.m_width = width;
+	command.m_height = height;
+	command.m_position = position;
+	command.m_color = color;
+	command.m_sortingOrder = sortingOrder;
+
+	m_debugRenderQueue.emplace_back(command);
 }
 
 C_RENDERER& C_RENDERER::GetInstance()

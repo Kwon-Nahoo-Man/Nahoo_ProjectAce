@@ -1,10 +1,12 @@
 #include "Node.h"
 #include "Enumeration/NodeIndex.h"
 #include "Component/HitComponent.h"
+#include "Renderer/Renderer.h"
 
 Nahoo::C_NODE::C_NODE(int x, int y, int width, int height, int depth, int maxDepth)
     :m_x(x),m_y(y),m_width(width), m_height(height),m_depth(depth), m_maxDepth(maxDepth)
 {
+       
 
 }
 
@@ -202,6 +204,27 @@ void Nahoo::C_NODE::Clear(bool memoryReleaseFlag)
             ClearChildren();
         }
     }
+}
+
+void Nahoo::C_NODE::DebugDraw()
+{
+    if (m_hitComps.empty())
+    {
+        Nahoo::C_RENDERER::GetInstance().DebugSubmit(m_width, m_height, C_VECTOR2(m_x, m_y), E_COLOR::BackgroundBlue | E_COLOR::BackgroundRed, 50);
+    }
+    else
+    {
+        Nahoo::C_RENDERER::GetInstance().DebugSubmit(m_width, m_height, C_VECTOR2(m_x, m_y), E_COLOR::BackgroundGreen, 51);
+    }
+
+    if (IsDivided() == true)
+    {
+        m_topLeft->DebugDraw();
+        m_topRight->DebugDraw();
+        m_bottomLeft->DebugDraw();
+        m_bottomRight->DebugDraw();
+    }
+
 }
 
 

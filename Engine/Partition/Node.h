@@ -17,6 +17,7 @@ namespace Nahoo
 		bool Insert(COMP_HITCOMPONENT* hitComp);
 		void Query(const COMP_HITCOMPONENT* hitComp, std::vector<C_NODE*>& possibleNodes);
 		void Clear(bool memoryReleaseFlag);
+		void DebugDraw();
 
 
 	public:
@@ -53,6 +54,7 @@ namespace Nahoo
 		C_NODE* m_bottomLeft{};
 		C_NODE* m_bottomRight{};
 
+		//std::vector<char> m_debugSprite{};
 		std::vector<COMP_HITCOMPONENT*> m_hitComps{};
 
 

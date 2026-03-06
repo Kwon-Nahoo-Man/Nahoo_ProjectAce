@@ -46,6 +46,7 @@ namespace Nahoo
 			E_COLOR color = E_COLOR::White,
 			int sortingOrder = 1
 		);
+		void DebugSubmit(int width, int height, const C_VECTOR2& position, E_COLOR color = E_COLOR::White, int sortingOrder = 50);
 		static C_RENDERER& GetInstance();
 
 	private:
@@ -62,6 +63,7 @@ namespace Nahoo
 		int m_currentBufferIndex{};
 
 		std::vector<S_RENDERCOMMAND>m_renderQueue{};
+		std::vector<S_RENDERCOMMAND>m_debugRenderQueue{};
 
 		static C_RENDERER* m_instance;
 	};

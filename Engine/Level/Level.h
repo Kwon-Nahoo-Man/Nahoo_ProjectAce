@@ -4,6 +4,7 @@
 
 #include "Common/Common.h"
 #include "Common/RTTI.h"
+#include "Enumeration/DebugShow.h"
 
 namespace Nahoo
 {
@@ -31,6 +32,9 @@ namespace Nahoo
 		void ProcessClasses();
 
 	protected:
+		// µð¹ö±× Toggle
+		void SetDebugDraw(E_DEBUGSHOW changeValue);
+
 		void ProcessAddActor();
 		void ProcessAddUI();
 
@@ -40,6 +44,8 @@ namespace Nahoo
 		void ProcessQuadTree();
 
 	protected:
+		E_DEBUGSHOW m_debugShow = E_DEBUGSHOW::None;
+
 		std::vector<C_ACTOR*> m_actors{};
 		std::vector<C_ACTOR*> m_addRequestedActors{};
 

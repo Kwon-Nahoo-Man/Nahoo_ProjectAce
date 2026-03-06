@@ -15,6 +15,8 @@ namespace Nahoo
 		COMP_HITCOMPONENT(const C_VECTOR2& actorPosition, int width, int height);
 		~COMP_HITCOMPONENT();
 
+		void DebugDraw();
+		
 		virtual void Tick(float deltaTime) override;
 		virtual void Destroy() override;
 		virtual void OnDestroy() override;
