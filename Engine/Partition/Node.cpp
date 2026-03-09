@@ -210,7 +210,7 @@ void Nahoo::C_NODE::DebugDraw()
 {
     if (m_hitComps.empty())
     {
-        Nahoo::C_RENDERER::GetInstance().DebugSubmit(m_width, m_height, C_VECTOR2(m_x, m_y), E_COLOR::BackgroundBlue | E_COLOR::BackgroundRed, 50);
+        //Nahoo::C_RENDERER::GetInstance().DebugSubmit(m_width, m_height, C_VECTOR2(m_x, m_y), E_COLOR::BackgroundBlue | E_COLOR::BackgroundRed, 50);
     }
     else
     {

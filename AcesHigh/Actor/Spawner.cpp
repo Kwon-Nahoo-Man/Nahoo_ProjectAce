@@ -1,11 +1,12 @@
 #include "Spawner.h"
-#include "Actor/Object.h"
+#include "Actor/SkyObject.h"
 #include "Util/Util.h"
 #include "Engine/Engine.h"
 #include "Level/Level.h"
 #include "Actor/Plane.h"
 
 C_SPAWNER::C_SPAWNER()
+	:C_ACTOR()
 {
 
 }
@@ -27,7 +28,7 @@ void C_SPAWNER::BeginPlay()
 	m_enemySpawnTimer.SetTargetTime(2.0f);
 
 	// 미리 배경 스폰
-	C_OBJECT* back{};
+	C_SKYOBJECT* back{};
 
 	int indexRandom = UTIL::RandomInteger(0, 2);
 	int xRandom = UTIL::RandomInteger(0, Nahoo::C_ENGINE::GetInstance().GetWidth());
@@ -35,7 +36,7 @@ void C_SPAWNER::BeginPlay()
 	C_VECTOR2 position = C_VECTOR2(xRandom, yRandom);
 	int speedRandom = UTIL::RandomInteger(10, 35);
 	
-	back = new C_OBJECT(m_backGroundFileNames[indexRandom], position, false, E_COLOR::BackgroundWhite | E_COLOR::White, 0, speedRandom);
+	back = new C_SKYOBJECT(m_backGroundFileNames[indexRandom], position, false, E_COLOR::BackgroundWhite | E_COLOR::White, 0, speedRandom);
 	back->GiveMoveOrder(E_MOVEDIRECTION::Down);
 	m_owner->AddNewActor(back);
 
@@ -61,14 +62,14 @@ void C_SPAWNER::Tick(float deltaTime)
 
 void C_SPAWNER::SpawnBackGround()
 {
-	C_OBJECT* back{};
+	C_SKYOBJECT* back{};
 
 	int indexRandom = UTIL::RandomInteger(0, 2);
 	int xRandom = UTIL::RandomInteger(-5, Nahoo::C_ENGINE::GetInstance().GetWidth() - 10);
 	C_VECTOR2 position = C_VECTOR2(xRandom, -40);
 	int speedRandom = UTIL::RandomInteger(10, 40);
 
-	back = new C_OBJECT(m_backGroundFileNames[indexRandom], position, false, E_COLOR::BackgroundWhite | E_COLOR::White, 0, speedRandom);
+	back = new C_SKYOBJECT(m_backGroundFileNames[indexRandom], position, false, E_COLOR::BackgroundWhite | E_COLOR::White, 0, speedRandom);
 	back->GiveMoveOrder(E_MOVEDIRECTION::Down);
 	m_owner->AddNewActor(back);
 

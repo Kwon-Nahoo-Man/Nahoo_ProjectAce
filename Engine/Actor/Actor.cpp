@@ -4,6 +4,7 @@
 #include "Actor.h"
 #include "Renderer/Renderer.h"
 #include "Component/HitComponent.h"
+#include "Component/RenderComponent.h"
 
 
 Nahoo::C_ACTOR::C_ACTOR()
@@ -14,61 +15,9 @@ Nahoo::C_ACTOR::C_ACTOR()
 Nahoo::C_ACTOR::C_ACTOR(const char* fileName, const C_VECTOR2& position, bool collision)
 	: m_position(position.m_x, position.m_y)
 {
-	// 액터 생성자에서 width와 height 계산, 출력용 텍스트 1차원 배열(vector) 설정
-	// Todo: 현재는 vector가 char자료형이라 문자만 받는데 텍스트 하나 별로 색을 받기 위해선 CHAR_INFO 자료형 이어야함
+	m_filePath = std::string("../Assets/") + fileName;
 
-	char path[2048]{};
-	sprintf_s(path, 2048, "../Assets/%s", fileName);
-
-	FILE* file = nullptr;
-	fopen_s(&file, path, "rt");
-
-	if (!file)
-	{
-		// 표준 오류 콘솔 활용.
-		std::cerr << "Failed to Actor asset file.\n";
-
-		// 디버그 모드에서 중단점으로 중단해주는 기능.
-		 __debugbreak();
-	}
-
-	fseek(file, 0, SEEK_END);
-	size_t fileSize = ftell(file);
-	rewind(file);
-
-	char* data = new char[fileSize + 1] {};
-
-	fread(data, sizeof(char), fileSize, file);
-
-	char* context{};
-	char* token{};
-
-	m_sprite.reserve(fileSize);
-
-	token = strtok_s(data, "\n", &context);
-	m_width = static_cast<int>(strlen(token));
-
-	while (token)
-	{
-		m_height++;
-		for (int i = 0; i < m_width; i++)
-		{
-			m_sprite.push_back(token[i]);
-		}
-		token = strtok_s(nullptr, "\n", &context);
-	}
-	delete[] data;
-	data = nullptr; // 필요없음
-
-	// Check: Fucking
-	fclose(file);
-
-	// Actor 생성자가 끝나면, HitComponent는 생성됨.
-	if (collision == true)
-	{
-		MakeHitComponent();
-	}
-
+	MakeComponent(collision);
 }
 
 Nahoo::C_ACTOR::~C_ACTOR()
@@ -78,16 +27,27 @@ Nahoo::C_ACTOR::~C_ACTOR()
 		delete m_hitComponent;
 		m_hitComponent = nullptr;
 	}
+
+	if (m_renderComponent != nullptr)
+	{
+		delete m_renderComponent;
+		m_renderComponent = nullptr;
+	}
 }
 
 void Nahoo::C_ACTOR::BeginPlay()
 {
 	m_hasBegunPlay = true;
 
-	if (m_hitComponent != nullptr)
+	if (m_hitComponent != nullptr && m_hitComponent->HasBegaunPlay() == false)
 	{
+		m_hitComponent->BeginPlay();
 		// set collision type
-		m_hitComponent->SetCollisionType(E_COLLISIONTYPE::None);
+		m_hitComponent->SetCollisionType(m_collisionType);
+	}
+	if (m_renderComponent != nullptr)
+	{
+		m_renderComponent->BeginPlay();
 	}
 }
 
@@ -104,11 +64,10 @@ void Nahoo::C_ACTOR::Tick(float deltaTime)
 
 void Nahoo::C_ACTOR::Draw(bool debugHitCompDraw)
 {
-	
-	Nahoo::C_RENDERER::GetInstance().Submit
-	(
-		m_sprite, m_width, m_height, m_position, m_color, m_sortingOrder
-	);
+	if (m_renderComponent != nullptr)
+	{
+		m_renderComponent->Draw();
+	}
 
 	if (debugHitCompDraw == true && m_hitComponent != nullptr)
 	{
@@ -133,6 +92,10 @@ void Nahoo::C_ACTOR::Destroy()
 	if (m_hitComponent != nullptr)
 	{
 		m_hitComponent->Destroy();
+	}
+	if (m_renderComponent != nullptr)
+	{
+		m_renderComponent->Destroy();
 	}
 	
 }
@@ -167,13 +130,24 @@ void Nahoo::C_ACTOR::SetCollision(bool activeCollision)
 	}
 }
 
-void Nahoo::C_ACTOR::MakeHitComponent()
+void Nahoo::C_ACTOR::SetActorWidthHeight(int width, int height)
 {
-	
-	if (m_hitComponent == nullptr)
+	m_width = width;
+	m_height = height;
+}
+
+void Nahoo::C_ACTOR::MakeComponent(bool collisionFlag)
+{
+	if (collisionFlag == true && m_hitComponent == nullptr)
 	{
-		m_hitComponent = new COMP_HITCOMPONENT(m_position, m_width, m_height);
+		m_hitComponent = new COMP_HITCOMPONENT();
 		m_hitComponent->SetOwner(this);
+	}
+
+	if (m_renderComponent == nullptr)
+	{
+		m_renderComponent = new COMP_RENDER();
+		m_renderComponent->SetOwner(this);
 	}
 
 }

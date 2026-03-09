@@ -1,5 +1,5 @@
 #include "Core/Input.h"
-#include "Actor/Object.h"
+#include "Actor/SkyObject.h"
 #include "Actor/Plane.h"
 #include "Level/Level.h"
 #include "Component/HitComponent.h"

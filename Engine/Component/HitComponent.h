@@ -12,22 +12,25 @@ namespace Nahoo
 	{
 		RTTI_DECLARATIONS(COMP_HITCOMPONENT, COMP_COMPONENT)
 	public:
-		COMP_HITCOMPONENT(const C_VECTOR2& actorPosition, int width, int height);
+		COMP_HITCOMPONENT();
 		~COMP_HITCOMPONENT();
-
-		void DebugDraw();
 		
+		virtual void BeginPlay() override;
 		virtual void Tick(float deltaTime) override;
 		virtual void Destroy() override;
 		virtual void OnDestroy() override;
-		
-		void SetCollision(bool onOffCollision);
-		bool HasCollided(COMP_HITCOMPONENT* otherComp);
 
+		// setter
+		void SetCollision(bool onOffCollision);
 		void SetCollisionType(E_COLLISIONTYPE collisionType);
 		void DeleteCollisionType(E_COLLISIONTYPE collisionType);
 
+		// getter
 		bool IsActive() const;
+
+		void DebugDraw();
+
+		bool HasCollided(COMP_HITCOMPONENT* otherComp);
 
 	public:
 
@@ -40,7 +43,7 @@ namespace Nahoo
 
 	private:
 		bool m_activateCollision{ true };
-		bool m_destroyRequested{ false };
+		
 		E_COLLISIONTYPE m_collisionType{ E_COLLISIONTYPE::None };
 
 		// 액터 기준 좌표

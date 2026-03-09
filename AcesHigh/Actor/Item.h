@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Actor/Object.h"
+#include "Actor/SkyObject.h"
 #include "Enumeration/ItemType.h"
 
-class C_ITEM : public C_OBJECT
+class C_ITEM : public C_SKYOBJECT
 {
 
 public:

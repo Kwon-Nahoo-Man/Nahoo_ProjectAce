@@ -6,6 +6,7 @@ namespace Nahoo
 	class C_LEVEL;
 	class C_INPUT;
 	class C_RENDERER;
+	class C_RESOURCEMANAGER;
 
 	class NAHOO_API C_ENGINE
 	{
@@ -44,6 +45,7 @@ namespace Nahoo
 		C_LEVEL* m_mainLevel{};
 		C_INPUT* m_input{};
 		C_RENDERER* m_renderer{};
+		C_RESOURCEMANAGER* m_resourceManager{};
 
 		static C_ENGINE* m_instance;
 

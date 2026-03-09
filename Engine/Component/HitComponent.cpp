@@ -2,8 +2,7 @@
 #include "HitComponent.h"
 #include "Renderer/Renderer.h"
 
-Nahoo::COMP_HITCOMPONENT::COMP_HITCOMPONENT(const C_VECTOR2& actorPosition, int width, int height)
-    : m_actorPosition(actorPosition), m_actorWidthHeight(width, height)
+Nahoo::COMP_HITCOMPONENT::COMP_HITCOMPONENT()
 {
 
 }
@@ -20,9 +19,25 @@ void Nahoo::COMP_HITCOMPONENT::DebugDraw()
 }
 
 
+void Nahoo::COMP_HITCOMPONENT::BeginPlay()
+{
+    COMP_COMPONENT::BeginPlay();
+    if (m_hasBeganPlay == true)
+    {
+
+        return;
+    }
+    
+    m_actorPosition = m_owner->GetPosition();
+    m_actorWidthHeight.m_x = m_owner->GetActorWidth();
+    m_actorWidthHeight.m_y = m_owner->GetActorHeight();
+}
+
 void Nahoo::COMP_HITCOMPONENT::Tick(float deltaTime)
 {
     m_actorPosition = m_owner->GetPosition();
+    m_actorWidthHeight.m_x = m_owner->GetActorWidth();
+    m_actorWidthHeight.m_y = m_owner->GetActorHeight();
 }
 
 void Nahoo::COMP_HITCOMPONENT::SetCollision(bool onOffCollision)

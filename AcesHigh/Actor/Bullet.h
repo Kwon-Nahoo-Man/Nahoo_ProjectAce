@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Object.h"
+#include "Actor/SkyObject.h"
 
-class C_BULLET : public C_OBJECT
+class C_BULLET : public C_SKYOBJECT
 {
 public:
 	C_BULLET(const char* fileName, C_VECTOR2& position, E_COLOR color, 

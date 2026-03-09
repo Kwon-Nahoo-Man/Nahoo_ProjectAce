@@ -1,9 +1,9 @@
 #include "Core/Input.h"
-#include "Actor/Object.h"
+#include "Actor/SkyObject.h"
 #include "Component/HitComponent.h"
 #include "Engine/Engine.h"
 
-C_OBJECT::C_OBJECT(const char* fileName, C_VECTOR2& position, bool collision, E_COLOR color,
+C_SKYOBJECT::C_SKYOBJECT(const char* fileName, C_VECTOR2& position, bool collision, E_COLOR color,
 	int sortingOrder, int moveSpeed)
 	:C_ACTOR(fileName, position, collision)
 {
@@ -22,17 +22,17 @@ C_OBJECT::C_OBJECT(const char* fileName, C_VECTOR2& position, bool collision, E_
 	m_yPosition = static_cast<float>(m_position.m_y);
 }
 
-C_OBJECT::~C_OBJECT()
+C_SKYOBJECT::~C_SKYOBJECT()
 {
 
 }
 
-void C_OBJECT::BeginPlay()
+void C_SKYOBJECT::BeginPlay()
 {
 	C_ACTOR::BeginPlay();
 }
 
-void C_OBJECT::Tick(float deltaTime)
+void C_SKYOBJECT::Tick(float deltaTime)
 {
 	C_ACTOR::Tick(deltaTime);
 	
@@ -49,12 +49,12 @@ void C_OBJECT::Tick(float deltaTime)
 	}
 }
 
-void C_OBJECT::OnHit(const C_ACTOR* otherActor)
+void C_SKYOBJECT::OnHit(const C_ACTOR* otherActor)
 {
 	
 }
 
-void C_OBJECT::GiveMoveOrder(const E_MOVEDIRECTION& moveDirection, int moveSpeed)
+void C_SKYOBJECT::GiveMoveOrder(const E_MOVEDIRECTION& moveDirection, int moveSpeed)
 {
 	if (moveDirection == E_MOVEDIRECTION::None)
 	{
@@ -89,13 +89,13 @@ void C_OBJECT::GiveMoveOrder(const E_MOVEDIRECTION& moveDirection, int moveSpeed
 
 }
 
-void C_OBJECT::SetBounce(bool decision, float minimumTime)
+void C_SKYOBJECT::SetBounce(bool decision, float minimumTime)
 {
 	m_isBounce = decision;
 	m_bounceTimer.SetTargetTime(minimumTime);
 }
 
-void C_OBJECT::Bounce(bool isBounce)
+void C_SKYOBJECT::Bounce(bool isBounce)
 {
 	// 바운스를 하지 않거나, 객체 지속시간이 만료된 경우
 	if (isBounce == false || m_bounceTimer.IsTimeOut())
@@ -125,7 +125,7 @@ void C_OBJECT::Bounce(bool isBounce)
 }
 
 
-void C_OBJECT::ApplyMovement(float deltaTime)
+void C_SKYOBJECT::ApplyMovement(float deltaTime)
 {
 	if (
 		((m_currentMoveDirection & E_MOVEDIRECTION::Left) == E_MOVEDIRECTION::Left) ||
@@ -147,7 +147,7 @@ void C_OBJECT::ApplyMovement(float deltaTime)
 	m_position.m_y = static_cast<int>(m_yPosition);
 }
 
-void C_OBJECT::MoveLeft()
+void C_SKYOBJECT::MoveLeft()
 {
 	m_currentMoveDirection = m_currentMoveDirection & ~E_MOVEDIRECTION::Right;
 	m_currentMoveDirection = m_currentMoveDirection | E_MOVEDIRECTION::Left;
@@ -158,7 +158,7 @@ void C_OBJECT::MoveLeft()
 	}
 }
 
-void C_OBJECT::MoveRight()
+void C_SKYOBJECT::MoveRight()
 {
 	m_currentMoveDirection = m_currentMoveDirection & ~E_MOVEDIRECTION::Left;
 	m_currentMoveDirection = m_currentMoveDirection | E_MOVEDIRECTION::Right;
@@ -169,7 +169,7 @@ void C_OBJECT::MoveRight()
 	}
 }
 
-void C_OBJECT::MoveUp()
+void C_SKYOBJECT::MoveUp()
 {
 	m_currentMoveDirection = m_currentMoveDirection & ~E_MOVEDIRECTION::Down;
 	m_currentMoveDirection = m_currentMoveDirection | E_MOVEDIRECTION::Up;
@@ -180,7 +180,7 @@ void C_OBJECT::MoveUp()
 	}
 }
 
-void C_OBJECT::MoveDown()
+void C_SKYOBJECT::MoveDown()
 {
 	m_currentMoveDirection = m_currentMoveDirection & ~E_MOVEDIRECTION::Up;
 	m_currentMoveDirection = m_currentMoveDirection | E_MOVEDIRECTION::Down;
@@ -191,7 +191,7 @@ void C_OBJECT::MoveDown()
 	}
 }
 
-void C_OBJECT::MoveStop()
+void C_SKYOBJECT::MoveStop()
 {
 	m_currentMoveDirection = E_MOVEDIRECTION::None;
 }

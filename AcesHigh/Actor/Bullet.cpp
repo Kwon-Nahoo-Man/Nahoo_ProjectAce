@@ -4,7 +4,7 @@
 
 C_BULLET::C_BULLET(const char* fileName, C_VECTOR2& position, E_COLOR color, 
 	int horizontalSpeed, int verticalSpeed, E_COLLISIONTYPE collisionType, int damage, bool isBounce)
-	: C_OBJECT(fileName, position, true, color, 20, 0)
+	: C_SKYOBJECT(fileName, position, true, color, 20, 0)
 {
 	m_moveHorizontalSpeed = horizontalSpeed;
 	m_moveVerticalSpeed = verticalSpeed;
@@ -26,12 +26,12 @@ C_BULLET::~C_BULLET()
 
 void C_BULLET::BeginPlay()
 {
-	C_OBJECT::BeginPlay();
+	C_SKYOBJECT::BeginPlay();
 }
 
 void C_BULLET::Tick(float deltaTime)
 {
-	C_OBJECT::Tick(deltaTime);
+	C_SKYOBJECT::Tick(deltaTime);
 
 	// 화면 밖 파괴처리 (bounce 함수 때문에 좀 널널하게 파괴처리 함 ==> 안된다. 실제 길이보다 더 밖으로 벗어난다면 render에서 source index가 범위초과를 일으킴)
 	if (m_position.m_x + m_width < -1 || m_position.m_x > Nahoo::C_ENGINE::GetInstance().GetWidth() + 1 ||

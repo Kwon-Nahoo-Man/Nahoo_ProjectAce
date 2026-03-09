@@ -6,15 +6,15 @@
 
 using namespace Nahoo;
 
-class C_OBJECT : public C_ACTOR
+class C_SKYOBJECT : public C_ACTOR
 {
-	RTTI_DECLARATIONS(C_OBJECT,C_ACTOR)
+	RTTI_DECLARATIONS(C_SKYOBJECT,C_ACTOR)
 
 public:
 
-	C_OBJECT(const char* fileName, C_VECTOR2& position, bool collision, E_COLOR color,
+	C_SKYOBJECT(const char* fileName, C_VECTOR2& position, bool collision, E_COLOR color,
 		int sortingOrder, int moveSpeed);
-	~C_OBJECT();
+	~C_SKYOBJECT();
 	
 	virtual void BeginPlay() override;
 	virtual void Tick(float deltaTime) override;

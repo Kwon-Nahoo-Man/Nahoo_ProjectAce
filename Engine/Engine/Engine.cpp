@@ -6,6 +6,7 @@
 #include "Level/Level.h"
 #include "Util/Util.h"
 #include "Renderer/Renderer.h"
+#include "Core/ResourceManager.h"
 
 //using namespace Nahoo;
 
@@ -15,6 +16,9 @@ Nahoo::C_ENGINE::C_ENGINE()
 {
 	m_instance = this;
 	m_input = new C_INPUT();
+	m_resourceManager = new C_RESOURCEMANAGER();
+	m_resourceManager->Initialize();
+	
 	LoadEngineSetting();
 
 	m_renderer = new C_RENDERER(C_VECTOR2(m_engineSetting.width, m_engineSetting.height));
@@ -36,6 +40,12 @@ Nahoo::C_ENGINE::~C_ENGINE()
 	{
 		delete m_input;
 		m_input = nullptr;
+	}
+
+	if (m_resourceManager != nullptr)
+	{
+		delete m_resourceManager;
+		m_resourceManager = nullptr;
 	}
 
 	if (m_renderer != nullptr)

@@ -21,7 +21,7 @@
     <ClCompile Include="Level\TestLevel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Actor\Object.cpp">
+    <ClCompile Include="Actor\SkyObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Actor\Plane.cpp">
@@ -47,7 +47,7 @@
     <ClInclude Include="Level\TestLevel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Actor\Object.h">
+    <ClInclude Include="Actor\SkyObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Actor\Plane.h">

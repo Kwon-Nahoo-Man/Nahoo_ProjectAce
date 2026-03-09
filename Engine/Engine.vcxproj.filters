@@ -54,6 +54,12 @@
     <ClCompile Include="Partition\QuadTree.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Component\RenderComponent.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\ResourceManager.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Engine.h">
@@ -117,6 +123,12 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Enumeration\BitMaskHelperFunc.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Component\RenderComponent.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\ResourceManager.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
