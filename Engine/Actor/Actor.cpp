@@ -159,6 +159,14 @@ void Nahoo::C_ACTOR::SetActive(bool isActive)
 	}
 }
 
+void Nahoo::C_ACTOR::SetCollision(bool activeCollision)
+{
+	if (m_hitComponent != nullptr)
+	{
+		m_hitComponent->SetCollision(activeCollision);
+	}
+}
+
 void Nahoo::C_ACTOR::MakeHitComponent()
 {
 	

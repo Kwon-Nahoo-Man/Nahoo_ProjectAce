@@ -35,6 +35,7 @@ namespace Nahoo
 		// setter
 		void SetPosition(const C_VECTOR2& newPosition);
 		void SetActive(bool isActive);
+		void SetCollision(bool activeCollision);
 		inline void SetOwner(C_LEVEL* level) { m_owner = level; }
 
 
