@@ -144,6 +144,8 @@ xcopy $(OutDir)Engine.lib $(SolutionDir)Library\Engine\$(Platform)\$(Configurati
     <ClCompile Include="Component\RenderComponent.cpp" />
     <ClCompile Include="Core\Input.cpp" />
     <ClCompile Include="Core\ResourceManager.cpp" />
+    <ClCompile Include="Effect\Effect.cpp" />
+    <ClCompile Include="Effect\EffectManager.cpp" />
     <ClCompile Include="Partition\Node.cpp" />
     <ClCompile Include="Partition\QuadTree.cpp" />
     <ClCompile Include="Renderer\Renderer.cpp" />
@@ -163,6 +165,8 @@ xcopy $(OutDir)Engine.lib $(SolutionDir)Library\Engine\$(Platform)\$(Configurati
     <ClInclude Include="Core\Input.h" />
     <ClInclude Include="Common\RTTI.h" />
     <ClInclude Include="Core\ResourceManager.h" />
+    <ClInclude Include="Effect\Effect.h" />
+    <ClInclude Include="Effect\EffectManager.h" />
     <ClInclude Include="Enumeration\BitMaskHelperFunc.h" />
     <ClInclude Include="Enumeration\CollisionType.h" />
     <ClInclude Include="Enumeration\DebugShow.h" />

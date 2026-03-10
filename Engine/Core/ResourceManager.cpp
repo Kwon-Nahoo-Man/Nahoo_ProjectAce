@@ -32,13 +32,15 @@ Nahoo::C_RESOURCEMANAGER& Nahoo::C_RESOURCEMANAGER::GetInstance()
 	return *m_instance;
 }
 
-bool Nahoo::C_RESOURCEMANAGER::GetData(const std::string& filePath, std::vector<char>& outSprite, int& outWidth, int& outHeight)
+bool Nahoo::C_RESOURCEMANAGER::GetData(const std::string& fileName, std::vector<char>*& outSprite, int& outWidth, int& outHeight)
 {
+	std::string filePath = std::string("../Assets/") + fileName;
+
 	auto iter = m_resources.find(filePath);
 
 	if (iter != m_resources.end())
 	{
-		outSprite = iter->second.m_sprite;
+		outSprite = &iter->second.m_sprite;
 		outWidth = iter->second.m_width;
 		outHeight = iter->second.m_height;
 		return true;

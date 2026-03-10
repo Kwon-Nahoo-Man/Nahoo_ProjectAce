@@ -77,7 +77,7 @@ namespace Nahoo
 			return;
 		}
 		
-		Nahoo::C_RENDERER::GetInstance().Submit(m_sprite, m_width, m_height, m_position, m_color, m_sortingOrder);
+		Nahoo::C_RENDERER::GetInstance().Submit(&m_sprite, m_width, m_height, m_position, m_color, m_sortingOrder);
 		
 	}
 

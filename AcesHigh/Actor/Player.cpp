@@ -171,6 +171,7 @@ void C_PLAYER::PowerUp()
 {
 	if (m_currentPower < 2)
 	{
+		m_owner->GetEffectManager()->SpawnEffect(2, m_position, 0.3f, E_COLOR::BackgroundRed | E_COLOR::BackgroundGreen, 40);
 		m_currentPower++;
 	}
 
@@ -211,6 +212,7 @@ void C_PLAYER::EarnSpecialAttack()
 {
 	if (m_specialAttack < 3)
 	{
+		m_owner->GetEffectManager()->SpawnEffect(3, m_position, 0.3f, E_COLOR::BackgroundBlue | E_COLOR::BackgroundGreen, 40);
 		m_specialAttack++;
 	}
 	static_cast<C_TESTLEVEL*>(m_owner)->UpdatePlayerSpecialAttackUI(m_specialAttack);

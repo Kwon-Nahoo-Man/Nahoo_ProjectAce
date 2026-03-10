@@ -3,6 +3,7 @@
 #include "Actor/Actor.h"
 #include "Enumeration/MoveDirection.h"
 #include "Util/Timer.h"
+#include "Effect/EffectManager.h"
 
 using namespace Nahoo;
 

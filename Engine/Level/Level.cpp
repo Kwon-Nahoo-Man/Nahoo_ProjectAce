@@ -6,6 +6,7 @@
 #include "Enumeration/CollisionType.h"
 #include "Partition/QuadTree.h"
 #include "Engine/Engine.h"
+#include "Effect/EffectManager.h"
 
 Nahoo::C_LEVEL::C_LEVEL(bool quadTreeFlag)
 {
@@ -13,6 +14,8 @@ Nahoo::C_LEVEL::C_LEVEL(bool quadTreeFlag)
 	{
 		m_quadTree = new C_QUADTREE(0, 0, Nahoo::C_ENGINE::GetInstance().GetWidth(), Nahoo::C_ENGINE::GetInstance().GetHeight(), 4);
 	}
+
+	m_effectManager = new C_EFFECTMANAGER();
 }
 
 Nahoo::C_LEVEL::~C_LEVEL()
@@ -62,6 +65,14 @@ Nahoo::C_LEVEL::~C_LEVEL()
 		delete m_quadTree;
 		m_quadTree = nullptr;
 	}
+	
+	if (m_effectManager != nullptr)
+	{
+		delete m_effectManager;
+		m_effectManager = nullptr;
+	}
+
+	
 
 }
 
@@ -95,6 +106,10 @@ void Nahoo::C_LEVEL::Tick(float deltaTime)
 	{
 		UI->Tick(deltaTime);
 	}
+	if (m_effectManager != nullptr)
+	{
+		m_effectManager->Tick(deltaTime);
+	}
 
 	if (m_quadTree != nullptr)
 	{
@@ -126,6 +141,11 @@ void Nahoo::C_LEVEL::Draw()
 	for (C_UICLASS* UI : m_UIs)
 	{
 		UI->Draw();
+	}
+
+	if (m_effectManager != nullptr)
+	{
+		m_effectManager->Draw();
 	}
 
 }
@@ -249,6 +269,11 @@ void Nahoo::C_LEVEL::ProcessDeleteUI()
 
 void Nahoo::C_LEVEL::ProcessQuadTree()
 {
+	if (m_quadTree == nullptr)
+	{
+		return;
+	}
+
 	int length = static_cast<int>(m_actorHitComps.size());
 	// 쿼드트리에 충돌할 Hit Component 삽입
 	if (length != 0)

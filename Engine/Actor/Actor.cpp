@@ -7,16 +7,15 @@
 #include "Component/RenderComponent.h"
 
 
+
 Nahoo::C_ACTOR::C_ACTOR()
 {
 
 }
 
 Nahoo::C_ACTOR::C_ACTOR(const char* fileName, const C_VECTOR2& position, bool collision)
-	: m_position(position.m_x, position.m_y)
+	: m_fileName(fileName), m_position(position.m_x, position.m_y)
 {
-	m_filePath = std::string("../Assets/") + fileName;
-
 	MakeComponent(collision);
 }
 

@@ -6,6 +6,8 @@
 #include "Math/Vector2.h"
 #include "Enumeration/Color.h"
 #include "Enumeration/CollisionType.h"
+#include "Level/Level.h"
+#include "Effect/EffectManager.h"
 
 namespace Nahoo
 {
@@ -50,7 +52,7 @@ namespace Nahoo
 		inline bool IsActive() const { return m_isActive && !m_destroyRequested; }
 		inline bool DestroyRequested() const { return m_destroyRequested; }
 		inline int GetSortingOrder() const { return m_sortingOrder; }
-		inline const std::string& GetFilePath() const { return m_filePath; }
+		inline const std::string& GetFileName() const { return m_fileName; }
 		inline E_COLOR GetColor() const { return m_color; }
 		inline int GetActorWidth() const { return m_width; }
 		inline int GetActorHeight() const { return m_height; }
@@ -64,7 +66,7 @@ namespace Nahoo
 		int m_width{};
 		int m_height{};
 
-		std::string m_filePath{};
+		std::string m_fileName{};
 
 		C_LEVEL* m_owner{};
 		C_VECTOR2 m_position = C_VECTOR2::Zero;

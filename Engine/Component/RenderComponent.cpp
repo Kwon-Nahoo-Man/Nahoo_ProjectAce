@@ -12,9 +12,9 @@ void Nahoo::COMP_RENDER::BeginPlay()
 		return;
 	}
 	COMP_COMPONENT::BeginPlay();
-	SetRenderInfo(m_owner->GetFilePath(), m_owner->GetColor(), m_owner->GetSortingOrder());
+	SetRenderInfo(m_owner->GetFileName(), m_owner->GetColor(), m_owner->GetSortingOrder());
 
-	bool result = Nahoo::C_RESOURCEMANAGER::GetInstance().GetData(m_filePath, m_sprite, m_width, m_height);
+	bool result = Nahoo::C_RESOURCEMANAGER::GetInstance().GetData(m_fileName, m_sprite, m_width, m_height);
 	if (result == false)
 	{
 		// 액터 파일 얻어오기 실패
@@ -40,24 +40,24 @@ void Nahoo::COMP_RENDER::Draw()
 	}
 }
 
-bool Nahoo::COMP_RENDER::SetRenderInfo(const std::string& filePath, E_COLOR color, int sortingOrder)
+bool Nahoo::COMP_RENDER::SetRenderInfo(const std::string& fileName, E_COLOR color, int sortingOrder)
 {
-	if (filePath.empty() == true)
+	if (fileName.empty() == true)
 	{
 		return false;
 	}
 	
-	if (m_filePath == filePath)
+	if (m_fileName == fileName)
 	{
 		return true;
 	}
 	
 	// 액터 beginPlay든 sprite update할 때든 이걸 호출해야함
-	m_filePath = filePath;
+	m_fileName = fileName;
 	m_color = color;
 	m_sortingOrder = sortingOrder;
 
-	bool result = Nahoo::C_RESOURCEMANAGER::GetInstance().GetData(m_filePath, m_sprite, m_width, m_height);
+	bool result = Nahoo::C_RESOURCEMANAGER::GetInstance().GetData(m_fileName, m_sprite, m_width, m_height);
 	if (result == true)
 	{
 		m_owner->SetActorWidthHeight(m_width, m_height);
@@ -82,7 +82,7 @@ bool Nahoo::COMP_RENDER::IsActive() const
 	{
 		return false;
 	}
-	if (m_sprite.empty() == true)
+	if (m_sprite->empty() == true)
 	{
 		return false;
 	}

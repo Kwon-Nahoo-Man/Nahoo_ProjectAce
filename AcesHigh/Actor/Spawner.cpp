@@ -25,7 +25,7 @@ void C_SPAWNER::BeginPlay()
 	m_backGroundFileNames[2] = "cloud3.txt";
 
 	m_backgroundTimer.SetTargetTime(5.0f);
-	m_enemySpawnTimer.SetTargetTime(2.0f);
+	m_enemySpawnTimer.SetTargetTime(1.0f);
 
 	// 미리 배경 스폰
 	C_SKYOBJECT* back{};
@@ -91,7 +91,7 @@ void C_SPAWNER::SpawnEnemy()
 	}
 
 	m_enemySpawnTimer.Reset();
-	float targetTimeRandom = UTIL::RandomFloat(5, 10);
+	float targetTimeRandom = UTIL::RandomFloat(2, 6);
 	m_enemySpawnTimer.SetTargetTime(targetTimeRandom);
 }
 

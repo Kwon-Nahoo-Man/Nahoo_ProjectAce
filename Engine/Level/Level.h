@@ -12,6 +12,7 @@ namespace Nahoo
 	class C_UICLASS;
 	class COMP_HITCOMPONENT;
 	class C_QUADTREE;
+	class C_EFFECTMANAGER;
 	
 	class NAHOO_API C_LEVEL : public C_RTTI
 	{
@@ -30,6 +31,9 @@ namespace Nahoo
 		void AddNewActor(C_ACTOR* newActor);
 		void AddNewUI(C_UICLASS* newUI);
 		void ProcessClasses();
+
+		// getter
+		inline C_EFFECTMANAGER* GetEffectManager() const { return m_effectManager; }
 
 	protected:
 		// µð¹ö±× Toggle
@@ -56,6 +60,7 @@ namespace Nahoo
 		std::vector<C_UICLASS*> m_addRequestedUIs{};
 
 		C_QUADTREE* m_quadTree{};
+		C_EFFECTMANAGER* m_effectManager{};
 
 	private:
 

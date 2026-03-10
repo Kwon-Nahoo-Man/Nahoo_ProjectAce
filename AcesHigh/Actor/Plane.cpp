@@ -2,6 +2,7 @@
 #include "Actor/SkyObject.h"
 #include "Actor/Plane.h"
 #include "Level/Level.h"
+#include "Effect/EffectManager.h"
 #include "Component/HitComponent.h"
 #include "Engine/Engine.h"
 #include "Actor/Bullet.h"
@@ -84,7 +85,6 @@ void C_PLANE::OnHit(const C_ACTOR* otherActor)
 	{
 		if ((otherActorCollisionType & m_hitComponent->GetCollisionType()) != (m_hitComponent->GetCollisionType() & ~E_COLLISIONTYPE::Player))
 		{
-			//Todo: 파괴 이펙트
 			OnDamaged(10);
 		}
 	}
@@ -131,8 +131,9 @@ void C_PLANE::OnDamaged(int damage)
 	if (m_health <= 0)
 	{
 		// 아군이든 적군이든 죽으면 기본 30% 확률로 아이템 드랍
-		RandomItemDrop(50);
-		// Todo: 파괴되는 이펙트 액터 생성
+		RandomItemDrop(30);
+		// 파괴되는 이펙트 액터 생성
+		m_owner->GetEffectManager()->SpawnEffect(1, m_position, 0.5f, E_COLOR::BackgroundRed | E_COLOR::BackgroundGreen, 40);
 		Destroy();
 	}
 }

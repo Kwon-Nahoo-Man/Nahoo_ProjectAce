@@ -98,7 +98,7 @@ void Nahoo::C_RENDERER::Draw()
 	for (S_RENDERCOMMAND& command : m_renderQueue)
 	{
 
-		if ((command.m_sprite.size()) <= 0)
+		if ((command.m_sprite->size()) <= 0)
 		{
 			continue;
 		}
@@ -127,7 +127,7 @@ void Nahoo::C_RENDERER::Draw()
 				const int sourceIndex = (y - startY) * command.m_width + (x - startX); // y * width + x
 				const int frameIndex = y * m_screenSize.m_x + x;
 
-				if (command.m_sprite[sourceIndex] == ' ')
+				if ((*command.m_sprite)[sourceIndex] == ' ')
 				{
 					continue;
 				}
@@ -142,7 +142,7 @@ void Nahoo::C_RENDERER::Draw()
 					continue;
 				}
 				
-				m_frame->m_charInfoArray[frameIndex].Char.AsciiChar = command.m_sprite[sourceIndex];
+				m_frame->m_charInfoArray[frameIndex].Char.AsciiChar = (*command.m_sprite)[sourceIndex];
 				m_frame->m_charInfoArray[frameIndex].Attributes = (WORD)command.m_color;
 				m_frame->m_sortingOrderArray[frameIndex] = command.m_sortingOrder;
 				
@@ -209,7 +209,7 @@ void Nahoo::C_RENDERER::Draw()
 
 void Nahoo::C_RENDERER::Submit
 (
-	const std::vector<char>& sprite, int width, int height, const C_VECTOR2& position, E_COLOR color, int sortingOrder
+	const std::vector<char>* sprite, int width, int height, const C_VECTOR2& position, E_COLOR color, int sortingOrder
 )
 {
 	S_RENDERCOMMAND command{};
@@ -217,7 +217,7 @@ void Nahoo::C_RENDERER::Submit
 	command.m_width = width;
 	command.m_height = height;
 
-	if (sprite.size() != width * height)
+	if (sprite->size() != width * height)
 	{
 		__debugbreak();
 	}

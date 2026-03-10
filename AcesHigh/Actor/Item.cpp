@@ -51,7 +51,9 @@ void C_ITEM::OnHit(const C_ACTOR* otherActor)
 
 	if ((otherActorCollisionType & E_COLLISIONTYPE::Player) == E_COLLISIONTYPE::Player)
 	{
-		// Todo: ¾ÆÀÌÅÛ È¹µæ ÀÌÆåÆ®
+		// ¾ÆÀÌÅÛ È¹µæ ÀÌÆåÆ®
+		// m_owner->GetEffectManager()->SpawnEffect(2, m_position, 0.3f, E_COLOR::BackgroundRed | E_COLOR::BackgroundGreen, 40);
+
 		Destroy();
 	}
 

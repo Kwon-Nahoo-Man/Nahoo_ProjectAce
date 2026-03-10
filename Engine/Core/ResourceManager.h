@@ -28,7 +28,7 @@ namespace Nahoo
 		static C_RESOURCEMANAGER& GetInstance();
 
 		void Initialize();
-		bool GetData(const std::string& filePath, std::vector<char>& outSprite, int& outWidth, int& outHeight);
+		bool GetData(const std::string& filePath, std::vector<char>*& outSprite, int& outWidth, int& outHeight);
 
 	private:
 		void GetTextFiles(const char* folderPath);

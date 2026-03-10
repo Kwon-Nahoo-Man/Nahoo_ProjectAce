@@ -2,6 +2,7 @@
 #include "Component/HitComponent.h"
 #include "Engine/Engine.h"
 
+
 C_BULLET::C_BULLET(const char* fileName, C_VECTOR2& position, E_COLOR color, 
 	int horizontalSpeed, int verticalSpeed, E_COLLISIONTYPE collisionType, int damage, bool isBounce)
 	: C_SKYOBJECT(fileName, position, true, color, 20, 0)
@@ -53,6 +54,7 @@ void C_BULLET::OnHit(const C_ACTOR* otherActor)
 		if ((thisActorCollisionType & otherActorCollisionType) == E_COLLISIONTYPE::None)
 		{
 			// Todo: ÃÑ¾Ë ¼Ò¸ê ÀÌÆåÆ®
+			m_owner->GetEffectManager()->SpawnEffect(0, m_position, 0.3f, E_COLOR::BackgroundWhite, 50);
 			Destroy();
 		}
 	}

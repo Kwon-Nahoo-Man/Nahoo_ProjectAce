@@ -25,7 +25,7 @@ namespace Nahoo
 
 		struct S_RENDERCOMMAND
 		{
-			std::vector<char> m_sprite{};
+			const std::vector<char>* m_sprite{};
 
 			C_VECTOR2 m_position{};
 			E_COLOR m_color = E_COLOR::White;
@@ -41,7 +41,7 @@ namespace Nahoo
 
 		void Draw();
 		void Submit(
-			const std::vector<char>& sprite, int width, int height,
+			const std::vector<char>* sprite, int width, int height,
 			const C_VECTOR2& position,
 			E_COLOR color = E_COLOR::White,
 			int sortingOrder = 1

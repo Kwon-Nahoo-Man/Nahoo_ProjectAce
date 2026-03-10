@@ -7,7 +7,7 @@ namespace UTIL
 	class NAHOO_API C_TIMER
 	{
 	public:
-		C_TIMER(float targetTime);
+		C_TIMER(float targetTime = 1.0f);
 
 		void Tick(float deltaTime);
 

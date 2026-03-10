@@ -33,11 +33,11 @@ namespace Nahoo
 
 		E_COLOR m_color = E_COLOR::White;
 		int m_sortingOrder{};
-		std::string m_filePath{};
+		std::string m_fileName{};
 		
 		int m_width{};
 		int m_height{};
-		std::vector<char> m_sprite{};
+		std::vector<char>* m_sprite{};
 
 
 

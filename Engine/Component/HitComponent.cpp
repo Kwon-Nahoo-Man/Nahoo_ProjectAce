@@ -102,10 +102,11 @@ bool Nahoo::COMP_HITCOMPONENT::IsActive() const
     {
         return false;
     }
-    if (m_destroyRequested == true)
-    {
-        return false;
-    }
+
+    //if (m_destroyRequested == true)
+    //{
+    //    return false;
+    //}
 
     return true;
 }
@@ -113,8 +114,8 @@ bool Nahoo::COMP_HITCOMPONENT::IsActive() const
 void Nahoo::COMP_HITCOMPONENT::Destroy()
 {
     m_destroyRequested = true;
-    m_activateCollision = false;
-    m_collisionType = E_COLLISIONTYPE::None;
+    //m_activateCollision = false;
+    //m_collisionType = E_COLLISIONTYPE::None;
 }
 
 void Nahoo::COMP_HITCOMPONENT::OnDestroy()
