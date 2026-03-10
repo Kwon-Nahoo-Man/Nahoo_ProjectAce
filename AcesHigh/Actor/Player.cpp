@@ -234,8 +234,8 @@ void C_PLAYER::SpecialAttack()
 	for (int i = 1; i <= 3; i++)
 	{
 		spawnPosition.m_x = (Nahoo::C_ENGINE::GetInstance().GetWidth() - 10) / 4 * i;
-		ally = new C_PLANE("ally_plane1.txt", spawnPosition, true, E_COLOR::Blue, 40, 10, E_COLLISIONTYPE::Ally, 0.5f);
-		ally->SetBulletSpec("enemyPistol.txt", E_COLOR::Blue | E_COLOR::ForegroundIntensity | E_COLOR::BackgroundBlue, 0, 80, 2, false, E_MOVEDIRECTION::Up);
+		ally = new C_PLANE("ally_plane1.txt", spawnPosition, true, E_COLOR::BackgroundBlue, 40, 10, E_COLLISIONTYPE::Ally, 0.5f);
+		ally->SetBulletSpec("enemyPistol.txt", E_COLOR::BackgroundBlue | E_COLOR::BackgroundIntensity, 0, 80, 2, false, E_MOVEDIRECTION::Up);
 		ally->GiveMoveOrder(E_MOVEDIRECTION::Up);
 		m_owner->AddNewActor(ally);
 

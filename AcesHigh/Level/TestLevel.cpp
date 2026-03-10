@@ -105,9 +105,16 @@ void C_TESTLEVEL::ReturnToMainMenu()
 	m_timer.SetTargetTime(4.0f);
 	C_UICLASS* finish = new C_UICLASS("dead.txt", C_VECTOR2::Zero);
 	finish->SetPosition(C_VECTOR2((Nahoo::C_ENGINE::GetInstance().GetWidth() / 2) - (finish->GetActorWidth() / 2), (Nahoo::C_ENGINE::GetInstance().GetHeight() / 2) - (finish->GetActorHeight() / 2)));
-	finish->SetColor(E_COLOR::BackgroundRed | E_COLOR::BackgroundIntensity);
+	finish->SetColor(E_COLOR::BackgroundRed);
 	finish->SetSortingOrder(2);
 	AddNewUI(finish);
+
+	finish = new C_UICLASS("eddie.txt", C_VECTOR2::Zero);
+	finish->SetPosition(C_VECTOR2((Nahoo::C_ENGINE::GetInstance().GetWidth() / 2) - (finish->GetActorWidth() / 2), (Nahoo::C_ENGINE::GetInstance().GetHeight() / 2) - (finish->GetActorHeight() / 2) + 50));
+	finish->SetColor(E_COLOR::Red | E_COLOR::ForegroundIntensity);
+	finish->SetSortingOrder(2);
+	AddNewUI(finish);
+	
 }
 
 

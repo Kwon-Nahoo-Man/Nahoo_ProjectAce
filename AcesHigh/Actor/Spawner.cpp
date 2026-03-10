@@ -187,7 +187,7 @@ void C_SPAWNER::MakeBigEnemy(Nahoo::C_VECTOR2& spawnPosition, E_MOVEDIRECTION bu
 		bulletHorizontalSpeed = 0;
 	}
 
-	plane = new C_PLANE(fileName, spawnPosition, true, E_COLOR::Red | E_COLOR::ForegroundIntensity, moveSpeed, 10, E_COLLISIONTYPE::Enemy, fireRate);
+	plane = new C_PLANE(fileName, spawnPosition, true, E_COLOR::BackgroundRed, moveSpeed, 10, E_COLLISIONTYPE::Enemy, fireRate);
 	plane->SetBulletSpec("enemyBullet.txt", E_COLOR::Red | E_COLOR::ForegroundIntensity | E_COLOR::BackgroundRed, bulletHorizontalSpeed, 60, 3, isBounce, bulletDirection);
 	plane->GiveMoveOrder(moveDirection);
 	m_owner->AddNewActor(plane);
@@ -224,7 +224,7 @@ void C_SPAWNER::MakeSmallEnemy(Nahoo::C_VECTOR2& spawnPosition, E_MOVEDIRECTION 
 		bulletHorizontalSpeed = 0;
 	}
 
-	plane = new C_PLANE(fileName, spawnPosition, true, E_COLOR::Red, moveSpeed, 5, E_COLLISIONTYPE::Enemy, fireRate);
+	plane = new C_PLANE(fileName, spawnPosition, true, E_COLOR::BackgroundRed | E_COLOR::BackgroundIntensity, moveSpeed, 5, E_COLLISIONTYPE::Enemy, fireRate);
 	plane->SetBulletSpec("enemyPistol.txt", E_COLOR::Red | E_COLOR::BackgroundRed | E_COLOR::BackgroundRed, bulletHorizontalSpeed, 80, 1, isBounce, bulletDirection);
 	plane->GiveMoveOrder(moveDirection);
 	m_owner->AddNewActor(plane);
