@@ -43,6 +43,7 @@ namespace Nahoo
 		bool m_isQuit{ false };
 		S_ENGINESETTING m_engineSetting;
 		C_LEVEL* m_mainLevel{};
+		C_LEVEL* m_nextLevel{};
 		C_INPUT* m_input{};
 		C_RENDERER* m_renderer{};
 		C_RESOURCEMANAGER* m_resourceManager{};

@@ -3,6 +3,7 @@
 #include "Actor/Spawner.h"
 #include "Engine/Engine.h"
 #include "Actor/Status.h"
+#include "Level/MainLevel.h"
 
 C_TESTLEVEL::C_TESTLEVEL()
 	:C_LEVEL(true)
@@ -20,21 +21,9 @@ C_TESTLEVEL::C_TESTLEVEL()
 	position.m_x = (Nahoo::C_ENGINE::GetInstance().GetWidth() / 2) - (logo->GetActorWidth() / 2);
 	position.m_y = (Nahoo::C_ENGINE::GetInstance().GetHeight() / 2) - (logo->GetActorHeight() / 2) - 80;
 	logo->SetPosition(position);
-	logo->SetColor(E_COLOR::BackgroundWhite | E_COLOR::BackgroundIntensity);
+	logo->SetColor(E_COLOR::White);
+	logo->SetSortingOrder(0);
 
-
-
-	C_UICLASS* menu = new C_UICLASS(("startGame.txt"), position);
-	AddNewUI(menu);
-	position.m_x = (Nahoo::C_ENGINE::GetInstance().GetWidth() / 2) - (menu->GetActorWidth() / 2);
-	position.m_y = (Nahoo::C_ENGINE::GetInstance().GetHeight() / 2) - (menu->GetActorHeight() / 2) + 30;
-	menu->SetPosition(position);
-
-	menu = new C_UICLASS(("quitGame.txt"), position);
-	AddNewUI(menu);
-	position.m_x = (Nahoo::C_ENGINE::GetInstance().GetWidth() / 2) - (menu->GetActorWidth() / 2);
-	position.m_y = (Nahoo::C_ENGINE::GetInstance().GetHeight() / 2) - (menu->GetActorHeight() / 2) + 80;
-	menu->SetPosition(position);
 
 	for (int i = 0; i < 10; i += 2)
 	{
@@ -69,6 +58,21 @@ C_TESTLEVEL::~C_TESTLEVEL()
 
 }
 
+void C_TESTLEVEL::Tick(float deltaTime)
+{
+	C_LEVEL::Tick(deltaTime);
+
+	if (m_gameEndFlag == true)
+	{
+		m_timer.Tick(deltaTime);
+		if (m_timer.IsTimeOut())
+		{
+			Nahoo::C_ENGINE::GetInstance().SetNewLevel(new C_MAINLEVEL());
+		}
+	}
+
+}
+
 void C_TESTLEVEL::UpdatePlayerHealthUI(int currentHealth)
 {
 	for (int i = 0; i < 10; i++)
@@ -93,6 +97,17 @@ void C_TESTLEVEL::UpdatePlayerSpecialAttackUI(int currentSpecialAttack)
 	{
 		specialAttackUI[i]->SetActive(true);
 	}
+}
+
+void C_TESTLEVEL::ReturnToMainMenu()
+{
+	m_gameEndFlag = true;
+	m_timer.SetTargetTime(4.0f);
+	C_UICLASS* finish = new C_UICLASS("dead.txt", C_VECTOR2::Zero);
+	finish->SetPosition(C_VECTOR2((Nahoo::C_ENGINE::GetInstance().GetWidth() / 2) - (finish->GetActorWidth() / 2), (Nahoo::C_ENGINE::GetInstance().GetHeight() / 2) - (finish->GetActorHeight() / 2)));
+	finish->SetColor(E_COLOR::BackgroundRed | E_COLOR::BackgroundIntensity);
+	finish->SetSortingOrder(2);
+	AddNewUI(finish);
 }
 
 

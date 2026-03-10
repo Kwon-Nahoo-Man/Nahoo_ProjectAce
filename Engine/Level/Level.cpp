@@ -14,7 +14,6 @@ Nahoo::C_LEVEL::C_LEVEL(bool quadTreeFlag)
 	{
 		m_quadTree = new C_QUADTREE(0, 0, Nahoo::C_ENGINE::GetInstance().GetWidth(), Nahoo::C_ENGINE::GetInstance().GetHeight(), 4);
 	}
-
 	m_effectManager = new C_EFFECTMANAGER();
 }
 
@@ -149,6 +148,7 @@ void Nahoo::C_LEVEL::Draw()
 	}
 
 }
+
 
 void Nahoo::C_LEVEL::SetDebugDraw(E_DEBUGSHOW changeValue)
 {

@@ -5,6 +5,7 @@
 #include "Renderer/Renderer.h"
 #include "UI/UIClass.h"
 #include "Engine/Engine.h"
+#include "Level/TestLevel.h"
 
 C_MAINLEVEL::C_MAINLEVEL()
 	:C_LEVEL()
@@ -98,10 +99,12 @@ void C_MAINLEVEL::SelectMenu()
 	if (m_currentMenuIndex == 0)
 	{
 		// TestLevel 로 전환
+		Nahoo::C_ENGINE::GetInstance().SetNewLevel(new C_TESTLEVEL());
 	}
 	else if(m_currentMenuIndex == 1)
 	{
 		// 엔진 종료
+		Nahoo::C_ENGINE::GetInstance().QuitEngine();
 	}
 
 

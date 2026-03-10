@@ -28,7 +28,7 @@ private:
 	int m_currentMenuIndex{};
 
 	E_COLOR m_selectedColor = E_COLOR::BackgroundGreen | E_COLOR::BackgroundIntensity;
-	E_COLOR m_unselectedColor = E_COLOR::BackgroundWhite | E_COLOR::BackgroundIntensity;
+	E_COLOR m_unselectedColor = E_COLOR::BackgroundWhite;
 
 	std::vector<C_UICLASS*> m_menus{};
 

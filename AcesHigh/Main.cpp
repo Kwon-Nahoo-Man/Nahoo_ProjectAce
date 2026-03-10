@@ -1,6 +1,7 @@
 #include <iostream>
 #include "Engine/Engine.h"
 #include "Level/TestLevel.h"
+#include "Level/MainLevel.h"
 
 #define _CRTDBG_MAP_ALLOC
 #include <crtdbg.h>
@@ -10,7 +11,8 @@ int main()
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 	
 	Nahoo::C_ENGINE engine{};
-	engine.SetNewLevel(new C_TESTLEVEL());
+	//engine.SetNewLevel(new C_TESTLEVEL());
+	engine.SetNewLevel(new C_MAINLEVEL());
 	engine.Run();
 
 }

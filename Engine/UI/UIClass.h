@@ -30,6 +30,7 @@ namespace Nahoo
 		inline void SetActive(bool isActive) { m_isActive = isActive; }
 		inline void SetOwner(C_LEVEL* level) { m_owner = level; }
 		inline void SetColor(E_COLOR color) { m_color = color; }
+		inline void SetSortingOrder(int sortingOrder) { m_sortingOrder = sortingOrder; }
 
 		
 		// getter

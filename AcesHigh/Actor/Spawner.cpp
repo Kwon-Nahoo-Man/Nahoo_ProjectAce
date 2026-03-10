@@ -36,7 +36,7 @@ void C_SPAWNER::BeginPlay()
 	C_VECTOR2 position = C_VECTOR2(xRandom, yRandom);
 	int speedRandom = UTIL::RandomInteger(10, 35);
 	
-	back = new C_SKYOBJECT(m_backGroundFileNames[indexRandom], position, false, E_COLOR::BackgroundWhite | E_COLOR::White, 0, speedRandom);
+	back = new C_SKYOBJECT(m_backGroundFileNames[indexRandom], position, false, E_COLOR::BackgroundWhite | E_COLOR::White, 1, speedRandom);
 	back->GiveMoveOrder(E_MOVEDIRECTION::Down);
 	m_owner->AddNewActor(back);
 
@@ -69,7 +69,7 @@ void C_SPAWNER::SpawnBackGround()
 	C_VECTOR2 position = C_VECTOR2(xRandom, -40);
 	int speedRandom = UTIL::RandomInteger(10, 40);
 
-	back = new C_SKYOBJECT(m_backGroundFileNames[indexRandom], position, false, E_COLOR::BackgroundWhite | E_COLOR::White, 0, speedRandom);
+	back = new C_SKYOBJECT(m_backGroundFileNames[indexRandom], position, false, E_COLOR::BackgroundWhite | E_COLOR::White, 1, speedRandom);
 	back->GiveMoveOrder(E_MOVEDIRECTION::Down);
 	m_owner->AddNewActor(back);
 

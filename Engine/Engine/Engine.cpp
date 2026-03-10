@@ -104,6 +104,18 @@ void Nahoo::C_ENGINE::Run()
 			{
 				m_mainLevel->ProcessClasses();
 			}
+
+			// Level change
+			if (m_nextLevel != nullptr)
+			{
+				if (m_mainLevel != nullptr)
+				{
+					delete m_mainLevel;
+				}
+				m_mainLevel = m_nextLevel;
+				m_nextLevel = nullptr;
+			}
+
 		}
 
 	}
@@ -112,15 +124,8 @@ void Nahoo::C_ENGINE::Run()
 
 void Nahoo::C_ENGINE::SetNewLevel(C_LEVEL* newLevel)
 {
-
-	// Todo: 레벨 바뀔 때 바로 바꾸면 안됨.
-	if (m_mainLevel != nullptr)
-	{
-		delete m_mainLevel;
-		m_mainLevel = nullptr;
-	}
-
-	m_mainLevel = newLevel;
+	// 레벨 바뀔 때 바로 바꾸면 안됨.
+	m_nextLevel = newLevel;
 }
 
 Nahoo::C_ENGINE& Nahoo::C_ENGINE::GetInstance()

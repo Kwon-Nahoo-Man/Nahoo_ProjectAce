@@ -64,7 +64,6 @@ namespace Nahoo
 
 	private:
 
-
 	};
 
 }
