@@ -54,7 +54,7 @@ void C_BULLET::OnHit(const C_ACTOR* otherActor)
 		if ((thisActorCollisionType & otherActorCollisionType) == E_COLLISIONTYPE::None)
 		{
 			// Todo: ÃÑ¾Ë ¼Ò¸ê ÀÌÆåÆ®
-			m_owner->GetEffectManager()->SpawnEffect(0, m_position, 0.3f, E_COLOR::BackgroundWhite, 50);
+			m_owner->GetEffectManager()->SpawnEffect(0, m_position, 0.3f, E_COLOR::BackgroundWhite | E_COLOR::BackgroundIntensity, 50);
 			Destroy();
 		}
 	}

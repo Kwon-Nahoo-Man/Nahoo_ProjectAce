@@ -160,7 +160,7 @@ void C_PLAYER::OnDamaged(int damage)
 
 	if (m_health <= 0)
 	{
-
+		static_cast<C_TESTLEVEL*>(m_owner)->UpdatePlayerSpecialAttackUI(0);
 		Destroy();
 	}
 

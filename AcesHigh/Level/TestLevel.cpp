@@ -13,8 +13,6 @@ C_TESTLEVEL::C_TESTLEVEL()
 	position1.m_y = Nahoo::C_ENGINE::GetInstance().GetHeight() - 30;
 
 
-	heartUI[0] = new C_STATUS("leftHeart.txt", position1, E_COLOR::BackgroundRed | E_COLOR::Red);
-	AddNewUI(heartUI[0]);
 
 	for (int i = 0; i < 10; i += 2)
 	{
