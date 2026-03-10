@@ -131,9 +131,12 @@ void C_PLANE::OnDamaged(int damage)
 	if (m_health <= 0)
 	{
 		// 아군이든 적군이든 죽으면 기본 30% 확률로 아이템 드랍
-		RandomItemDrop(30);
+		RandomItemDrop(35);
 		// 파괴되는 이펙트 액터 생성
-		m_owner->GetEffectManager()->SpawnEffect(1, m_position, 0.5f, E_COLOR::BackgroundRed | E_COLOR::BackgroundGreen, 40);
+		C_VECTOR2 effectPosition{};
+		effectPosition.m_x = m_position.m_x + m_width/2;
+		effectPosition.m_y = m_position.m_y + m_height/2;
+		m_owner->GetEffectManager()->SpawnEffect(1, effectPosition, 0.5f, E_COLOR::BackgroundRed | E_COLOR::BackgroundGreen, 40);
 		Destroy();
 	}
 }

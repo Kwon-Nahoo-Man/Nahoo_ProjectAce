@@ -31,7 +31,7 @@ void Nahoo::C_EFFECT::InitializeEffect(std::vector<std::string>& fileNames, cons
 	
 	m_positionOrigin = position;
 	m_position.m_x = m_positionOrigin.m_x - (m_width / 2);
-	m_position.m_y = m_positionOrigin.m_y + 2;
+	m_position.m_y = m_positionOrigin.m_y - (m_height / 2);
 
 
 	m_color = color;

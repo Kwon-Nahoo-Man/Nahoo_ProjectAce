@@ -29,6 +29,7 @@ namespace Nahoo
 		void SetPosition(const C_VECTOR2& newPosition);
 		inline void SetActive(bool isActive) { m_isActive = isActive; }
 		inline void SetOwner(C_LEVEL* level) { m_owner = level; }
+		inline void SetColor(E_COLOR color) { m_color = color; }
 
 		
 		// getter
