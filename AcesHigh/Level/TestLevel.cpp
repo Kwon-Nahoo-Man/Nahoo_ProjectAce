@@ -102,7 +102,7 @@ void C_TESTLEVEL::UpdatePlayerSpecialAttackUI(int currentSpecialAttack)
 void C_TESTLEVEL::ReturnToMainMenu()
 {
 	m_gameEndFlag = true;
-	m_timer.SetTargetTime(4.0f);
+	m_timer.SetTargetTime(6.0f);
 	C_UICLASS* finish = new C_UICLASS("dead.txt", C_VECTOR2::Zero);
 	finish->SetPosition(C_VECTOR2((Nahoo::C_ENGINE::GetInstance().GetWidth() / 2) - (finish->GetActorWidth() / 2), (Nahoo::C_ENGINE::GetInstance().GetHeight() / 2) - (finish->GetActorHeight() / 2)));
 	finish->SetColor(E_COLOR::BackgroundRed);

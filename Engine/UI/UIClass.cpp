@@ -17,10 +17,8 @@ namespace Nahoo
 
 		if (!file)
 		{
-			// 표준 오류 콘솔 활용.
 			std::cerr << "Failed to Actor asset file.\n";
 
-			// 디버그 모드에서 중단점으로 중단해주는 기능.
 			__debugbreak();
 		}
 

@@ -162,6 +162,11 @@ void C_PLAYER::OnDamaged(int damage)
 	{
 		static_cast<C_TESTLEVEL*>(m_owner)->UpdatePlayerSpecialAttackUI(0);
 		static_cast<C_TESTLEVEL*>(m_owner)->ReturnToMainMenu();
+		
+		C_VECTOR2 effectPosition{};
+		effectPosition.m_x = m_position.m_x + m_width / 2;
+		effectPosition.m_y = m_position.m_y + m_height / 2;
+		m_owner->GetEffectManager()->SpawnEffect(1, effectPosition, 0.5f, E_COLOR::BackgroundRed | E_COLOR::BackgroundGreen, 40);
 		Destroy();
 	}
 
